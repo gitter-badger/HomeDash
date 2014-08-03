@@ -1,0 +1,28 @@
+@(plugins: Map[String, String])
+
+
+@main("Welcome to Play") {
+
+    @for((name, pluginClass) <- plugins) {
+    	<div class="row">
+    		
+    		<div class="module col-md-12">
+    			<h3>
+    				@name
+    			</h3>
+    			<p><a href="addModule/@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
+    		</div>
+    	</div>
+    
+    	
+
+	} 
+	
+	<script type="text/javascript">
+  		$(document).ready(function(){
+  			$("#showSettings").hide();
+  			$("#global-overlay").hide();
+  		});
+    </script>
+
+}

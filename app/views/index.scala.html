@@ -1,0 +1,59 @@
+@(modules: List[Module])
+
+@import plugins._
+
+@main("Home control") {
+	<div class="row">
+   	@if(modules.size() > 0){
+		@for(module <- modules){
+					
+					<div id="module@module.id" data="@module.id" class="module col-md-@module.size">
+						@if(module.getPlugin().hasBigScreen()){
+							<a class="big-screen-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
+						}
+						@if(module.getPlugin().getExternalLink() != null){
+							<a class="big-screen-link" target="_blank" href="@module.getPlugin().getExternalLink()"><span class="glyphicon glyphicon-new-window"></span></a>
+						}
+						<h3>
+							@module.getPlugin().getName()
+							<span data="@module.id" class="settings glyphicon glyphicon-chevron-up"></span>
+							<span data="@module.id" class="settings glyphicon glyphicon-chevron-down"></span>
+							<span data="@module.id" class="settings glyphicon glyphicon-resize-small"></span>
+							<span data="@module.id" class="settings glyphicon glyphicon-resize-full"></span>
+						</h3>
+						<div style="position:relative;">
+							@module.getPlugin().getView(module)
+						</div>
+					</div>
+			
+		}
+	}else{
+		<p>No modules found</p>
+	}
+	</div>
+	
+	<div id="message-box" class="success"> Plop</div>
+	<script type="text/javascript">
+	 var WS_ADDRESS = "ws://" + window.location.host + "/ws";
+	</script>
+	
+	@for(module <- modules){
+		<script type="text/javascript" src="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/js/small.js")"></script>
+	}
+	<script type="text/javascript">
+		var modules = [];
+		$(document).ready(function(){
+			@for(module <- modules){
+				modules[@module.id] = new @{module.getPlugin().getId()}(@{module.id});
+				
+				modules[@module.id].documentReady();
+			}
+			console.log(modules);
+		});
+		
+	</script>
+	<script type="text/javascript" src="@routes.Assets.at("javascripts/index.js")"></script>
+	<script type="text/javascript" src="@routes.Assets.at("javascripts/settings.js")"></script>
+}
+
+

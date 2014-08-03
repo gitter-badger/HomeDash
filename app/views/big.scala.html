@@ -1,0 +1,39 @@
+@* big Template File *@
+@(module: Module)
+
+
+@main("Home control") {
+
+   	<div class="row">
+   		<div class="module col-md-12">
+   		<h3>@module.getPlugin().getName()</h3>
+   			<div style="position:relative">
+   				@module.getPlugin().getBigView(module)
+   			</div>
+   		</div>
+   	</div>
+	
+	<div id="message-box" class="success"> Plop</div>
+	<script type="text/javascript">
+		var MODULE_ID = @module.id;
+		var WS_ADDRESS = "ws://" + window.location.host + "/ws/big/"+MODULE_ID;
+		
+  		$(document).ready(function(){
+  			$("#showSettings").hide()
+  		});
+	</script>
+	
+	<script type="text/javascript" src="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/js/big.js")"></script>
+	<script type="text/javascript">
+		var modules = [];
+		$(document).ready(function(){
+				modules[@module.id] = new @{module.getPlugin().getId()}(@{module.id});
+				
+				modules[@module.id].documentReady();
+		});
+		
+	</script>
+	
+	<script type="text/javascript" src="@routes.Assets.at("javascripts/index.js")"></script>
+	
+}

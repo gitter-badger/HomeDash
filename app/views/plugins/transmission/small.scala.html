@@ -1,0 +1,18 @@
+@* small Template File *@
+@(module: Module)
+<div id="transmission-@module.id-overlay" class="module-overlay">
+	<p>Transmission is not available at the moment</p>
+</div>
+<p>
+	<strong>Torrents:</strong> <span id="torrentcount@module.id"></span>
+</p>
+<p>
+	<strong>Download:</strong> <span id="dlSpeed@module.id"></span>/s
+<p>
+</p>
+	<strong>Upload:</strong> <span id="ulSpeed@module.id"></span>/s
+</p>
+<p>
+	<button type="button" id="addTorrent@module.id" class="btn btn-success">Add torrent</button>
+	<button type="button" id="altSpeed@module.id" class="btn">Alt Speed</button>
+</p>

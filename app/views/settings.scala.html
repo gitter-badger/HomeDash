@@ -1,0 +1,29 @@
+@(modules: List[Module])
+
+@import plugins._
+
+@main("Home control") {
+	<div class="row">
+   	@if(modules.size() > 0){
+		@for(module <- modules){
+					
+					<div id="module@module.id" data="@module.id" class="module col-md-@module.size">
+						<h3>
+							@module.getPlugin().getName()
+							<span data="@module.id" class="glyphicon glyphicon-arrow-up"></span>
+							<span data="@module.id" class="glyphicon glyphicon-arrow-down"></span>
+							<span data="@module.id" class="glyphicon glyphicon-arrow-left"></span>
+							<span data="@module.id" class="glyphicon glyphicon-arrow-right"></span>
+						</h3>
+					</div>
+			
+		}
+	}else{
+		<p>No modules found</p>
+	}
+	</div>
+		
+	<script type="text/javascript" src="@routes.Assets.at("javascripts/settings.js")"></script>
+}
+
+

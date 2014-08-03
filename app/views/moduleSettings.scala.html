@@ -1,0 +1,21 @@
+@(plugin: interfaces.PlugIn)
+
+@main("Home control") {
+	<div class="row">
+		<div class="col-md-12 module">
+			<h3>Settings for @plugin.getName()</h3>
+			<form role="form" method="post" action="@controllers.routes.Application.saveModule">
+				<input type="hidden" name="class" value="@plugin.getClass().getName()" />
+				@plugin.getSettingsView()
+			  	<p><button type="submit" class="btn btn-primary">Submit</button></p>
+			</form>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+  		$(document).ready(function(){
+  			$("#showSettings").hide();
+  			$("#global-overlay").hide();
+  		});
+    </script>
+}

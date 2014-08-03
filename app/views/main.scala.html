@@ -1,0 +1,53 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+    	<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+
+		
+        <title>@title</title>
+        <!-- Latest compiled and minified CSS -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:300,300italic' rel='stylesheet' type='text/css' />
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.1.js")"></script>
+    </head>
+    <body>
+    	<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+		  <div class="container-fluid">
+		    <!-- Brand and toggle get grouped for better mobile display -->
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="/">Home Dash</a>
+		    </div>
+		
+		    <!-- Collect the nav links, forms, and other content for toggling -->
+		   
+		     
+		      <ul class="nav navbar-nav navbar-right">
+		        <li class="settings">
+		        	<form id="settings-form" method="post">
+						<input id="settings-form-sizes" type="hidden" name="sizes" />
+						<input id="settings-form-order" type="hidden" name="order" />
+					</form>
+					<a id="save-settings" alt="Save settings"><span class="glyphicon glyphicon-ok"></span></a>
+		        </li>
+		        <li class="settings"><a alt="Add Module" href="/add"><span class="glyphicon glyphicon-plus"></span></a></li>
+		        <li class=""><a id="showSettings"><span class="glyphicon glyphicon-cog"></span></a></li>
+		      </ul>
+		  </div><!-- /.container-fluid -->
+		</nav>
+    
+    	<div class="container">
+        	@content
+        </div>
+        
+        <div id="global-overlay">
+        	<p>Connecting...</p>
+        </div>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </body>
+</html>
