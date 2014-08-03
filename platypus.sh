@@ -1,6 +1,6 @@
 #!/bin/bash
  
-PLAY_ARGS='-Dsbt.log.noformat=true -Dconfig.resource=home.conf'
+PLAY_ARGS='-Dsbt.log.noformat=true -DapplyEvolutions.default=true'
 OUTPUT_TYPE='Text Window'
 ICON_FILENAME='icon.icns'
  
