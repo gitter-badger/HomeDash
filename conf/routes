@@ -11,6 +11,7 @@ POST 	/saveModule					controllers.Application.saveModule()
 GET		/big/:id					controllers.Application.showBig(id: Integer)
 GET		/ws/big/:id					controllers.Application.bigSocket(id: Integer)
 POST	/settings					controllers.Application.settings()
-
+GET		/edit/:id					controllers.Application.editModule(id: Integer)
+POST	/saveModule/:id				controllers.Application.saveEdittedModule(id :Integer)
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

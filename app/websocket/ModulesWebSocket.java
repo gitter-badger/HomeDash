@@ -87,9 +87,9 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 		refresh = true;
 		Logger.info("WEBSOCKET init");
-		for (Module module : modules) {
+		/*for (Module module : modules) {
 			module.init();
-		}
+		}*/
 
 		exec.execute(new Runnable() {
 

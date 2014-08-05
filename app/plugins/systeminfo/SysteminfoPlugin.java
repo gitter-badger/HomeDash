@@ -48,7 +48,7 @@ public class SysteminfoPlugin implements PlugIn {
 	}
 
 	@Override
-	public Html getSettingsView() {
+	public Html getSettingsView(Module module) {
 		return null;
 	}
 

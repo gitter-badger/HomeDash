@@ -167,6 +167,8 @@ public class Module extends Model implements Comparable<Module> {
 							setting.value);
 				}
 
+
+				module.init();
 			}
 
 			return modules;
@@ -181,6 +183,8 @@ public class Module extends Model implements Comparable<Module> {
 			for (ModuleSetting setting : settings) {
 				module.getSettingsMap().put(setting.name, setting.value);
 			}
+			
+			module.init();
 
 			return module;
 		}
@@ -198,6 +202,8 @@ public class Module extends Model implements Comparable<Module> {
 					Logger.info("Getting setting {} -> {}", setting.name,
 							setting.value);
 				}
+				
+				module.init();
 
 			}
 

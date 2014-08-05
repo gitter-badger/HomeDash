@@ -67,7 +67,7 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 		exec = Executors.newFixedThreadPool(1);
 
 		refresh = true;
-		module.init();
+		//module.init();
 
 		exec.execute(new Runnable() {
 

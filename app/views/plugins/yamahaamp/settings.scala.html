@@ -1,8 +1,12 @@
 @* settings Template File *@
-@(param: Any)
+@(module: Module)
 
 
- <div class="form-group">
+<div class="form-group">
    <label for="host">Amp hostname or IP</label>
-   <input type="text" class="form-control" id="host" name="host" placeholder="Enter hostname or IP">
- </div>
+ 	@if(module == null){
+   	 	 <input type="text" class="form-control" id="host" name="host" placeholder="Enter host or IP" />   	
+    }else{
+    	<input type="text" class="form-control" id="host" name="host" placeholder="Enter host or IP" value="@module.getSettingsMap().get("host")"/>    	
+    }
+</div>

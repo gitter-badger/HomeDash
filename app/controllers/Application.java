@@ -15,6 +15,7 @@ import play.mvc.Result;
 import play.mvc.WebSocket;
 import views.html.addModule;
 import views.html.big;
+import views.html.edit;
 import views.html.index;
 import views.html.moduleSettings;
 import websocket.BigModuleWebSocket;
@@ -30,15 +31,16 @@ public class Application extends Controller {
 		List<Module> modules = Module.find.all();
 		Collections.sort(modules);
 		
-		Logger.info("Controller init");
+		/*Logger.info("Controller init");
 		for (Module module: modules) {
 			try {
-				module.init();
+				//module.init();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		*/
 
 		return ok(index.render(modules));
 	}
@@ -81,8 +83,8 @@ public class Application extends Controller {
 	
 	
 	public static Result saveModule() {
-		Map<String, String> settings = new java.util.Hashtable<String, String>();
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
+		Map<String, String> settings = new java.util.Hashtable<String, String>();
 		
 		
 		for(String key: values.keySet()){
@@ -145,6 +147,30 @@ public class Application extends Controller {
 		}
 		
 		return ok();
+	}
+	
+	public static Result editModule(int moduleId){
+		return ok(edit.render(Module.find.byId(moduleId)));
+	}
+	
+	public static Result saveEdittedModule(int moduleId){
+		Module module = Module.find.byId(moduleId);
+		
+		Map<String, String[]> values = request().body().asFormUrlEncoded();
+		Map<String, String> settings = new java.util.Hashtable<String, String>();
+		
+		
+		for(String key: values.keySet()){
+			if(!key.equalsIgnoreCase("class")){
+				settings.put(key, values.get(key)[0]);
+			}
+		}
+		
+		module.setSettingsMap(settings);
+		
+		module.save();
+		
+		return redirect("/");
 	}
 	
 	

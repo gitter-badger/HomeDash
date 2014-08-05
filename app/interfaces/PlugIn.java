@@ -16,7 +16,7 @@ public interface PlugIn {
 	public Object bigScreenRefresh(Map<String, String>  settings);
 	public WebSocketMessage processCommand(String method, String command);
 	public Html getView(Module module);
-	public Html getSettingsView();
+	public Html getSettingsView(Module module);
 	public Html getBigView(Module module);
 	public boolean hasSettings();
 	public String getExternalLink();

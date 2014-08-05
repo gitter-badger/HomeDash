@@ -6,7 +6,7 @@
 			<h3>Settings for @plugin.getName()</h3>
 			<form role="form" method="post" action="@controllers.routes.Application.saveModule">
 				<input type="hidden" name="class" value="@plugin.getClass().getName()" />
-				@plugin.getSettingsView()
+				@plugin.getSettingsView(null)
 			  	<p><button type="submit" class="btn btn-primary">Submit</button></p>
 			</form>
 		</div>

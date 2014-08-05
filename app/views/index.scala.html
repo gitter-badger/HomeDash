@@ -14,12 +14,18 @@
 						@if(module.getPlugin().getExternalLink() != null){
 							<a class="big-screen-link" target="_blank" href="@module.getPlugin().getExternalLink()"><span class="glyphicon glyphicon-new-window"></span></a>
 						}
+						
+						@if(module.getPlugin().hasSettings()){
+							<a class="settings big-screen-link" href="@controllers.routes.Application.editModule(module.id)"><span class="glyphicon glyphicon-wrench"></span></a>
+						}
 						<h3>
 							@module.getPlugin().getName()
+							<small>
 							<span data="@module.id" class="settings glyphicon glyphicon-chevron-up"></span>
 							<span data="@module.id" class="settings glyphicon glyphicon-chevron-down"></span>
 							<span data="@module.id" class="settings glyphicon glyphicon-resize-small"></span>
 							<span data="@module.id" class="settings glyphicon glyphicon-resize-full"></span>
+							</small>
 						</h3>
 						<div style="position:relative;">
 							@module.getPlugin().getView(module)

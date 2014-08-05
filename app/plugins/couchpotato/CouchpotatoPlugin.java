@@ -140,8 +140,8 @@ public class CouchpotatoPlugin implements PlugIn {
 	}
 
 	@Override
-	public Html getSettingsView() {
-		return settings.render(null);
+	public Html getSettingsView(Module module) {
+		return settings.render(module);
 	}
 
 	@Override
