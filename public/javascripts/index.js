@@ -10,7 +10,10 @@ $(document).ready(function() {
 			wsMsg.message = "start";
 			ws.send(JSON.stringify(wsMsg));
 			
-			$("#global-overlay").fadeOut();
+			if(showLoadingOverlay){
+				$("#global-overlay").addClass('bounceUp');
+				$(".module").addClass('fadeInLeft');
+			}
 		}
 
 		ws.onerror = function(error) {
@@ -19,7 +22,12 @@ $(document).ready(function() {
 
 		ws.onclose = function() {
 			$("#global-overlay p").html('Connection to server lost.<br /><a href="'+window.location+'" class="btn btn-warning" > Refresh page </a>');
-			$("#global-overlay").fadeIn();
+			$(".spinner").hide();
+			$("#global-overlay").show();
+			$("#global-overlay").removeClass('bounceUp');
+			$("#global-overlay").addClass('bounceDown');
+			
+
 		}
 	} catch (e) {
 		console.error('Sorry, the web socket at "%s" is un-available error', WS_ADDRESS);
@@ -27,7 +35,13 @@ $(document).ready(function() {
 	}
 
 	$("#showSettings").click(function() {
+		$(".module").removeClass('fadeInLeft');
 		$(".settings").slideToggle("fast");
+	});
+	
+	$(".internal-link").click(function(event){
+		location.href = $(this).attr('href');
+		return false;
 	});
 });
 

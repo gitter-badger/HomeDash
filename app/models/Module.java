@@ -139,6 +139,25 @@ public class Module extends Model implements Comparable<Module> {
 			setting.save();
 		}
 	}
+	
+	
+	@Override
+	public void delete() {
+		for (String name : settingsMap.keySet()) {
+			ModuleSetting setting = new ModuleSetting();
+			setting.moduleId = id;
+			setting.value = settingsMap.get(name);
+			setting.name = name;
+
+			ModuleSetting tmp = ModuleSetting.find.where()
+					.ieq("module_id", Integer.toString(setting.moduleId))
+					.ieq("name", setting.name).findUnique();
+			if (tmp != null)
+				tmp.delete();
+		}
+
+		super.delete();
+	}
 
 	public WebSocketMessage processCommand(String method, String command) {
 		WebSocketMessage response = plugin.processCommand(method, command);

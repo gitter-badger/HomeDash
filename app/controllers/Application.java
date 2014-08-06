@@ -173,5 +173,12 @@ public class Application extends Controller {
 		return redirect("/");
 	}
 	
+	public static Result deleteModule(int moduleId){
+		Module module = Module.find.byId(moduleId);
+		module.delete();
+		return redirect("/");
+
+	}
+	
 	
 }

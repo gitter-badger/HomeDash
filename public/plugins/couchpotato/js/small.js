@@ -29,6 +29,14 @@ function couchpotato(moduleId){
 				parent.searchMovie();
 				return false;
 			});
+			
+			$(document).on('click', ".cp"+this.moduleId+"-movie" , function(event){
+
+				var movieName =$(this).attr("data-title");
+				var imdb = $(this).attr("data-imdb");
+				parent.addMovie(movieName, imdb);
+
+			});
 	}
 	
 	this.addMovie = function (movieName, imdb){
@@ -46,16 +54,7 @@ function couchpotato(moduleId){
 		});
 		
 		$("#cp"+this.moduleId+"-searchmovie-input").val("");
-		
-		
-		$(".cp"+this.moduleId+"-movie").click(function(event){
-
-			var movieName =$(this).attr("data-title");
-			var imdb = $(this).attr("data-imdb");
-			parent.addMovie(movieName, imdb);
-
-		});
-		
+				
 	}
 	
 	this.movieToHtml = function(movie){

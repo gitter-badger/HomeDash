@@ -7,13 +7,20 @@
     	<meta charset="utf-8">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+		<meta name="apple-mobile-web-app-capable" content="yes">
 
+		<link rel="apple-touch-icon" href="@routes.Assets.at("images/homeDash-60.png")">
+		<link rel="apple-touch-icon" sizes="76x76" href="@routes.Assets.at("images/homeDash-76.png")">
+		<link rel="apple-touch-icon" sizes="120x120" href="@routes.Assets.at("images/homeDash-120.png")">
+		<link rel="apple-touch-icon" sizes="152x152" href="@routes.Assets.at("images/homeDash-152.png")">
+		<link rel="apple-touch-startup-image" href="@routes.Assets.at("images/homeDash-startup-small.png")">
 		
         <title>@title</title>
         <!-- Latest compiled and minified CSS -->
         <link href='http://fonts.googleapis.com/css?family=Roboto:300,300italic' rel='stylesheet' type='text/css' />
 		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animations.css")">
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.1.js")"></script>
     </head>
     <body>
@@ -35,7 +42,7 @@
 					</form>
 					<a id="save-settings" alt="Save settings"><span class="glyphicon glyphicon-ok"></span></a>
 		        </li>
-		        <li class="settings"><a alt="Add Module" href="/add"><span class="glyphicon glyphicon-plus"></span></a></li>
+		        <li class="settings"><a alt="Add Module" class="internal-link" href="/add"><span class="glyphicon glyphicon-plus"></span></a></li>
 		        <li class=""><a id="showSettings"><span class="glyphicon glyphicon-cog"></span></a></li>
 		      </ul>
 		  </div><!-- /.container-fluid -->
@@ -46,7 +53,15 @@
         </div>
         
         <div id="global-overlay">
-        	<p>Connecting...</p>
+        	<div class="logo"></div>
+        	<div class="spinner">
+			  <div class="rect1"></div>
+			  <div class="rect2"></div>
+			  <div class="rect3"></div>
+			  <div class="rect4"></div>
+			  <div class="rect5"></div>
+			</div>
+			<p></p>
         </div>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     </body>

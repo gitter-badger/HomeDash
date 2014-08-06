@@ -2,7 +2,7 @@
 @(module: Module)
 
 
-@main("Home control") {
+@main("Home Dash") {
 
    	<div class="row">
    		<div class="module col-md-12">
@@ -17,9 +17,10 @@
 	<script type="text/javascript">
 		var MODULE_ID = @module.id;
 		var WS_ADDRESS = "ws://" + window.location.host + "/ws/big/"+MODULE_ID;
-		
+		var showLoadingOverlay = false;
   		$(document).ready(function(){
-  			$("#showSettings").hide()
+  			$("#showSettings").hide();
+  			$("#global-overlay").hide();
   		});
 	</script>
 	

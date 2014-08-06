@@ -1,7 +1,7 @@
 @(plugins: Map[String, String])
 
 
-@main("Welcome to Play") {
+@main("Home Dash") {
 
     @for((name, pluginClass) <- plugins) {
     	<div class="row">
@@ -10,7 +10,7 @@
     			<h3>
     				@name
     			</h3>
-    			<p><a href="addModule/@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
+    			<p><a class="internal-link" href="addModule/@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
     		</div>
     	</div>
     
@@ -22,7 +22,13 @@
   		$(document).ready(function(){
   			$("#showSettings").hide();
   			$("#global-overlay").hide();
+
+  			$(".internal-link").click(function(event){
+  				location.href = $(this).attr('href');
+  				return false;
+  			});
   		});
+  		
     </script>
 
 }
