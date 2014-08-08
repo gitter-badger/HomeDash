@@ -7,7 +7,7 @@
    	@if(modules.size() > 0){
 		@for(module <- modules){
 					
-					<div id="module@module.id" data="@module.id" class="module col-md-@module.size">
+					<div id="module@module.id" data="@module.id" class="module toFadeIn col-md-@module.size">
 						@if(module.getPlugin().hasBigScreen()){
 							<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
 						}

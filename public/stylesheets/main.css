@@ -125,6 +125,9 @@ btn-success {
 	display: none;
 }
 
+.toFadeIn{
+    opacity:0;
+}
 /*
 *Overlays
 */
@@ -153,7 +156,6 @@ btn-success {
 	left: 0;
 	right: 0;
 	position: fixed;
-	z-index: 2000;
 }
 
 .bounceDown {
@@ -233,3 +235,5 @@ btn-success {
 	-webkit-animation-delay: -0.8s;
 	animation-delay: -0.8s;
 }
+
+
