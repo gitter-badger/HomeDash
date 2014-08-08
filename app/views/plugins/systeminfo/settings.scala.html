@@ -1,0 +1,57 @@
+@* settings Template File *@
+@(module: Module)
+<p><button id="add-path" class="btn btn-primary">Add path to monitor</button></p>
+
+<div id="paths">
+@if(module != null){
+	@for((setting, index) <- module.getSettingsMap().keySet().zipWithIndex){
+		
+			<div id="path-div-@index" data-path="@index" class="form-group">
+		    	<label for="path-@index">Path</label>
+		    	<div class="input-group">
+			  		<input type="text" class="form-control" id="path-@index" name="path-@index" placeholder="Absolute path" value="@module.getSettingsMap().get(setting)" required/>
+			  		<span class="input-group-btn">
+			  			<button class="btn btn-danger" data-path="@index"><span class="glyphicon glyphicon-remove"></span></button>
+	      			</span>
+      			</div>
+			</div>
+	}
+}
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#add-path").click(function(){
+			var html = [];
+
+			var count = 0;
+
+			$.each($(".form-group"), function(){
+				var id = parseInt($(this).attr('data-path'));
+				if(id >= count){
+					count = id+1;
+				}
+			});
+
+			html.push('<div id="path-div-',count,'" data-path="',count,'" class="form-group">');
+		    html.push('<label for="path-',count,'">Path</label>');
+		    html.push('<div class="input-group">');
+		  	html.push('<input type="text" class="form-control" id="path-',count,'" name="path-',count,'" placeholder="Absolute path" required />');
+		  	html.push('<span class="input-group-btn"><button class="btn btn-danger" data-path="',count,'"><span class="glyphicon glyphicon-remove"></span></button></span>');
+		  	html.push('</div>');
+			html.push('</div>');
+
+			$("#paths").append(html.join(''));
+
+			return false;
+		});
+
+
+		$(document).on('click', '.btn-danger', function(event){
+			$('#path-div-'+$(this).attr('data-path')).remove();
+
+			return false;
+		});
+	});
+</script>

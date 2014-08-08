@@ -13,5 +13,6 @@ public class Constants {
 		PLUGINS.put("Sickbeard", "plugins.sickbeard.SickbeardPlugin");
 		PLUGINS.put("Yamaha Amp", "plugins.yamahaamp.YamahaAmpPlugin");
 		PLUGINS.put("Couchpotato", "plugins.couchpotato.CouchpotatoPlugin");
+		PLUGINS.put("Google Public Calendar", "plugins.googlepubliccalendar.GooglePublicCalendarPlugin");
 	}
 }

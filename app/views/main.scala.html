@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(css: Html)(content: Html)
 
 <!DOCTYPE html>
 
@@ -22,6 +22,8 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animations.css")">
 		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.1.js")"></script>
+		
+		@css
     </head>
     <body>
     	<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">

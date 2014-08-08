@@ -1,16 +1,23 @@
 @(module: Module)
 
-<h4>CPU</h4>
-	<div class="progress">
-		<div id="cpu@module.id" class="progress-bar" role="progressbar">
+<div class="row">
+	<div class="col-md-6">
+		<h4>CPU</h4>
+		<div class="progress">
+			<div id="cpu@module.id" class="progress-bar" role="progressbar">
+			</div>
 		</div>
 	</div>
-<h4>RAM</h4>
-	<div class="progress">
-		<div id="ram@module.id" class="progress-bar" role="progressbar">
-			<span id="ramText@module.id"></span>
+	<div class="col-md-6">
+		<h4>RAM</h4>
+		<div class="progress">
+			<div id="ram@module.id" class="progress-bar" role="progressbar">
+				<span id="ramText@module.id"></span>
+			</div>
 		</div>
 	</div>
+</div>
+
 <h4>Disk usage</h4>
 <div id="systeminfo@module.id-harddisk">
 

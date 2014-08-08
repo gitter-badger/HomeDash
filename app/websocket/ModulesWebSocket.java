@@ -123,12 +123,16 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 							@Override
 							public void run() {
+								try{
 								Logger.info("Refreshing module [{}]", module.id);
 
 								WebSocketMessage response = module.refreshModule();
 								response.setMethod("refresh");
 
 								sendToClients(response.toJSon());
+								}catch(Exception e){
+									e.printStackTrace();
+								}
 							}
 						});
 

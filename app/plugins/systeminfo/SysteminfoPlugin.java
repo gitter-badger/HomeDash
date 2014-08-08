@@ -4,17 +4,20 @@ import interfaces.PlugIn;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import models.Module;
 import play.twirl.api.Html;
+import views.html.plugins.systeminfo.settings;
 import websocket.WebSocketMessage;
 
 import com.sun.management.OperatingSystemMXBean;
 
 public class SysteminfoPlugin implements PlugIn {
-
+	private List<String> roots = new ArrayList<String>();
 	
 	@Override
 	public boolean hasBigScreen() {
@@ -49,20 +52,19 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public Html getSettingsView(Module module) {
-		return null;
+		return settings.render(module);
 	}
 
 	@Override
 	public boolean hasSettings() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public Object refresh(Map<String, String>  settings) {
 		try {
 			SystemInfoData data = new SystemInfoData();
-			File[] roots = File.listRoots();
+			//File[] roots = File.listRoots();
 
 			OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(
 					OperatingSystemMXBean.class);			
@@ -75,7 +77,9 @@ public class SysteminfoPlugin implements PlugIn {
 			
 			data.usedRam = data.maxRam - data.availableRam;
 			
-			for (File root : roots) {
+			for (String path : roots) {
+				
+				File root = new File(path);
 				
 				long usedSpace = root.getTotalSpace() - root.getFreeSpace();
 				
@@ -120,7 +124,12 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public void init(Map<String, String> settings) {
-		// TODO Auto-generated method stub
+		for(String root:settings.keySet()){
+			String path = settings.get(root);
+			if(!path.trim().equalsIgnoreCase("")){
+				roots.add(settings.get(root));
+			}
+		}
 		
 	}
 

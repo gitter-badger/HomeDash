@@ -122,18 +122,16 @@ public class Module extends Model implements Comparable<Module> {
 	public void save() {
 		super.save();
 
-		// TODO Auto-generated method stub
+		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
+		for(ModuleSetting setting:oldSettings){
+			setting.delete();
+		}
+		
 		for (String name : settingsMap.keySet()) {
 			ModuleSetting setting = new ModuleSetting();
 			setting.moduleId = id;
 			setting.value = settingsMap.get(name);
 			setting.name = name;
-
-			ModuleSetting tmp = ModuleSetting.find.where()
-					.ieq("module_id", Integer.toString(setting.moduleId))
-					.ieq("name", setting.name).findUnique();
-			if (tmp != null)
-				tmp.delete();
 
 			// setting.delete();
 			setting.save();
@@ -143,17 +141,9 @@ public class Module extends Model implements Comparable<Module> {
 	
 	@Override
 	public void delete() {
-		for (String name : settingsMap.keySet()) {
-			ModuleSetting setting = new ModuleSetting();
-			setting.moduleId = id;
-			setting.value = settingsMap.get(name);
-			setting.name = name;
-
-			ModuleSetting tmp = ModuleSetting.find.where()
-					.ieq("module_id", Integer.toString(setting.moduleId))
-					.ieq("name", setting.name).findUnique();
-			if (tmp != null)
-				tmp.delete();
+		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
+		for(ModuleSetting setting:oldSettings){
+			setting.delete();
 		}
 
 		super.delete();

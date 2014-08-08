@@ -2,7 +2,13 @@
 
 @import plugins._
 
-@main("Home Dash") {
+@main("Home Dash"){
+	@for(module <- modules){
+		@if(module.getPlugin().hasCss()){
+        	<link rel="stylesheet" media="screen" href="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/css/style.css")">
+        }
+	}
+} {
 	<div class="row">
    	@if(modules.size() > 0){
 		@for(module <- modules){
