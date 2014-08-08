@@ -5,7 +5,7 @@ function googlepubliccalendar(moduleId){
 		var parent = this;
 		$(document).on('click', '.gcal'+this.moduleId+'-event',function(event){
 			var tr = $(this);
-			var link = '<a href="'+tr.attr+'" target="_blank">Link to the event</a>'
+			var link = '<a href="'+tr.attr('data-href')+'" target="_blank">Link to the event</a>'
 			
 			$('#gcal'+parent.moduleId+'-eventName').html(tr.attr('data-title'));
 			$('#gcal'+parent.moduleId+'-eventDate').html(tr.attr('data-date'));
