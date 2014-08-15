@@ -1,7 +1,8 @@
 function transmission(moduleId) {
 	this.moduleId = moduleId;
 	this.torrents = []
-
+	this.selectedTorrent = null;
+	
 	this.documentReady = function() {
 		var parent = this;
 		$("#addTorrent" + this.moduleId).click(function(e) {
@@ -10,6 +11,21 @@ function transmission(moduleId) {
 
 		$("#altSpeed" + this.moduleId).click(function(e) {
 			parent.setAltSpeed();
+		});
+		
+		$(document).on('click', '.torrent', function(e){
+			$(".modal").modal('show');
+			parent.selectedTorrent = $(this).attr('data');
+		});
+		
+		$("#removeTorrent").click( function(e){
+			parent.removeTorrent(parent.selectedTorrent);
+			$(".modal").modal('hide');
+		});
+		
+		$("#pauseTorrent").click( function(e){
+			parent.pauseTorrent(parent.selectedTorrent);
+			$(".modal").modal('hide');
 		});
 
 	}
@@ -77,18 +93,18 @@ function transmission(moduleId) {
 		var percent = Math.ceil(torrent.percentDone * 100);
 		console.log(torrent.name + ":" + percent);
 
-		html.push('<div class="torrent" id="torrent-', torrent.id, '">');
+		html.push('<div  id="torrent-', torrent.id, '">');
 		html.push('<p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">');
+		html.push('<button  data="',torrent.id,'" class="torrent btn btn-primary btn-xs" style="float: right"><span class="glyphicon glyphicon-pencil"></span></button>');
 		html.push(this.getStatusIcon(torrent.status, rpcVersion), ' ');
 		html.push('<strong>', torrent.name, '</strong>');
 		html.push('</p>');
 		html.push('<div class="progress small-progress-bar">');
-		html.push(
-				'<div class="progress-bar" role="progressbar" aria-valuenow="',
+		html.push('<div class="progress-bar" role="progressbar" aria-valuenow="',
 				percent,
 				'" aria-valuemin="0" aria-valuemax="100" style="width: ',
 				percent, '%;">');
-		html.push('<span class="sr-only">', percent, '% Complete</span>');
+		//html.push('<span class="sr-only">', percent, '% Complete</span>');
 		html.push('</div>');
 		html.push('</div>');
 		html.push('<p>');
@@ -141,6 +157,14 @@ function transmission(moduleId) {
 			}
 		}
 
+	}
+	
+	this.removeTorrent = function(id){
+		sendMessage(this.moduleId, 'removeTorrent', id);
+	}
+	
+	this.pauseTorrent = function(id){
+		sendMessage(this.moduleId, 'pauseTorrent', id);
 	}
 
 }

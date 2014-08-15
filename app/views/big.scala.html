@@ -5,9 +5,18 @@
 @main("Home Dash"){
 	
 } {
+	<div class="spinner-black">
+		<div class="spinner">
+			<div class="rect1"></div>
+			<div class="rect2"></div>
+			<div class="rect3"></div>
+			<div class="rect4"></div>
+			<div class="rect5"></div>
+		</div>
+	</div>
 
    	<div class="row">
-   		<div class="module col-md-12">
+   		<div class="module toFadeIn col-md-12">
    		<h3>@module.getPlugin().getName()</h3>
    			<div style="position:relative">
    				@module.getPlugin().getBigView(module)
@@ -19,7 +28,7 @@
 	<script type="text/javascript">
 		var MODULE_ID = @module.id;
 		var WS_ADDRESS = "ws://" + window.location.host + "/ws/big/"+MODULE_ID;
-		var showLoadingOverlay = false;
+		var showLoadingOverlay = true;
   		$(document).ready(function(){
   			$("#showSettings").hide();
   			$("#global-overlay").hide();

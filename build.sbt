@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
 "com.google.code.gson" % "gson" % "2.2.4",
     "org.json" % "json" % "20140107",
     "org.apache.httpcomponents" % "httpclient" % "4.3.4",
-    "org.xerial"%"sqlite-jdbc"%"3.7.2"
+    "org.xerial"%"sqlite-jdbc"%"3.7.2",
+    "org.bitlet"%"weupnp"%"0.1.2"
 )
 

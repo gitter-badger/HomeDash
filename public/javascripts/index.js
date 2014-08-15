@@ -10,13 +10,20 @@ $(document).ready(function() {
 			wsMsg.message = "start";
 			ws.send(JSON.stringify(wsMsg));
 			
-			$("#global-overlay").addClass('bounceUp');
+			$(".spinner-black").addClass('fadeOutSmall');
 			$(".toFadeIn").addClass('fadeInLeft');
 			
 			setTimeout(function(){
-			        $(".toFadeIn").removeClass('fadeInLeft');
+				$(".toFadeIn").removeClass('fadeInLeft');
 				$(".toFadeIn").removeClass('toFadeIn');
+				$(".spinner-black").remove();
 			},1500);
+			
+			for(i = 0; i < modules.length; i++){
+				if(modules[i] != null && modules[i].onConnect != undefined){
+					modules[i].onConnect();
+				}
+			}
 		}
 
 		ws.onerror = function(error) {
@@ -25,8 +32,7 @@ $(document).ready(function() {
 
 		ws.onclose = function() {
 			$("#global-overlay p").html('Connection to server lost.<br /><a href="'+window.location+'" class="btn btn-warning" > Refresh page </a>');
-			$(".spinner").hide();
-			$("#global-overlay").removeClass('bounceUp');
+			$("#global-overlay").show();
 			$("#global-overlay").addClass('bounceDown');
 			
 

@@ -1,0 +1,60 @@
+@* small Template File *@
+@(module: Module)
+<div id="mapper@module.id-overlay" class="module-overlay">
+	<p>No router found</p>
+</div>
+	
+<p><strong id="mapper@module.id-routerName"></strong> - <span id="mapper@module.id-ip"></span></p>
+<p><button id="mapper@module.id-add" class="btn btn-primary">Add port</button></p>
+<div class="table-responsive">
+	<table class="table table-hover table-condensed table-striped" id="mapper@module.id-ports">
+		<thead>
+			<th>Name</th>
+			<th>Protocol</th>
+			<th>External Port</th>
+			<th>Internal Port</th>
+			<th>Client</th>
+			<th></th>
+		</thead>
+		<tbody></tbody>
+	</table>
+</div>
+
+<div class="modal fade" tabindex="-1" id="mapper@module.id-modal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" >
+	     <div class="modal-header">
+	     	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	      	<h4 class="modal-title">Add port mapping</h4>
+	      </div>
+	      <div class="modal-body" id="mapper@module.id-movieList">
+	        <form role="form" id="mapper@module.id-form">
+	         <div class="form-group">
+			    <label>Name</label>
+			    <input type="text" class="form-control" name="name" placeholder="Enter name">
+			  </div>
+			  <div class="form-group">
+			    <label>Protocol</label>
+			    <select name="protocol" class="form-control">
+			    	<option>TCP</option>
+			    	<option>UDP</option>
+			    </select>
+			  </div>
+			  <div class="form-group">
+			    <label>External Port</label>
+			    <input type="text" class="form-control" name="externalPort">
+			  </div>
+			  <div class="form-group">
+			    <label>Internal Port</label>
+			    <input type="text" class="form-control" name="internalPort">
+			  </div>
+			  <div class="form-group">
+			    <label>Client</label>
+			    <input type="text" class="form-control" name="client" placeholder="Internal client IP">
+			  </div>
+  			</form>
+	      </div>
+			
+    </div>
+  </div>
+</div>

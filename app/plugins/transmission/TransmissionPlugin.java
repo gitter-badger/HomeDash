@@ -21,6 +21,7 @@ import ca.benow.transmission.AddTorrentParameters;
 import ca.benow.transmission.TransmissionClient;
 import ca.benow.transmission.model.SessionStatus;
 import ca.benow.transmission.model.TorrentStatus;
+import ca.benow.transmission.model.TorrentStatus.StatusField;
 import ca.benow.transmission.model.TorrentStatus.TorrentField;
 import ca.benow.transmission.model.TransmissionSession.SessionField;
 import ca.benow.transmission.model.TransmissionSession.SessionPair;
@@ -35,7 +36,7 @@ public class TransmissionPlugin implements PlugIn {
 	public static final String URL = "url", PORT = "port",
 			USERNAME = "username", PASSWORD = "password";
 	public static final String METHOD_ADDTORRENT = "addTorrent",
-			METHOD_ALTSPEED = "altSpeed";
+			METHOD_ALTSPEED = "altSpeed", METHOD_REMOVETORRENT = "removeTorrent", METHOD_PAUSETORRENT = "pauseTorrent";
 
 	@Override
 	public boolean hasBigScreen() {
@@ -129,6 +130,10 @@ public class TransmissionPlugin implements PlugIn {
 			response = addTorrent(command);
 		} else if (method.equalsIgnoreCase(METHOD_ALTSPEED)) {
 			response = altSpeed(command.equalsIgnoreCase("true"));
+		}else if (method.equalsIgnoreCase(METHOD_PAUSETORRENT)) {
+			response = pauseTorrent(Integer.parseInt(command));
+		}else if (method.equalsIgnoreCase(METHOD_REMOVETORRENT)) {
+			response = removeTorrent(Integer.parseInt(command));
 		} else {
 			response.setMethod(WebSocketMessage.METHOD_ERROR);
 			response.setMessage("No matching method.");
@@ -220,9 +225,49 @@ public class TransmissionPlugin implements PlugIn {
 		}
 
 		Logger.info("Transmission client ready !");
-
 	}
 
+	
+	private WebSocketMessage pauseTorrent(int id){
+		WebSocketMessage response = new WebSocketMessage();
+		try {
+			int[] ids = {id};
+			TorrentStatus torrent = client.getTorrents(ids, TorrentField.status).get(0);
+			
+			if(torrent.getStatus() == StatusField.stopped){
+				client.startTorrents(id);
+				response.setMessage("Torrent resumed successfully !");
+			}else{
+				client.stopTorrents(id);
+				response.setMessage("Torrent paused successfully !");
+			}
+			
+			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
+
+		} catch (Exception e) {
+			response.setMethod(WebSocketMessage.METHOD_ERROR);
+			response.setMessage("Error while seting alternate speed.");
+		}
+		return response;
+	}
+	
+	private WebSocketMessage removeTorrent(int id){
+		
+		
+		WebSocketMessage response = new WebSocketMessage();
+		try {
+
+			Object[] ids = {id};
+			client.removeTorrents(ids, false);
+			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
+			response.setMessage("Torrent removed successfully !");
+
+		} catch (Exception e) {
+			response.setMethod(WebSocketMessage.METHOD_ERROR);
+			response.setMessage("Error while seting alternate speed.");
+		}
+		return response;
+	}
 	// //
 
 	private class TorrentSession {
