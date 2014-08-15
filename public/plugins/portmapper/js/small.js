@@ -72,10 +72,17 @@ function portmapper(moduleId){
 		var internalPort = $('#mapper'+this.moduleId+'-form input[name="internalPort"]').val();
 		var internalIp = $('#mapper'+this.moduleId+'-form input[name="client"]').val();
 		
+		var force =  $('#mapper'+this.moduleId+'-form input[name="force"]:checked').length > 0;
+		
 		var data = [];
 		data.push(name,'|',protocol,'|', externalPort,'|', internalPort,'|',internalIp);
+				
+		if(force){
+			sendMessage(this.moduleId, 'addPortForce', data.join(''));
+		}else{
+			sendMessage(this.moduleId, 'addPort', data.join(''));
+		}
 		
-		sendMessage(this.moduleId, 'addPort', data.join(''));
 		$("#mapper"+this.moduleId+"-modal").modal('hide');
 
 	}

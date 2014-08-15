@@ -133,7 +133,7 @@ public class SickbeardPlugin implements PlugIn {
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		Logger.info("Initiating Sickbeard plugin.");
 		url = settings.get(URL);
 		if (!url.endsWith("/")) {
@@ -173,6 +173,12 @@ public class SickbeardPlugin implements PlugIn {
 	@Override
 	public String getId() {
 		return "sickbeard";
+	}
+
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

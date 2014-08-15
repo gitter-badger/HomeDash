@@ -146,7 +146,7 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		
 		apiKey = settings.get(API_KEY);
 		calendarId = settings.get(CALENDAR_ID);
@@ -171,6 +171,12 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	
 	private class GoogleCalendarEvent{
 		public String summary, description, startTime, link;
+	}
+
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

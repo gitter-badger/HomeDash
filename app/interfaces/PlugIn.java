@@ -20,7 +20,8 @@ public interface PlugIn {
 	public Html getBigView(Module module);
 	public boolean hasSettings();
 	public String getExternalLink();
-	public void init(Map<String, String>  settings);
+	public void init(Map<String, String>  settings, String data);
+	public Object saveData();
 	public boolean hasCss();
 	/**
 	 * Refresh every x ms

@@ -76,13 +76,12 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 	private void startRefresh() {
 		if (exec != null) {
-			refresh = false;
-			exec.shutdownNow();
-			exec = null;
-			time = 0;
+			stopRefresh();
 		}
 
-		modules = Module.find.all();
+		if(modules == null){
+			modules = Module.find.all();
+		}
 		exec = Executors.newFixedThreadPool(THREADS_COUNT);
 
 		refresh = true;
@@ -105,6 +104,10 @@ public class ModulesWebSocket extends WebSocket<String> {
 		exec.shutdownNow();
 		exec = null;
 		time = 0;
+		
+		for(Module module:modules){
+			module.saveData();
+		}
 	}
 
 	public void setRefresh(boolean refresh) {

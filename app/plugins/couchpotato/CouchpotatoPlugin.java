@@ -155,7 +155,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		Logger.info("Initiating Couchpotato plugin.");
 		
 		url = settings.get(URL);
@@ -202,6 +202,12 @@ public class CouchpotatoPlugin implements PlugIn {
 	@Override
 	public boolean hasCss() {
 		return false;
+	}
+
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

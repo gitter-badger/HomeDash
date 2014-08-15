@@ -7,9 +7,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
+import com.google.gson.Gson;
 
 import play.Logger;
 import play.db.ebean.Model;
@@ -34,6 +37,10 @@ public class Module extends Model implements Comparable<Module> {
 
 	public String pluginId;
 
+	//Json of the data hold by the module.
+    @Column(columnDefinition = "TEXT")
+	public String data;
+	
 	@Transient
 	private PlugIn plugin;
 
@@ -100,13 +107,23 @@ public class Module extends Model implements Comparable<Module> {
 
 			}
 
-			this.getPlugin().init(settingsMap);
+			this.getPlugin().init(settingsMap, data);
 
 			Logger.info("Module {} ready, {} settings", plugin.getName(),
 					settingsMap.size());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void saveData(){
+		Object s = plugin.saveData();
+		if(s != null){
+			Gson gson = new Gson();
+			data = gson.toJson(s);
+			
+			this.save();
 		}
 	}
 

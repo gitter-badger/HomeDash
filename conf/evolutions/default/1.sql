@@ -7,7 +7,8 @@ create table module (
   id                        integer primary key AUTOINCREMENT,
   size                      integer,
   module_order              integer,
-  plugin_id                 varchar(255))
+  plugin_id                 varchar(255),
+  data                      TEXT)
 ;
 
 create table module_setting (

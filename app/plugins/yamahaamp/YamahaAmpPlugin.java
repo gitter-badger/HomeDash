@@ -136,7 +136,7 @@ public class YamahaAmpPlugin implements PlugIn {
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		this.host = settings.get(AMP_HOST);
 	}
 
@@ -154,6 +154,12 @@ public class YamahaAmpPlugin implements PlugIn {
 	@Override
 	public String getExternalLink() {
 		return "http://"+host;
+	}
+
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

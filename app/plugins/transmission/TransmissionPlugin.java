@@ -205,7 +205,7 @@ public class TransmissionPlugin implements PlugIn {
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		Logger.info("Initiating Transmission plugin.");
 
 		url = settings.get(URL);
@@ -314,6 +314,12 @@ public class TransmissionPlugin implements PlugIn {
 	@Override
 	public String getExternalLink() {
 		return "http://" + url + ":" + port;
+	}
+
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

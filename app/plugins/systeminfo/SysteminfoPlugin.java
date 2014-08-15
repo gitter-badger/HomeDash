@@ -123,7 +123,7 @@ public class SysteminfoPlugin implements PlugIn {
 	}
 
 	@Override
-	public void init(Map<String, String> settings) {
+	public void init(Map<String, String> settings, String data) {
 		for(String root:settings.keySet()){
 			String path = settings.get(root);
 			if(!path.trim().equalsIgnoreCase("")){
@@ -141,6 +141,11 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public String getExternalLink() {
+		return null;
+	}
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
