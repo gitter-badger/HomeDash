@@ -24,7 +24,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 	Map<Long, WebSocketClient> clients = new Hashtable<Long, ModulesWebSocket.WebSocketClient>();
 
-	private final int THREADS_COUNT = 4;
+	private final int THREADS_COUNT = 5;
 
 	private List<Module> modules;
 
@@ -79,16 +79,14 @@ public class ModulesWebSocket extends WebSocket<String> {
 			stopRefresh();
 		}
 
-		if(modules == null){
-			modules = Module.find.all();
-		}
+		modules = Module.find.all();
+
 		exec = Executors.newFixedThreadPool(THREADS_COUNT);
 
 		refresh = true;
 		Logger.info("WEBSOCKET init");
-		/*for (Module module : modules) {
-			module.init();
-		}*/
+	
+		
 
 		exec.execute(new Runnable() {
 
@@ -104,8 +102,8 @@ public class ModulesWebSocket extends WebSocket<String> {
 		exec.shutdownNow();
 		exec = null;
 		time = 0;
-		
-		for(Module module:modules){
+
+		for (Module module : modules) {
 			module.saveData();
 		}
 	}
@@ -118,22 +116,25 @@ public class ModulesWebSocket extends WebSocket<String> {
 		try {
 			while (refresh) {
 				for (final Module module : modules) {
-					
+
 					int refreshRate = module.getPlugin().getRefreshRate();
-					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0) {
+					if (refreshRate != PlugIn.NO_REFRESH
+							&& time % refreshRate == 0) {
 
 						exec.execute(new Runnable() {
 
 							@Override
 							public void run() {
-								try{
-								Logger.info("Refreshing module [{}]", module.id);
+								try {
+									Logger.info("Refreshing module [{}]",
+											module.id);
 
-								WebSocketMessage response = module.refreshModule();
-								response.setMethod("refresh");
+									WebSocketMessage response = module
+											.refreshModule();
+									response.setMethod("refresh");
 
-								sendToClients(response.toJSon());
-								}catch(Exception e){
+									sendToClients(response.toJSon());
+								} catch (Exception e) {
 									e.printStackTrace();
 								}
 							}
@@ -143,8 +144,6 @@ public class ModulesWebSocket extends WebSocket<String> {
 				}
 				Thread.sleep(1000);
 				time += 1000;
-				if (time == 600000) {
-				}
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

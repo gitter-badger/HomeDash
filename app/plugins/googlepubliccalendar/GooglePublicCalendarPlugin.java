@@ -51,7 +51,7 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	}
 
 	@Override
-	public Object refresh(Map<String, String> settings) {
+	public Object smallScreenRefresh(Map<String, String> settings) {
 		Calendar today = Calendar.getInstance();
 		today.set(Calendar.HOUR, 0);
 		today.set(Calendar.MINUTE, 0);
@@ -116,7 +116,7 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	}
 
 	@Override
-	public Html getView(Module module) {
+	public Html getSmallView(Module module) {
 		// TODO Auto-generated method stub
 		return small.render(module);
 	}
@@ -177,6 +177,12 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	public Object saveData() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void doInBackground(Map<String, String>  settings) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

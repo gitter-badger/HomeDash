@@ -54,7 +54,7 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	@Override
-	public Object refresh(Map<String, String> settings) {
+	public Object smallScreenRefresh(Map<String, String> settings) {
 		try {
 
 			return getMappings();
@@ -137,7 +137,7 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	@Override
-	public Html getView(Module module) {
+	public Html getSmallView(Module module) {
 		// TODO Auto-generated method stub
 		return small.render(module);
 	}
@@ -209,6 +209,7 @@ public class PortMapperPlugin implements PlugIn {
 					object.internalIp = portMapping.getInternalClient();
 					object.name = portMapping.getPortMappingDescription();
 					object.protocol = portMapping.getProtocol();
+					
 					result.add(object);
 					// portMapping = new PortMappingEntry();
 				} else {
@@ -290,6 +291,24 @@ public class PortMapperPlugin implements PlugIn {
 		}
 	}
 
+
+	@Override
+	public Object saveData() {
+		Logger.info("Saving ports, size: {}", forcedPorts.size());
+		return forcedPorts;
+	}
+
+	@Override
+	public void doInBackground(Map<String, String>  settings) {
+		Logger.info("Doing in background");
+		try {
+			getRouter();
+			getMappings();
+		} catch (IOException | SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private class MappingObject {
 		public String protocol, name, internalIp;
 		public int externalPort, internalPort;
@@ -304,14 +323,8 @@ public class PortMapperPlugin implements PlugIn {
 			}
 		}
 	}
-
+	
 	private class RouterObject {
 		public String name, externalIp;
-	}
-
-	@Override
-	public Object saveData() {
-		Logger.info("Saving ports, size: {}", forcedPorts.size());
-		return forcedPorts;
 	}
 }

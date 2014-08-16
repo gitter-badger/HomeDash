@@ -72,7 +72,7 @@ public class Module extends Model implements Comparable<Module> {
 			WebSocketMessage response = new WebSocketMessage();
 			response.setMethod(WebSocketMessage.METHOD_REFRESH);
 			response.setId(id);
-			response.setMessage(plugin.refresh(settingsMap));
+			response.setMessage(plugin.smallScreenRefresh(settingsMap));
 			return response;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -172,6 +172,28 @@ public class Module extends Model implements Comparable<Module> {
 
 		return response;
 	}
+	
+	
+	public void doInBackground(){
+		plugin.doInBackground(settingsMap);
+	}
+	
+	@Override
+	public int compareTo(Module o) {
+		// TODO Auto-generated method stub
+		return Integer.valueOf(moduleOrder).compareTo(o.moduleOrder);
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		try{
+			Module m = (Module) arg0;
+			return m.id == id;
+		}catch(Exception e){
+			return false;
+		}
+	}
+	
 
 	public static class ModuleFinder extends Finder<Integer, Module> {
 
@@ -238,10 +260,5 @@ public class Module extends Model implements Comparable<Module> {
 
 	}
 
-	@Override
-	public int compareTo(Module o) {
-		// TODO Auto-generated method stub
-		return Integer.valueOf(moduleOrder).compareTo(o.moduleOrder);
-	}
-
+	
 }

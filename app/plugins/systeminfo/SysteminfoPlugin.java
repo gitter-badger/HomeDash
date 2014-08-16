@@ -46,7 +46,7 @@ public class SysteminfoPlugin implements PlugIn {
 	}
 
 	@Override
-	public Html getView(Module module) {
+	public Html getSmallView(Module module) {
 		return views.html.plugins.systeminfo.small.render(module);
 	}
 
@@ -61,7 +61,7 @@ public class SysteminfoPlugin implements PlugIn {
 	}
 
 	@Override
-	public Object refresh(Map<String, String>  settings) {
+	public Object smallScreenRefresh(Map<String, String>  settings) {
 		try {
 			SystemInfoData data = new SystemInfoData();
 			//File[] roots = File.listRoots();
@@ -147,6 +147,11 @@ public class SysteminfoPlugin implements PlugIn {
 	public Object saveData() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public void doInBackground(Map<String, String>  settings) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

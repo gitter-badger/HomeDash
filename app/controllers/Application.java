@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import background.BackgroundTasks;
 import misc.Constants;
 import models.Module;
 import play.Logger;
@@ -24,7 +25,7 @@ import websocket.ModulesWebSocket;
 public class Application extends Controller {
 
 	private static ModulesWebSocket ws = new ModulesWebSocket();
-	
+	private static BackgroundTasks backgroundTasks = new BackgroundTasks();
 	public static Result index() {
 
 		
