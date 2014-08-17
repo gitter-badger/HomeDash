@@ -14,6 +14,6 @@ public class Constants {
 		PLUGINS.put("Yamaha Amp", "plugins.yamahaamp.YamahaAmpPlugin");
 		PLUGINS.put("Couchpotato", "plugins.couchpotato.CouchpotatoPlugin");
 		PLUGINS.put("Google Public Calendar", "plugins.googlepubliccalendar.GooglePublicCalendarPlugin");
-		PLUGINS.put("Port Mapoer", "plugins.portmapper.PortMapperPlugin");
+		PLUGINS.put("Port MapPer", "plugins.portmapper.PortMapperPlugin");
 	}
 }

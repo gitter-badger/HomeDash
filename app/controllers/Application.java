@@ -26,10 +26,12 @@ public class Application extends Controller {
 
 	private static ModulesWebSocket ws = new ModulesWebSocket();
 	private static BackgroundTasks backgroundTasks = new BackgroundTasks();
+	
+	public  static List<Module> modules = Module.find.all();
+	
 	public static Result index() {
 
 		
-		List<Module> modules = Module.find.all();
 		Collections.sort(modules);
 		
 		/*Logger.info("Controller init");
@@ -67,6 +69,8 @@ public class Application extends Controller {
 				module.pluginId = plugin.getClass().getName();
 				module.save();
 				
+				modules = Module.find.all();
+				ws.moduleListChanged();
 				return redirect("/");
 
 			}else{
@@ -108,6 +112,10 @@ public class Application extends Controller {
 			module.pluginId = plugin.getClass().getName();
 			module.setSettingsMap(settings);
 			module.save();
+			
+			modules = Module.find.all();
+			ws.moduleListChanged();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -171,12 +179,18 @@ public class Application extends Controller {
 		
 		module.save();
 		
+		modules = Module.find.all();
+		ws.moduleListChanged();
+
 		return redirect("/");
 	}
 	
 	public static Result deleteModule(int moduleId){
 		Module module = Module.find.byId(moduleId);
 		module.delete();
+		
+		modules = Module.find.all();
+		ws.moduleListChanged();
 		return redirect("/");
 
 	}

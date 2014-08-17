@@ -16,6 +16,8 @@ import play.mvc.WebSocket;
 
 import com.google.gson.Gson;
 
+import controllers.Application;
+
 public class ModulesWebSocket extends WebSocket<String> {
 
 	private ExecutorService exec;
@@ -26,7 +28,6 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 	private final int THREADS_COUNT = 5;
 
-	private List<Module> modules;
 
 	private Gson gson = new Gson();
 
@@ -61,7 +62,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 			// startRefresh();
 		} else {
 
-			for (Module module : modules) {
+			for (Module module : Application.modules) {
 				if (module.id == socketMessage.getId()) {
 					response = module.processCommand(socketMessage.getMethod(),
 							socketMessage.getMessage().toString());
@@ -78,8 +79,6 @@ public class ModulesWebSocket extends WebSocket<String> {
 		if (exec != null) {
 			stopRefresh();
 		}
-
-		modules = Module.find.all();
 
 		exec = Executors.newFixedThreadPool(THREADS_COUNT);
 
@@ -103,7 +102,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 		exec = null;
 		time = 0;
 
-		for (Module module : modules) {
+		for (Module module : Application.modules) {
 			module.saveData();
 		}
 	}
@@ -115,7 +114,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 	private void refreshModules() {
 		try {
 			while (refresh) {
-				for (final Module module : modules) {
+				for (final Module module : Application.modules) {
 
 					int refreshRate = module.getPlugin().getRefreshRate();
 					if (refreshRate != PlugIn.NO_REFRESH
@@ -197,6 +196,12 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 			receiveMessage(id, message);
 		}
+	}
+	
+	public void moduleListChanged(){
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMethod("reload");
+		sendToClients(message.toJSon());
 	}
 
 }

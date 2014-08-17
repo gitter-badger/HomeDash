@@ -65,6 +65,9 @@ function onMessage(event) {
 	case 'error':
 		showErrorMessage(json.message);
 		break;
+	case 'reload':
+		location.reload();
+		break;
 	}
 	
 	modules[json.id].onMessage(json.method, json.message);

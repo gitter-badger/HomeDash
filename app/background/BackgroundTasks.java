@@ -2,11 +2,11 @@ package background;
 
 import interfaces.PlugIn;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import models.Module;
+import controllers.Application;
 
 public class BackgroundTasks implements Runnable {
 	private ExecutorService exec = Executors.newSingleThreadExecutor();
@@ -20,9 +20,8 @@ public class BackgroundTasks implements Runnable {
 	public void run() {
 		while (refresh) {
 			try {
-				List<Module> modules = Module.find.all();
 
-				for (Module module : modules) {
+				for (Module module : Application.modules) {
 					module.doInBackground();
 				}
 
