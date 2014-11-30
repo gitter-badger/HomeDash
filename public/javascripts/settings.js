@@ -1,5 +1,6 @@
 var currentOrder = [];
-var sizes = []
+var sizes = [];
+
 $(document).ready(function(){
 	
 	$(".glyphicon-chevron-up").click(moveUp);
@@ -11,6 +12,14 @@ $(document).ready(function(){
 	
 	$("#save-settings").click(saveSettings);
 	
+	$(".overlay-settings").click(function(event){
+		var source = $(this);
+
+		var fn = window[source.attr("action")];
+		if(typeof fn === 'function') {
+		    fn(source.attr("data"));
+		}
+	});
 });
 
 function saveSettings(){
@@ -42,6 +51,7 @@ function saveSettings(){
 	$.post('/settings', data, function(){
 		showSuccessMessage('Settings saved !');
 		$(".settings").slideToggle("fast");
+		$(".module-settings-overlay").slideToggle("fast");
 	});
 }
 
@@ -54,8 +64,8 @@ function getOrder(){
 	return order
 }
 
-function moveUp(event){
-	var moduleId = $(this).attr("data");
+function moveUp(moduleId){
+
 	var before = findBefore(moduleId);
 	if(moduleId != before){
 		$("#module"+before).before($("#module"+moduleId));
@@ -65,8 +75,8 @@ function moveUp(event){
 }
 
 
-function moveDown(event){
-	var moduleId = $(this).attr("data");
+function moveDown(moduleId){
+
 	var after = findAfter(moduleId);
 	if(moduleId != after){
 		$("#module"+after).after($("#module"+moduleId));
@@ -75,8 +85,8 @@ function moveDown(event){
 	currentOrder = getOrder();
 }
 
-function shrink(event){
-	var moduleId = $(this).attr("data");
+function shrink(moduleId){
+
 	var item = $("#module"+moduleId);
 	
 	var classes = item.attr("class");
@@ -96,8 +106,8 @@ function shrink(event){
 	console.log(sizes[moduleId]);
 }
 
-function expand(event){
-	var moduleId = $(this).attr("data");
+function expand(moduleId){
+
 	var item = $("#module"+moduleId);
 	
 	var classes = item.attr("class");

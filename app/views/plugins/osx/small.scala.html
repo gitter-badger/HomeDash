@@ -1,0 +1,26 @@
+@* small Template File *@
+@(module: Module)
+
+<h4>Applications</h4>
+<div>
+	<ul id="osx@module.id-apps" class="osx-app-list">
+	
+	</ul>
+</div>
+
+
+<div id="osx@module.id-modal" class="modal fade" tabindex="-1" id="modal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" >
+	     <div class="modal-header">
+	     	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+	      	<h4 class="modal-title"></h4>
+	      </div>
+	      <div class="modal-body">
+	       	<p>
+	       		<button class="btn btn-danger" id="osx@module.id-quit"><span class="glyphicon glyphicon-remove"></span> Quit</button>
+	       	</p>
+	      </div>
+    </div>
+  </div>
+</div>

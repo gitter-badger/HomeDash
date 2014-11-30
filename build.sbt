@@ -1,11 +1,14 @@
 name := """HomeDash"""
 
-version := "0.9.4"
+version := "0.9.6"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.1"
 
+resolvers += "apache.snapshots" at "http://repository.apache.org/snapshots/"
+
+    
 libraryDependencies ++= Seq(
   javaJdbc,
   javaEbean,
@@ -16,6 +19,8 @@ libraryDependencies ++= Seq(
     "org.json" % "json" % "20140107",
     "org.apache.httpcomponents" % "httpclient" % "4.3.4",
     "org.xerial"%"sqlite-jdbc"%"3.7.2",
-    "org.bitlet"%"weupnp"%"0.1.2"
+    "org.bitlet"%"weupnp"%"0.1.2",
+    "com.googlecode.plist"%"dd-plist"%"1.8",
+    "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT"
 )
 

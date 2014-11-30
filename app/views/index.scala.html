@@ -23,6 +23,7 @@
 		@for(module <- modules){
 					
 					<div id="module@module.id" data="@module.id" class="module toFadeIn col-md-@module.size">
+						
 						@if(module.getPlugin().hasBigScreen()){
 							<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
 						}
@@ -30,23 +31,15 @@
 							<a class="module-links" target="_blank" href="@module.getPlugin().getExternalLink()"><span class="glyphicon glyphicon-new-window"></span></a>
 						}
 						
-						@if(module.getPlugin().hasSettings()){
-							<a class="settings internal-link module-links" href="@controllers.routes.Application.editModule(module.id)"><span class="glyphicon glyphicon-wrench"></span></a>
-						}
-						<a class="settings internal-link module-links" href="@controllers.routes.Application.deleteModule(module.id)"><span class="glyphicon glyphicon-remove"></span></a>
-						
+							
 						<h3>
 							@module.getPlugin().getName()
-							<small>
-							<span data="@module.id" class="settings glyphicon glyphicon-chevron-up"></span>
-							<span data="@module.id" class="settings glyphicon glyphicon-chevron-down"></span>
-							<span data="@module.id" class="settings glyphicon glyphicon-resize-small"></span>
-							<span data="@module.id" class="settings glyphicon glyphicon-resize-full"></span>
-							</small>
 						</h3>
 						<div style="position:relative;">
 							@module.getPlugin().getSmallView(module)
 						</div>
+						
+						@overlay(module)
 					</div>
 			
 		}

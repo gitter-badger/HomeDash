@@ -17,3 +17,5 @@ HomeDash.db
 platypus.sh
 
 conf/home.conf
+
+public/plugins/osx/images/*

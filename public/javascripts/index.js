@@ -45,6 +45,7 @@ $(document).ready(function() {
 	$("#showSettings").click(function() {
 		$(".module").removeClass('fadeInLeft');
 		$(".settings").slideToggle("fast");
+		$(".module-settings-overlay").slideToggle("fast");
 	});
 	
 	$(".internal-link").click(function(event){
@@ -102,7 +103,9 @@ function sendMessage(moduleId, method, message) {
 	wsMsg.message = message;
 	wsMsg.id = moduleId;
 	wsMsg.method = method;
-	ws.send(JSON.stringify(wsMsg));
+	var json = JSON.stringify(wsMsg);
+	ws.send(json);
+	console.log(json);
 }
 
 function WebsocketMessage() {

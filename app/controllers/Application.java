@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import ch.qos.logback.core.joran.action.Action;
 import background.BackgroundTasks;
 import misc.Constants;
 import models.Module;
@@ -154,7 +155,7 @@ public class Application extends Controller {
 			module.save();
 
 		}
-		
+		modules = Module.find.all();
 		return ok();
 	}
 	
@@ -194,6 +195,5 @@ public class Application extends Controller {
 		return redirect("/");
 
 	}
-	
 	
 }
