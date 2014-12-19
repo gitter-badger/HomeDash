@@ -42,16 +42,13 @@ $(document).ready(function() {
 		console.log(e);
 	}
 
-	$("#showSettings").click(function() {
-		$(".module").removeClass('fadeInLeft');
-		$(".settings").slideToggle("fast");
-		$(".module-settings-overlay").slideToggle("fast");
-	});
+	
 	
 	$(".internal-link").click(function(event){
 		window.location = $(this).attr('href');
 		return false
 	});
+	
 });
 
 function onMessage(event) {

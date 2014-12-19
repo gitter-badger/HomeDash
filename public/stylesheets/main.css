@@ -41,7 +41,6 @@ body {
 	color: #5677fc;
 }
 
-
 .navbar,.navbar-inverse .navbar-brand,.navbar-inverse  .navbar-nav>li>a
 	{
 	color: white;
@@ -51,6 +50,10 @@ body {
 	background-color: #5677fc;
 	border: none;
 	border-radius: 0;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
 }
 
 .navbar-inverse .navbar-toggle {
@@ -126,17 +129,17 @@ btn-success {
 	display: none;
 }
 
-.toFadeIn{
-    opacity:0;
+.toFadeIn {
+	opacity: 0;
 }
 
-.floatRight{
+.floatRight {
 	float: right;
 }
 /*
 *Overlays
 */
-.module-overlay{
+.module-overlay {
 	background-color: #FFFFFF;
 	position: absolute;
 	top: 0;
@@ -144,10 +147,10 @@ btn-success {
 	left: 0;
 	right: 0;
 	z-index: 10;
-	display:none;
+	display: none;
 }
 
-.module-settings-overlay{
+.module-settings-overlay {
 	background-color: rgba(0, 0, 0, 0.8);
 	position: absolute;
 	top: 0;
@@ -155,21 +158,46 @@ btn-success {
 	left: 0;
 	right: 0;
 	z-index: 100;
-	color:white;
-	display:none;
+	color: white;
+	display: none;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
 }
 
-.module-settings-overlay ul li{
-	display:inline;
+.module-settings-overlay .sort-module {
+	margin: 10px;
+	border: 1px dashed white;
+	padding: 5px;
+	position:absolute;
+	left:0;
+	right:0;
+	top:40px;
+	bottom:0px;
+	text-align: center;
+}
+
+.module-settings-overlay ul li {
+	display: inline;
 	margin: 5px;
 }
-.module-settings-overlay ul{
+
+.module-settings-overlay ul {
 	list-style: none;
 	padding: 10px;
+	border-bottom: solid #FFFFFF 1px;
 }
-.module-settings-overlay ul li a{
-	color:white;
+
+.module-settings-overlay ul li a {
+	color: white;
 	cursor: pointer;
+}
+
+@media ( max-width : 991px) {
+	.overlay-settings {
+		display: none;
+	}
 }
 
 #global-overlay {
@@ -184,10 +212,8 @@ btn-success {
 	left: 0;
 	right: 0;
 	position: fixed;
-	display:none;
+	display: none;
 }
-
-
 
 .bounceDown {
 	-webkit-animation-name: bounceInDown;
@@ -218,7 +244,16 @@ btn-success {
 	-webkit-animation-delay: +0.5s;
 }
 
-.fadeOutSmall{
+.fadeInLeftNoDelay {
+	-webkit-animation-duration: 0.3s;
+	animation-duration: 0.3s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+	-webkit-animation-name: fadeInLeft;
+	animation-name: fadeInLeft;
+}
+
+.fadeOutSmall {
 	-webkit-animation-name: fadeOutSmall;
 	animation-name: fadeOutSmall;
 	-webkit-animation-duration: 0.5s;
@@ -256,7 +291,7 @@ btn-success {
 	animation: stretchdelay 1.2s infinite ease-in-out;
 }
 
-.spinner-black{
+.spinner-black {
 	z-index: 10;
 	text-align: center;
 	width: 100%;
@@ -266,12 +301,12 @@ btn-success {
 	left: 0;
 	right: 0;
 	position: fixed;
-	padding-top:20%;
+	padding-top: 20%;
 }
+
 .spinner-black>.spinner>div {
 	background-color: #666666;
 }
-
 
 .spinner .rect2 {
 	-webkit-animation-delay: -1.1s;
@@ -293,4 +328,38 @@ btn-success {
 	animation-delay: -0.8s;
 }
 
+.bouncer {
+  display:none;
+  margin: 100px auto 0;
+  width: 70px;
+  text-align: center;
+  position: fixed;
+  bottom:10px;
+  right:10px;
+  z-index: 1000;
+  
+}
 
+.bouncer > div {
+  width: 18px;
+  height: 18px;
+  background-color: #1E88E5;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+  animation: bouncedelay 1.4s infinite ease-in-out;
+  /* Prevent first frame from flickering when animation starts */
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.bouncer .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.bouncer .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
