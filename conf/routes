@@ -14,6 +14,15 @@ POST	/settings					controllers.Application.settings()
 GET		/edit/:id					controllers.Application.editModule(id: Integer)
 POST	/saveModule/:id				controllers.Application.saveEdittedModule(id :Integer)
 GET		/deleteModule/:id			controllers.Application.deleteModule(id: Integer)
+
+#Settings
+GET		/globalSettings				controllers.GlobalSettings.index()
+POST	/globalSettings/save		controllers.GlobalSettings.save()
+GET		/globalSettings/testNotifications controllers.GlobalSettings.testNotifications()
+
+#Login
+POST	/login						controllers.Login.login()
+GET		/logout						controllers.Login.logout()
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET		/cache/*file				controllers.FileCache.at(file: String)

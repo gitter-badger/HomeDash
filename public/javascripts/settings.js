@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 	currentOrder = getOrder();
 
-	$("#save-settings").click(function(){
+	$("#save-settings").click(function() {
 		toggleSettings();
 	});
 
@@ -30,11 +30,11 @@ $(document).ready(function() {
 		items : ".module",
 		opacity : 0.5,
 		handle : '.sort-module',
-		stop: afterSort
+		stop : afterSort
 	});
 });
 
-function afterSort(event, ui){
+function afterSort(event, ui) {
 	saveSettings(false);
 }
 
@@ -65,7 +65,7 @@ function saveSettings(hideSettings) {
 	var data = $("#settings-form").serialize();
 
 	$.post('/settings', data, function() {
-		if(hideSettings){
+		if (hideSettings) {
 			showSuccessMessage('Settings saved !');
 			toggleSettings();
 		}
@@ -83,10 +83,10 @@ function toggleSettings() {
 		settings.addClass('fadeOutSmall');
 		overlay.removeClass('fadeInLeftNoDelay');
 		overlay.addClass('fadeOutSmall');
-		setTimeout(function(){
+		setTimeout(function() {
 			overlay.hide();
-		},500);
-		
+		}, 500);
+
 	} else {
 		settings.removeClass('fadeOutSmall');
 		settings.addClass('fadeInLeftNoDelay');
@@ -122,12 +122,13 @@ function shrink(moduleId) {
 		var classToRemove = "col-md-" + currentSize;
 		currentSize--;
 		var classToAdd = "col-md-" + currentSize;
-		item.switchClass(classToRemove, classToAdd);
+		item.switchClass(classToRemove, classToAdd, 400, 'swing', function() {
+			sizes[moduleId] = currentSize;
+			console.log(sizes[moduleId]);
+			saveSettings(false);
+		});
 	}
 
-	sizes[moduleId] = currentSize;
-	console.log(sizes[moduleId]);
-	saveSettings(false);
 }
 
 function expand(moduleId) {
@@ -145,12 +146,13 @@ function expand(moduleId) {
 		var classToRemove = "col-md-" + currentSize;
 		currentSize++;
 		var classToAdd = "col-md-" + currentSize;
-		item.switchClass(classToRemove, classToAdd);
+		item.switchClass(classToRemove, classToAdd, 400, 'swing', function() {
+			sizes[moduleId] = currentSize;
+			console.log(sizes[moduleId]);
+			saveSettings(false);
+		});
 	}
 
-	sizes[moduleId] = currentSize;
-	console.log(sizes[moduleId]);
-	saveSettings(false);
 }
 
 function findBefore(moduleId) {

@@ -1,6 +1,3 @@
-# --- Created by Ebean DDL
-# To stop Ebean DDL generation, remove this comment and start using Evolutions
-
 # --- !Ups
 
 create table module (
@@ -20,14 +17,19 @@ create table module_setting (
 
 
 
-
+create table setting (
+  name                      varchar(255) primary key,
+  value                     varchar(255))
+;
 # --- !Downs
 
 PRAGMA foreign_keys = OFF;
 
-drop table module;
+drop table setting;drop table module;
 
 drop table module_setting;
+
+
 
 PRAGMA foreign_keys = ON;
 
