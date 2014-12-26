@@ -66,7 +66,7 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	@Override
-	public Object bigScreenRefresh(Map<String, String> settings) {
+	public Object bigScreenRefresh(Map<String, String> settings, long count) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -326,5 +326,15 @@ public class PortMapperPlugin implements PlugIn {
 	
 	private class RouterObject {
 		public String name, externalIp;
+	}
+	
+	@Override
+	public int getBackgroundRefreshRate() {
+		return TEN_MINUTES;
+	}
+	
+	@Override
+	public int getBigScreenRefreshRate() {
+		return NO_REFRESH;
 	}
 }

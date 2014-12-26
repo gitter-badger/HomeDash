@@ -37,9 +37,10 @@ public interface PlugIn {
 	/**
 	 * Refresh data on big screen
 	 * @param settings
+	 * @param occurence of refreshing, start with 0
 	 * @return
 	 */
-	public Object bigScreenRefresh(Map<String, String>  settings);
+	public Object bigScreenRefresh(Map<String, String>  settings, long count);
 	
 	/**
 	 * Process a command sent by the client
@@ -102,7 +103,7 @@ public interface PlugIn {
 	public boolean hasCss();
 	
 	/**
-	 * Method that will be done in background wether ther is a client connected or not
+	 * Method that will be done in background wether there is a client connected or not
 	 */
 	public void doInBackground(Map<String, String>  settings);
 	/**
@@ -110,4 +111,16 @@ public interface PlugIn {
 	 * @return
 	 */
 	public int getRefreshRate();
+	
+	/**
+	 * Refresh rate of background tasks
+	 * @return
+	 */
+	public int getBackgroundRefreshRate();
+	
+	/**
+	 * Get refresh rate
+	 * @return
+	 */
+	public int getBigScreenRefreshRate();
 }

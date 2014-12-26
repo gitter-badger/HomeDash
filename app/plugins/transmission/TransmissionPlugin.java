@@ -65,32 +65,17 @@ public class TransmissionPlugin implements PlugIn {
 
 			return getSessionStats();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
 
 	}
 
-	private TorrentSession getSessionStats() throws JSONException, IOException {
-		TorrentSession obj = new TorrentSession();
-
-		Map<SessionField, Object> session = client.getSession();
-		obj.status = client.getSessionStats();
-		obj.rpcVersion = Integer.parseInt(session.get(SessionField.rpcVersion)
-				.toString());
-		obj.alternateSpeeds = (Boolean) session
-				.get(SessionField.altSpeedEnabled);
-
-		return obj;
-	}
-
 	@Override
-	public Object bigScreenRefresh(Map<String, String> settings) {
+	public Object bigScreenRefresh(Map<String, String> settings, long count) {
 		TorrentSession obj = new TorrentSession();
 
 		try {
@@ -141,40 +126,7 @@ public class TransmissionPlugin implements PlugIn {
 		return response;
 	}
 
-	private WebSocketMessage altSpeed(boolean altSpeed) {
-		WebSocketMessage response = new WebSocketMessage();
-		try {
-
-			SessionPair pair = new SessionPair(SessionField.altSpeedEnabled,
-					altSpeed);
-			client.setSession(pair);
-
-			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
-			response.setMessage("Alternate speed set successfully !");
-
-		} catch (Exception e) {
-			response.setMethod(WebSocketMessage.METHOD_ERROR);
-			response.setMessage("Error while seting alternate speed.");
-		}
-		return response;
-	}
-
-	private WebSocketMessage addTorrent(String url) {
-		WebSocketMessage response = new WebSocketMessage();
-		try {
-			AddTorrentParameters params = new AddTorrentParameters(url);
-			client.addTorrent(params);
-			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
-			response.setMessage("Torrent added successfully !");
-
-		} catch (Exception e) {
-			response.setMethod(WebSocketMessage.METHOD_ERROR);
-			response.setMessage("Error while adding torrent.");
-		}
-
-		return response;
-
-	}
+	
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -226,7 +178,69 @@ public class TransmissionPlugin implements PlugIn {
 
 		Logger.info("Transmission client ready !");
 	}
+	
+	@Override
+	public String getExternalLink() {
+		return "http://" + url + ":" + port;
+	}
 
+	@Override
+	public Object saveData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void doInBackground(Map<String, String>  settings) {		
+	}
+	
+	@Override
+	public int getBackgroundRefreshRate() {
+		return NO_REFRESH;
+	}
+	
+	@Override
+	public int getBigScreenRefreshRate() {
+		return FIVE_SECONDS;
+	}
+
+	///////////////
+	/// PLUG IN METHODS
+	
+	private WebSocketMessage altSpeed(boolean altSpeed) {
+		WebSocketMessage response = new WebSocketMessage();
+		try {
+
+			SessionPair pair = new SessionPair(SessionField.altSpeedEnabled,
+					altSpeed);
+			client.setSession(pair);
+
+			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
+			response.setMessage("Alternate speed set successfully !");
+
+		} catch (Exception e) {
+			response.setMethod(WebSocketMessage.METHOD_ERROR);
+			response.setMessage("Error while seting alternate speed.");
+		}
+		return response;
+	}
+
+	private WebSocketMessage addTorrent(String url) {
+		WebSocketMessage response = new WebSocketMessage();
+		try {
+			AddTorrentParameters params = new AddTorrentParameters(url);
+			client.addTorrent(params);
+			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
+			response.setMessage("Torrent added successfully !");
+
+		} catch (Exception e) {
+			response.setMethod(WebSocketMessage.METHOD_ERROR);
+			response.setMessage("Error while adding torrent.");
+		}
+
+		return response;
+
+	}
 	
 	private WebSocketMessage pauseTorrent(int id){
 		WebSocketMessage response = new WebSocketMessage();
@@ -268,8 +282,22 @@ public class TransmissionPlugin implements PlugIn {
 		}
 		return response;
 	}
-	// //
+	
+	private TorrentSession getSessionStats() throws JSONException, IOException {
+		TorrentSession obj = new TorrentSession();
 
+		Map<SessionField, Object> session = client.getSession();
+		obj.status = client.getSessionStats();
+		obj.rpcVersion = Integer.parseInt(session.get(SessionField.rpcVersion)
+				.toString());
+		obj.alternateSpeeds = (Boolean) session
+				.get(SessionField.altSpeedEnabled);
+
+		return obj;
+	}
+	
+	////////////////
+	///// INNER CLASSES
 	private class TorrentSession {
 		public SessionStatus status;
 		public boolean alternateSpeeds;
@@ -311,21 +339,6 @@ public class TransmissionPlugin implements PlugIn {
 		}
 	}
 
-	@Override
-	public String getExternalLink() {
-		return "http://" + url + ":" + port;
-	}
-
-	@Override
-	public Object saveData() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void doInBackground(Map<String, String>  settings) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

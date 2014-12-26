@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 
 import com.google.gson.Gson;
 
+import controllers.Application;
 import models.Module;
 import play.Logger;
 import play.libs.F;
@@ -22,9 +23,16 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 	private boolean refresh = false;
 	private int time = 0;
 	private Gson gson = new Gson();
-
+	private long count = 0;
+	
+	
 	public BigModuleWebSocket(int moduleId) {
-		module = Module.find.byId(moduleId);
+		for(Module module: Application.modules){
+			if(module.id == moduleId){
+				this.module = module;
+				break;
+			}
+		}
 	}
 
 	/**
@@ -81,15 +89,20 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 	private void refreshModules() {
 		try {
 			while (refresh) {
-				if (time % module.getPlugin().getRefreshRate() == 0) {
+				if (time % module.getPlugin().getBigScreenRefreshRate() == 0) {
 					Logger.info("Refreshing module [{}]", module.id);
-					WebSocketMessage response = module.bigScreenRefreshModule();
+					WebSocketMessage response = module.bigScreenRefreshModule(count);
 					response.setMethod("refresh");
 					Logger.debug(response.toJSon());
 					out.write(response.toJSon());
+					count++;
 				}
 				Thread.sleep(1000);
 				time += 1000;
+				
+				if(time > Integer.MAX_VALUE){
+					time = 0;
+				}
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

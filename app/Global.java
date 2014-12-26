@@ -12,10 +12,13 @@ import views.html.login;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import background.BackgroundTasks;
 import models.Setting;
 
 public class Global extends GlobalSettings {
 
+	private BackgroundTasks backgroundTasks;
+	
 	@Override
 	public Action onRequest(final Request request, Method actionMethod) {
 		System.out.println("before each request..." + request.toString() + " Method:" + actionMethod.getModifiers());
@@ -47,5 +50,16 @@ public class Global extends GlobalSettings {
 			}
 		}
 		return super.onRequest(request, actionMethod);
+	}
+	
+	@Override
+	public void onStart(Application arg0) {
+		backgroundTasks= new BackgroundTasks();
+	}
+	
+	@Override
+	public void onStop(Application arg0) {
+		backgroundTasks.shutdown();
+		super.onStop(arg0);
 	}
 }

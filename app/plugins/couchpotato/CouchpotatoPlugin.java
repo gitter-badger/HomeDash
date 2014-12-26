@@ -59,7 +59,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	}
 
 	@Override
-	public Object bigScreenRefresh(Map<String, String> settings) {
+	public Object bigScreenRefresh(Map<String, String> settings, long count) {
 		return null;
 	}
 
@@ -206,7 +206,6 @@ public class CouchpotatoPlugin implements PlugIn {
 
 	@Override
 	public Object saveData() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -214,6 +213,16 @@ public class CouchpotatoPlugin implements PlugIn {
 	public void doInBackground(Map<String, String>  settings) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getBackgroundRefreshRate() {
+		return NO_REFRESH;
+	}
+
+	@Override
+	public int getBigScreenRefreshRate() {
+		return NO_REFRESH;
 	}
 
 }

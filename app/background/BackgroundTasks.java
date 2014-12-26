@@ -11,6 +11,7 @@ import controllers.Application;
 public class BackgroundTasks implements Runnable {
 	private ExecutorService exec = Executors.newSingleThreadExecutor();
 	private boolean refresh = true;
+	private long time = 0;
 
 	public BackgroundTasks() {
 		exec.execute(this);
@@ -22,15 +23,28 @@ public class BackgroundTasks implements Runnable {
 			try {
 
 				for (Module module : Application.modules) {
-					module.doInBackground();
+					int refreshRate = module.getPlugin().getBackgroundRefreshRate();
+					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0) {
+						module.doInBackground();
+						module.saveData();
+					}
 				}
 
-				Thread.sleep(PlugIn.TEN_MINUTES);
+				Thread.sleep(PlugIn.ONE_SECOND);
+				time += 1000;
+				if(time > Integer.MAX_VALUE){
+					time = 0;
+				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void shutdown() {
+		this.refresh = false;
+		exec.shutdown();
 	}
 
 }

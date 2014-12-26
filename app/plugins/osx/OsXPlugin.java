@@ -50,7 +50,7 @@ public class OsXPlugin implements PlugIn {
 	}
 
 	@Override
-	public Object bigScreenRefresh(Map<String, String> settings) {
+	public Object bigScreenRefresh(Map<String, String> settings, long count) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -234,5 +234,14 @@ public class OsXPlugin implements PlugIn {
 		apps.remove("Finder");
 		return apps;
 	}
-
+	
+	@Override
+	public int getBackgroundRefreshRate() {
+		return NO_REFRESH;
+	}
+	
+	@Override
+	public int getBigScreenRefreshRate() {
+		return NO_REFRESH;
+	}
 }

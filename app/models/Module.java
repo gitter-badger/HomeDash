@@ -81,12 +81,12 @@ public class Module extends Model implements Comparable<Module> {
 		}
 	}
 
-	public WebSocketMessage bigScreenRefreshModule() {
+	public WebSocketMessage bigScreenRefreshModule(long count) {
 		try {
 			WebSocketMessage response = new WebSocketMessage();
 			response.setMethod(WebSocketMessage.METHOD_REFRESH);
 			response.setId(id);
-			response.setMessage(plugin.bigScreenRefresh(settingsMap));
+			response.setMessage(plugin.bigScreenRefresh(settingsMap, count));
 			return response;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

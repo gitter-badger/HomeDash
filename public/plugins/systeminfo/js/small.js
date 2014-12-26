@@ -16,7 +16,7 @@ function systeminfo(moduleId){
 		
 		var ramPercent = Math.ceil((obj.usedRam / obj.maxRam) * 100);
 		
-		var cpu = Math.ceil(obj.cpuUsage*100);
+		var cpu = Math.ceil(obj.cpuUsage);
 				
 		
 		

@@ -10,6 +10,9 @@ import notifications.implementations.PushBullet;
 public class Notifications {
 	
 	public static void send(String title, String body){
+		
+		title = "Home Dash: "+title;
+		
 		if(Setting.get(Setting.PUSH_BULLET).equalsIgnoreCase("1")){
 			PushBullet pb = new PushBullet();
 			Map<String, String> settings = new HashMap<String, String>();

@@ -22,7 +22,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 
 	private ExecutorService exec;
 	private boolean refresh = false;
-	private int time = 0;
+	private long time = 0;
 
 	Map<Long, WebSocketClient> clients = new Hashtable<Long, ModulesWebSocket.WebSocketClient>();
 
@@ -143,6 +143,9 @@ public class ModulesWebSocket extends WebSocket<String> {
 				}
 				Thread.sleep(1000);
 				time += 1000;
+				if(time > Integer.MAX_VALUE){
+					time = 0;
+				}
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

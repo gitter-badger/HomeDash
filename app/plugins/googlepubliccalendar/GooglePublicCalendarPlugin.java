@@ -104,7 +104,7 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	}
 
 	@Override
-	public Object bigScreenRefresh(Map<String, String> settings) {
+	public Object bigScreenRefresh(Map<String, String> settings, long count) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -175,14 +175,21 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 
 	@Override
 	public Object saveData() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void doInBackground(Map<String, String>  settings) {
-		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public int getBackgroundRefreshRate() {
+		return NO_REFRESH;
+	}
+	
+	@Override
+	public int getBigScreenRefreshRate() {
+		return NO_REFRESH;
 	}
 
 }

@@ -1,11 +1,21 @@
 @* settings Template File *@
 @(module: Module)
+
+<div class="checkbox">
+  <label for="notifications">
+    <input type="checkbox" name="notifications" id="notifications" value="1"
+    	@if(module.getSettingsMap().containsKey("notifications")){
+    		checked="true"
+			@module.getSettingsMap().remove("notifications")
+    	}
+    > Send notification when CPU or RAM are on high load.
+  </label>
+</div>
 <p><button id="add-path" class="btn btn-primary">Add path to monitor</button></p>
 
 <div id="paths">
 @if(module != null){
 	@for((setting, index) <- module.getSettingsMap().keySet().zipWithIndex){
-		
 			<div id="path-div-@index" data-path="@index" class="form-group">
 		    	<label for="path-@index">Path</label>
 		    	<div class="input-group">
