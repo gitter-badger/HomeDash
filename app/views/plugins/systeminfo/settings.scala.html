@@ -4,7 +4,7 @@
 <div class="checkbox">
   <label for="notifications">
     <input type="checkbox" name="notifications" id="notifications" value="1"
-    	@if(module.getSettingsMap().containsKey("notifications")){
+    	@if(module != null && module.getSettingsMap().containsKey("notifications")){
     		checked="true"
 			@module.getSettingsMap().remove("notifications")
     	}
