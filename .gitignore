@@ -19,3 +19,4 @@ platypus.sh
 conf/home.conf
 
 public/plugins/osx/images/*
+cache/public/plugins/osx/images/*

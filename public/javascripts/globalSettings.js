@@ -5,6 +5,7 @@ $(document).ready(function(){
 		$('input[type=checkbox]').click(updateCheckbox);
 		
 		$('#test-notifications').click(testNotifications);
+		$('#generate-api').click(generateAPI);
 });
 
 function updateCheckbox(){
@@ -38,4 +39,10 @@ function displayCheckBoxDependencies(checkbox){
 function testNotifications(){
 	$.get('/globalSettings/testNotifications');
 	return false;
+}
+
+function generateAPI(){
+	$.get('/globalSettings/generateAPIKey', function(result){
+		$('#api_key').val(result);
+	});
 }

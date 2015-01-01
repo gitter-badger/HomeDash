@@ -40,6 +40,9 @@
 						
 							
 						<h3>
+							@if(module.remote == Module.REMOTE){
+								@module.getSettingsMap().get("name")'s 
+							}
 							@module.getPlugin().getName()
 						</h3>
 						<div style="position:relative;">

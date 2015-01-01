@@ -2,12 +2,14 @@ package controllers;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import exceptions.FormException;
 import models.Setting;
 import notifications.Notifications;
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.globalSettings;
@@ -97,4 +99,15 @@ public class GlobalSettings extends Controller {
 		return ok();
 	}
 
+	
+	public static Result generateAPI(){
+		String apiKey;
+		try {
+			apiKey = Login.hashString(new Date()+Play.application().path().getAbsolutePath()+System.currentTimeMillis());
+		} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			return notFound();
+		}
+		
+		return ok(apiKey);
+	}
 }

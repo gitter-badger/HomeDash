@@ -9,7 +9,7 @@ import play.db.ebean.Model;
 public class Setting extends Model {
 	private static final long serialVersionUID = 6941203591683647795L;
 
-	public static String AUTHENTICATE = "authenticate", USER_NAME = "username", PASSWORD = "password", PUSH_BULLET = "pushbullet", PUSH_BULLET_API_KEY = "pushbullet_api";
+	public static String AUTHENTICATE = "authenticate", USER_NAME = "username", PASSWORD = "password", PUSH_BULLET = "pushbullet", PUSH_BULLET_API_KEY = "pushbullet_api", DEVICE_NAME = "device_name", API_KEY = "api_key";
 
 	@Id
 	public String name;

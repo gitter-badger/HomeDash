@@ -6,6 +6,8 @@
 GET     /                           controllers.Application.index()
 GET     /ws                         controllers.Application.socket()
 GET		/add						controllers.Application.add()
+GET		/addRemote					controllers.Application.addRemote()
+POST	/addRemoteModule			controllers.Application.addRemoteModule()
 GET		/addModule/:moduleClass		controllers.Application.addModule(moduleClass: String)
 POST 	/saveModule					controllers.Application.saveModule()
 GET		/big/:id					controllers.Application.showBig(id: Integer)
@@ -14,15 +16,24 @@ POST	/settings					controllers.Application.settings()
 GET		/edit/:id					controllers.Application.editModule(id: Integer)
 POST	/saveModule/:id				controllers.Application.saveEdittedModule(id :Integer)
 GET		/deleteModule/:id			controllers.Application.deleteModule(id: Integer)
+POST 	/exploreRemoteHost			controllers.Application.exploreRemoteHost()
 
 #Settings
 GET		/globalSettings				controllers.GlobalSettings.index()
 POST	/globalSettings/save		controllers.GlobalSettings.save()
 GET		/globalSettings/testNotifications controllers.GlobalSettings.testNotifications()
+GET		/globalSettings/generateAPIKey controllers.GlobalSettings.generateAPI()
 
 #Login
 POST	/login						controllers.Login.login()
 GET		/logout						controllers.Login.logout()
+
+#API
+POST	/api/explore				controllers.API.explore()
+POST	/api/refreshModule/:id		controllers.API.refreshModule(id: Integer)
+POST	/api/bigRefreshModule/:id/:count		controllers.API.bigRefreshModule(id: Integer, count: Long)
+POST	/api/sendMessage/:id		controllers.API.sendMessage(id: Integer)
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 GET		/cache/*file				controllers.FileCache.at(file: String)

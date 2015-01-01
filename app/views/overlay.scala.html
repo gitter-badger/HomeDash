@@ -3,7 +3,7 @@
 <div class="module-settings-overlay" data-moduleId="@module.id">
  	<div>
  		<ul class="floatRight">
-			@if(module.getPlugin().hasSettings()){
+			@if(module.getPlugin().hasSettings() && module.remote == Module.LOCAL){
 				<li><a href="@controllers.routes.Application.editModule(module.id)"><span class="glyphicon glyphicon-wrench"></span></a></li>
 			}
 			<li><a href="@controllers.routes.Application.deleteModule(module.id)"><span class="glyphicon glyphicon-remove"></span></a></li>

@@ -50,7 +50,7 @@
 				    </label>
   				</div>
   				<div class="form-group @Setting.PUSH_BULLET">
-				    <label for="@Setting.PUSH_BULLET_API_KEY">Password</label>
+				    <label for="@Setting.PUSH_BULLET_API_KEY">API Key</label>
 				    <input type="text" class="form-control" id="@Setting.PUSH_BULLET_API_KEY" name="@Setting.PUSH_BULLET_API_KEY" placeholder="API key"
 				    @if(settings.contains(Setting.PUSH_BULLET_API_KEY)){
 						value="@settings.get(Setting.PUSH_BULLET_API_KEY).value"
@@ -66,6 +66,41 @@
   				
 			</div>
 		</div>
+		
+		<div class="row">
+			<div class="col-md-12 module">
+				<h3>Remote</h3>
+				<p><small>Settings for sharing your modules with other instances of HomeDash</small></p>
+  				<div class="form-group">
+				    <label for="@Setting.DEVICE_NAME">Device name</label>
+				    <input type="text" class="form-control" id="@Setting.DEVICE_NAME" name="@Setting.DEVICE_NAME" placeholder="Device name"
+				    @if(settings.contains(Setting.DEVICE_NAME)){
+						value="@settings.get(Setting.DEVICE_NAME).value"
+					}
+				    />
+				    @if(errors.contains(Setting.DEVICE_NAME)){
+				    	<span id="helpBlock" class="help-block">@errors.get(Setting.DEVICE_NAME)</span>
+				    }
+  				</div>
+  				
+  				<div class="form-group">
+				    <label for="@Setting.API_KEY">API Key</label>
+				    <input type="text" class="form-control" id="@Setting.API_KEY" name="@Setting.API_KEY" placeholder="API key"
+				    @if(settings.contains(Setting.API_KEY)){
+						value="@settings.get(Setting.API_KEY).value"
+					}
+				    readonly/>
+				    <span class="input-group-btn">
+					    <button class="btn btn-success" id="generate-api" type="button">Generate API key</button>
+				    </span>
+				    @if(errors.contains(Setting.API_KEY)){
+						<span id="helpBlock" class="help-block">@errors.get(Setting.API_KEY)</span>
+					}
+  				</div>
+			</div>
+		</div>
+		
+		
 		<div class="row">
 			<div class="col-md-12">
 				<input type="submit" class="col-md-3 btn btn-primary" value="Save" />
