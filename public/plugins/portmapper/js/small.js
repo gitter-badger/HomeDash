@@ -61,7 +61,7 @@ function portmapper(moduleId){
 	this.port2Html = function(mapping){
 		var html = [];
 		if(mapping.forced){
-			html.push('<tr class="info">');
+			html.push('<tr class="success">');
 		}else{
 			html.push('<tr>');
 		}
