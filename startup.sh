@@ -2,13 +2,13 @@
 
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+chmod +x $DIR/activator
+
+$DIR/activator clean stage
+
 FULLDIR=$DIR"/target/universal/stage"
 
 echo $FULLDIR
-
-chmod +x $DIR/activator
-
-chmod +x $DIR/activator clean stage
 
 kill -9 $(cat $FULLDIR/RUNNING_PID)
 
