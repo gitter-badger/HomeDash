@@ -6,8 +6,9 @@ FULLDIR=$DIR"/target/universal/stage"
 
 PID=$FULLDIR"/RUNNING_PID"
 
+echo $DIR
 
-cd $DIR
+cd "$DIR"
 
 
 function stop {
