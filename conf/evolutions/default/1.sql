@@ -1,29 +1,32 @@
 # --- !Ups
 
-create table module (
-  id                        integer primary key AUTOINCREMENT,
-  size                      integer,
-  module_order              integer,
-  plugin_id                 varchar(255),
-  data                      TEXT)
+CREATE TABLE `module` (
+	`id` INT(10)  AUTO_INCREMENT,
+	`size` INT(1),
+	`module_order` INT(3),
+	`plugin_id` VARCHAR(255),
+	`data` TEXT,
+	PRIMARY KEY (`id`)
+)
 ;
+	
+CREATE TABLE `module_setting`(
+	`id` INT(10) AUTO_INCREMENT,
+	`module_id` INT(10),
+	`name` VARCHAR(255),
+	`value` VARCHAR(255),
+	PRIMARY KEY (`id`)
+);
 
-create table module_setting (
-  id                        integer primary key AUTOINCREMENT,
-  module_id                 integer,
-  name                      varchar(255),
-  value                     varchar(255))
-;
 
 
-
-create table setting (
-  name                      varchar(255) primary key,
-  value                     varchar(255))
-;
+CREATE TABLE `setting` (
+  `name` VARCHAR(255),
+  `value` VARCHAR(255),
+  PRIMARY KEY (`name`)
+);
 # --- !Downs
 
-PRAGMA foreign_keys = OFF;
 
 drop table setting;drop table module;
 
@@ -31,5 +34,4 @@ drop table module_setting;
 
 
 
-PRAGMA foreign_keys = ON;
 
