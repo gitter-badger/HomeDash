@@ -6,7 +6,6 @@ FULLDIR=$DIR"/target/universal/stage"
 
 PID=$FULLDIR"/RUNNING_PID"
 
-echo $DIR
 
 cd "$DIR"
 
@@ -35,8 +34,8 @@ function start {
 
         chmod +x $FULLDIR/bin/homedash
 
-        echo Starting Home Dash
-        $FULLDIR/bin/homedash -Dhttp.port=9000 -DapplyEvolutions.default=true  -DapplyDownEvolutions.default=true -J-Xms64M -J-Xmx128M
+        echo "Starting Home Dash in the background"
+        nohup $FULLDIR/bin/homedash -Dhttp.port=9000 -DapplyEvolutions.default=true  -DapplyDownEvolutions.default=true -J-Xms64M -J-Xmx128M &> "$DIR/homedash.log" &
 
     fi
 }

@@ -16,6 +16,8 @@ dist
 HomeDash.db
 platypus.sh
 
+*.log
+
 conf/home.conf
 
 public/plugins/osx/images/*
