@@ -18,6 +18,7 @@ import org.apache.commons.imaging.formats.icns.IcnsImageParser;
 import org.xml.sax.SAXException;
 
 import play.Logger;
+import play.Play;
 
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
@@ -122,8 +123,9 @@ public class OsXUtils {
 	}
 
 	public static boolean convertIcnsToPng(String iconPath, String pngPath) throws Exception {
-		pngPath = System.getProperty("user.dir") + "/" + pngPath;
+		//pngPath = Play.application().path().getPath() + "/" + pngPath;
 
+		Logger.info("Converting from [{}] to [{}]", iconPath, pngPath);
 		if (!iconPath.endsWith(".icns")) {
 			iconPath += ".icns";
 		}

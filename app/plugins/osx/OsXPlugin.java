@@ -3,12 +3,21 @@ package plugins.osx;
 import interfaces.PlugIn;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import com.dd.plist.PropertyListFormatException;
 
 import misc.Utils;
 import models.Module;
 import play.Logger;
+import play.Play;
 import play.twirl.api.Html;
 import views.html.plugins.osx.small;
 import websocket.WebSocketMessage;
@@ -16,6 +25,7 @@ import websocket.WebSocketMessage;
 public class OsXPlugin implements PlugIn {
 	private Map<String, OsXApp> apps;
 	private final String PNG_PATH = "cache/plugins/osx/images/";
+	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/"+PNG_PATH;
 
 	private final String START_APP = "startApp", ACTIVATE_APP = "activateApp", QUIT_APP = "quitApp";
 	
@@ -133,7 +143,7 @@ public class OsXPlugin implements PlugIn {
 	@Override
 	public void init(Map<String, String> settings, String data) {
 		// TODO Auto-generated method stub
-		File f = new File(PNG_PATH);
+		File f = new File(FULL_PNG_PATH);
 		if(!f.exists()){
 			f.mkdirs();
 		}
@@ -153,13 +163,11 @@ public class OsXPlugin implements PlugIn {
 
 	@Override
 	public void doInBackground(Map<String, String> settings) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public int getRefreshRate() {
-		// TODO Auto-generated method stub
 		return PlugIn.TEN_SECONDS*2;
 	}
 
@@ -175,24 +183,11 @@ public class OsXPlugin implements PlugIn {
 				OsXApp app = new OsXApp();
 				app.setPath(Utils.removeLastCharacter(appPath.replace("file://", "").replace("%20", " ")));
 
-				Logger.info("Found Dock application at path {}", app.getPath());
-
-				split = app.getPath().split("/");
-				app.setName(split[split.length - 1].replace(".app", ""));
+				setApp(app);
 
 				if (app.getName().equalsIgnoreCase("java")) {
 					continue;
 				}
-
-				app.setIcnsPath(OsXUtils.getIconPath(app.getPath() + "/Contents/info.plist"));
-
-				String pngName = PNG_PATH + app.getName() + ".png";
-				pngName = pngName.replaceAll("( )+", "");
-				app.setPngPath(pngName);
-				if (!new File(pngName).exists()) {
-					OsXUtils.convertIcnsToPng(app.getIcnsPath(), pngName);
-				}
-
 				apps.put(app.getName(), app);
 			}
 		}
@@ -211,19 +206,7 @@ public class OsXPlugin implements PlugIn {
 					OsXApp app = new OsXApp();
 					app.setPath(Utils.removeLastCharacter(OsXUtils.getAppPath(appName)));
 
-					Logger.info("Found Dock application at path {}", app.getPath());
-
-					split = app.getPath().split("/");
-					app.setName(split[split.length - 1].replace(".app", ""));
-
-					app.setIcnsPath(OsXUtils.getIconPath(app.getPath() + "/Contents/info.plist"));
-
-					String pngName = PNG_PATH + app.getName() + ".png";
-					pngName = pngName.replaceAll("( )+", "");
-					app.setPngPath(pngName);
-					if (!new File(pngName).exists()) {
-						OsXUtils.convertIcnsToPng(app.getIcnsPath(), pngName);
-					}
+					setApp(app);
 
 					app.setRunning(true);
 					apps.put(app.getName(), app);
@@ -233,6 +216,28 @@ public class OsXPlugin implements PlugIn {
 
 		apps.remove("Finder");
 		return apps;
+	}
+	
+	private void setApp(OsXApp app) throws Exception{
+		String[] split;
+		Logger.info("Found Dock application at path {}", app.getPath());
+
+		split = app.getPath().split("/");
+		app.setName(split[split.length - 1].replace(".app", ""));
+
+		
+
+		app.setIcnsPath(OsXUtils.getIconPath(app.getPath() + "/Contents/info.plist"));
+
+		String pngName = PNG_PATH + app.getName() + ".png";
+		pngName = pngName.replaceAll("( )+", "");
+
+		String fullPngName = FULL_PNG_PATH + app.getName() + ".png";
+		fullPngName = fullPngName.replaceAll("( )+", "");
+		app.setPngPath(pngName);
+		if (!new File(fullPngName).exists()) {
+			OsXUtils.convertIcnsToPng(app.getIcnsPath(), fullPngName);
+		}
 	}
 	
 	@Override

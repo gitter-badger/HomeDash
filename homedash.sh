@@ -12,6 +12,7 @@ PID=$FULLDIR"/RUNNING_PID"
 function stop {
     if [ -e $PID ]
     then
+        echo "Stopping Home Dash"
         kill -9 $(cat $FULLDIR/RUNNING_PID)
 
         rm $FULLDIR/RUNNING_PID
@@ -26,11 +27,14 @@ function start {
     then
         echo "Home Dash is already running. If it is not, delete the file $PID"
     else
+        echo "Compiling Home Dash...."
+
         $DIR/activator clean stage
 
         chmod +x $FULLDIR/bin/homedash
 
-        nohup $FULLDIR/bin/homedash -Dhttp.port=9000 -DapplyEvolutions.default=true  -DapplyDownEvolutions.default=true -J-Xms64M -J-Xmx128M >/dev/null 2>&1 &
+        echo Starting Home Dash
+        $FULLDIR/bin/homedash -Dhttp.port=9000 -DapplyEvolutions.default=true  -DapplyDownEvolutions.default=true -J-Xms64M -J-Xmx128M
 
     fi
 }
@@ -47,7 +51,6 @@ then
 elif [ $1 == "start" ]
 then
     start
-
 elif [ $1 == "restart" ]
 then
     restart
