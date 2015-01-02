@@ -33,7 +33,7 @@ public class PortMapperPlugin implements PlugIn {
 	private GatewayDevice router;
 	private final String METHOD_GET_ROUTER = "getRouter",
 			METHOD_GET_MAPPINGS = "getMappings", METHOD_ADDPORT = "addPort",
-			METHOD_REMOVE_PORT = "removePort", METHOD_ADDPORTFORCED = "addPortForce";
+			METHOD_REMOVE_PORT = "removePort", METHOD_ADDPORTFORCED = "addPortForce", SAVE_PORT = "savePort";
 
 	@Override
 	public String getId() {
@@ -132,9 +132,21 @@ public class PortMapperPlugin implements PlugIn {
 				response.setMessage("Error while Removing port:" + e.getMessage());
 				response.setMethod("error");
 			}
+		}else if (method.equalsIgnoreCase(SAVE_PORT)) {
+			try {
+				savePort(command);
+				response.setMethod(SAVE_PORT);
+				response.setMessage(getMappings());
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.setMessage("Error while Removing port:" + e.getMessage());
+				response.setMethod("error");
+			}
 		}
 		return response;
 	}
+
+	
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -220,11 +232,15 @@ public class PortMapperPlugin implements PlugIn {
 			} while (portMapping != null);
 			
 			
+			//Checking against forced ports
 			for(MappingObject mapping:forcedPorts){
 				if(!result.contains(mapping)){
-					Logger.info("Mapping {} on port {} messing", mapping.protocol, mapping.externalPort);
+					Logger.info("Mapping {} on port {} missing", mapping.protocol, mapping.externalPort);
 					router.addPortMapping(mapping.externalPort, mapping.internalPort, mapping.internalIp, mapping.protocol, mapping.name);
 					result.add(mapping);
+				}else{
+					int index = result.indexOf(mapping);
+					result.get(index).forced = true;
 				}
 			}
 		} else {
@@ -260,12 +276,28 @@ public class PortMapperPlugin implements PlugIn {
 			MappingObject mapping = new MappingObject();
 			mapping.externalPort = Integer.parseInt(split[0]);
 			mapping.protocol = split[1];
+			mapping.forced = true;
 			
 			if(forcedPorts.contains(mapping)){
 				Logger.info("Port in saved list, removing it");
 				forcedPorts.remove(mapping);
 			}
 		}
+	}
+	
+	private void savePort(String message) {
+		Logger.info("Saving port:{}", message);
+		String split[] = message.split("\\|");
+		
+		MappingObject mapping = new MappingObject();
+		mapping.forced = true;
+		mapping.protocol = split[1];
+		mapping.externalPort = Integer.parseInt(split[0]);
+		mapping.internalPort = Integer.parseInt(split[0]);
+		mapping.internalIp = split[2];
+		mapping.name = split[3];
+
+		forcedPorts.add(mapping);		
 	}
 
 	private void addPort(String message, boolean forced) throws NumberFormatException,
@@ -282,7 +314,7 @@ public class PortMapperPlugin implements PlugIn {
 				obj.internalIp = split[4];
 				obj.protocol = split[1];
 				obj.name = split[0];
-				
+				obj.forced = true;
 				if(!forcedPorts.contains(obj)){
 					forcedPorts.add(obj);
 					Logger.info("Added ports to forced ports. Size: {}", forcedPorts.size());
@@ -312,7 +344,7 @@ public class PortMapperPlugin implements PlugIn {
 	private class MappingObject {
 		public String protocol, name, internalIp;
 		public int externalPort, internalPort;
-		
+		public boolean forced = false;
 		@Override
 		public boolean equals(Object obj) {
 			try{

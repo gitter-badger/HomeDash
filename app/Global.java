@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import background.BackgroundTasks;
+import models.Module;
 import models.Setting;
 
 public class Global extends GlobalSettings {
@@ -113,7 +114,13 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public void onStop(Application arg0) {
+		Logger.info("Stopping background tasks");
 		backgroundTasks.shutdown();
 		super.onStop(arg0);
+		
+		Logger.info("Saving modules data");
+		for(Module m: controllers.Application.modules){
+			m.saveData();
+		}
 	}
 }

@@ -5,6 +5,9 @@ function portmapper(moduleId){
 			this.getRouter(message);
 		}else if(command = 'refresh' || command == 'getMappings'){
 			this.getMappings(message);
+		}else if (command = 'savePort'){
+			showSuccessMessage('Port saved successfully');
+			this.getMappings(message);
 		}
 	}
 	
@@ -27,6 +30,10 @@ function portmapper(moduleId){
 		
 		$(document).on('click', '.mapper'+this.moduleId+'-remove-port', function(){
 			parent.removePort($(this).attr('data'));
+		});
+		
+		$(document).on('click', '.mapper'+this.moduleId+'-save-port', function(){
+			parent.savePort($(this).attr('data'));
 		});
 	}
 	
@@ -53,13 +60,25 @@ function portmapper(moduleId){
 	
 	this.port2Html = function(mapping){
 		var html = [];
-		html.push('<tr>');
+		if(mapping.forced){
+			html.push('<tr class="info">');
+		}else{
+			html.push('<tr>');
+		}
 		html.push('<td>',mapping.name,'</td>');
 		html.push('<td>',mapping.protocol,'</td>');
 		html.push('<td>',mapping.externalPort,'</td>');
 		html.push('<td>',mapping.internalPort,'</td>');
 		html.push('<td>',mapping.internalIp,'</td>');
-		html.push('<td><button class="btn btn-danger btn-xs mapper',this.moduleId,'-remove-port" data="',mapping.externalPort,'|',mapping.protocol,'"><span class="glyphicon glyphicon-remove"></span></button></td>');
+		html.push('<td>');
+		html.push('<button class="btn btn-danger btn-xs mapper',this.moduleId,'-remove-port" data="',mapping.externalPort,'|',mapping.protocol,'"><span class="glyphicon glyphicon-remove"></span></button>');
+
+		if(!mapping.forced){
+			html.push('&nbsp;&nbsp;');
+			html.push('<button class="btn btn-success btn-xs mapper',this.moduleId,'-save-port" data="',mapping.externalPort,'|',mapping.protocol,'|',mapping.internalIp,'|',mapping.name,'"><span class="glyphicon glyphicon-plus"></span></button>');
+		}
+
+		html.push('</td>');
 		html.push('</tr>');
 		
 		return html.join('');
@@ -91,6 +110,10 @@ function portmapper(moduleId){
 		if(confirm('Delete this port ?')){
 			sendMessage(this.moduleId, 'removePort', data);
 		}
+	}
+	
+	this.savePort = function(data){
+			sendMessage(this.moduleId, 'savePort', data);
 	}
 	
 	
