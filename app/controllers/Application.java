@@ -13,6 +13,7 @@ import java.util.Map;
 import misc.Constants;
 import misc.HttpTools;
 import models.Module;
+import models.Page;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -28,7 +29,7 @@ import websocket.ModulesWebSocket;
 
 public class Application extends Controller {
 
-	private static ModulesWebSocket ws = new ModulesWebSocket();
+	public static ModulesWebSocket ws = new ModulesWebSocket();
 
 	public static List<Module> modules = Module.find.all();
 
@@ -42,7 +43,7 @@ public class Application extends Controller {
 		 * block e.printStackTrace(); } }
 		 */
 
-		return ok(index.render(modules));
+		return ok(index.render(modules, Page.find.all()));
 	}
 
 	public static WebSocket<String> socket() {
@@ -73,11 +74,12 @@ public class Application extends Controller {
 
 	}
 
-	public static Result addRemoteModule() {
+	public static Result addRemoteModule(int page) {
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 
 		Module module = new Module();
-		module.remote = 1;
+		module.remote = Module.REMOTE;
+		module.page = page;
 		module.pluginId = values.get("class")[0];
 
 		Map<String, String> settings = new Hashtable<String, String>();
@@ -105,7 +107,7 @@ public class Application extends Controller {
 		return redirect("/");
 	}
 
-	public static Result addModule(String moduleClass) {
+	public static Result addModule(int page, String moduleClass) {
 		Class<?> clazz;
 		try {
 			clazz = Class.forName(moduleClass);
@@ -116,6 +118,7 @@ public class Application extends Controller {
 			if (!plugin.hasSettings()) {
 				Module module = new Module();
 				module.pluginId = plugin.getClass().getName();
+				module.page = page;
 				module.save();
 
 				modules = Module.find.all();
@@ -123,7 +126,7 @@ public class Application extends Controller {
 				return redirect("/");
 
 			} else {
-				return ok(moduleSettings.render(plugin));
+				return ok(moduleSettings.render(plugin, page));
 			}
 
 		} catch (Exception e) {
@@ -135,7 +138,7 @@ public class Application extends Controller {
 
 	}
 
-	public static Result saveModule() {
+	public static Result saveModule(int page) {
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 		Map<String, String> settings = new java.util.Hashtable<String, String>();
 
@@ -156,6 +159,7 @@ public class Application extends Controller {
 			Module module = new Module();
 			module.pluginId = plugin.getClass().getName();
 			module.setSettingsMap(settings);
+			module.page = page;
 			module.save();
 
 			modules = Module.find.all();

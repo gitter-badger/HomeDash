@@ -137,6 +137,10 @@ btn-success {
 .floatRight {
 	float: right;
 }
+
+.floatLeft {
+	float: left;
+}
 /*
 *Overlays
 */

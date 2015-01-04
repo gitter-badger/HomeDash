@@ -1,0 +1,86 @@
+#pages {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 200px;
+	background-color: #2C3C7F;
+	border-bottom: 3px solid #5677fc;
+	z-index: 500;
+	padding-top: 60px;
+	display: none;
+}
+
+#pages {
+	overflow-x: auto;
+	white-space: nowrap;
+	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
+	-moz-user-select: none; /* mozilla browsers */
+	-khtml-user-select: none; /* webkit (konqueror) browsers */
+	-ms-user-select: none; /* IE10+ */
+}
+
+#pages ul {
+	list-style: none;
+	overflow-x: auto;
+	white-space: nowrap;
+	overflow-y: hidden;
+}
+
+#pages ul::-webkit-scrollbar {
+	display: none;
+}
+
+#pages ul li {
+	display: inline-block;
+}
+
+.page {
+	width: 70px;
+	margin-right: 20px;
+}
+
+.page-icon,.add-page {
+	display: block;
+	margin: 5px;
+	height: 100px;
+	border: 1px solid #fff;
+}
+
+a.add-page {
+	border: 1px dotted #fff;
+	font-size: 30px;
+	text-align: center;
+	color: white;
+	padding-top: 30px;
+}
+
+a.page-icon.active {
+	background-color: #5677fc;
+}
+
+.page-name {
+	width: 100%;
+	color: #fff;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.page-button {
+	padding: 5px;
+	color: #2C3C7F;
+	border-radius: 50%;
+	background-color: #fff;
+	font-size: 7px;
+	bottom: 15px;
+}
+
+.remove-page {
+	float: right;
+}
+
+.edit-page {
+	float: left;
+}

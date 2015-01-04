@@ -12,7 +12,7 @@
     			<h3>
     				@name
     			</h3>
-    			<p><a class="internal-link" href="addModule/@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
+    			<p><a class="internal-link module-link" data="@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
     		</div>
     	</div>
     
@@ -21,8 +21,24 @@
 	} 
 	
 	<script type="text/javascript">
-  		$(document).ready(function(){
-  			$("#showSettings").hide();
+		var CURRENT_PAGE = 1;
+		$(document).ready(function() {
+
+		if(typeof(Storage) !== "undefined") {
+			var page = localStorage.getItem("page");
+			if(page != undefined){
+				CURRENT_PAGE = page; 
+			}
+		}
+
+		var links = $('.module-link');
+		links.each(function(index, value){
+			$(this).attr('href', '/addModule/'+CURRENT_PAGE+'/'+$(this).attr('data'));
+		});
+
+
+
+  			$(".persistent-setting").hide();
   			$("#global-overlay").hide();
 
   			$(".internal-link").click(function(event){

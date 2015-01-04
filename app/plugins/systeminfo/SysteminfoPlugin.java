@@ -92,7 +92,7 @@ public class SysteminfoPlugin implements PlugIn {
 
 				data.usedRam = ram.usedRam;
 			}
-			
+
 			for (String path : roots) {
 
 				File root = new File(path);
@@ -190,30 +190,34 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public void doInBackground(Map<String, String> settings) {
-		CpuInfo cpu = getCPUInfo(osBean);
-		RamInfo ram = getRamInfo(osBean);
+		try {
+			CpuInfo cpu = getCPUInfo(osBean);
+			RamInfo ram = getRamInfo(osBean);
 
-		if (settings.containsKey(SETTING_NOTIFICATIONS) && cpuInfo.size() > 0 && ramInfo.size() > 0) {
-			CpuInfo oldCpu = cpuInfo.get(cpuInfo.size() - 1);
-			RamInfo oldRam = ramInfo.get(ramInfo.size() - 1);
+			if (settings.containsKey(SETTING_NOTIFICATIONS) && cpuInfo.size() > 0 && ramInfo.size() > 0) {
+				CpuInfo oldCpu = cpuInfo.get(cpuInfo.size() - 1);
+				RamInfo oldRam = ramInfo.get(ramInfo.size() - 1);
 
-
-			if ((oldCpu.cpuUsage < WARNING_THRESHOLD && cpu.cpuUsage >= WARNING_THRESHOLD) || (oldRam.percentageUsed < WARNING_THRESHOLD && ram.percentageUsed >= WARNING_THRESHOLD)) {
-				Logger.debug("Sending high load warning");
-				Notifications.send("Warning", "CPU load (" + nf.format(cpu.cpuUsage) + "%) or Ram load (" + nf.format(ram.percentageUsed) + "%)  became over " + WARNING_THRESHOLD + "%.\n Date: "
-						+ new Date());
+				if ((oldCpu.cpuUsage < WARNING_THRESHOLD && cpu.cpuUsage >= WARNING_THRESHOLD) || (oldRam.percentageUsed < WARNING_THRESHOLD && ram.percentageUsed >= WARNING_THRESHOLD)) {
+					Logger.debug("Sending high load warning");
+					Notifications.send("Warning", "CPU load (" + nf.format(cpu.cpuUsage) + "%) or Ram load (" + nf.format(ram.percentageUsed) + "%)  became over " + WARNING_THRESHOLD + "%.\n Date: "
+							+ new Date());
+				}
 			}
-		}
 
-		cpuInfo.add(cpu);
-		ramInfo.add(ram);
+			cpuInfo.add(cpu);
+			ramInfo.add(ram);
 
-		if (cpuInfo.size() > MAX_INFO_SIZE) {
-			cpuInfo.remove(0);
-		}
+			if (cpuInfo.size() > MAX_INFO_SIZE) {
+				cpuInfo.remove(0);
+			}
 
-		if (ramInfo.size() > MAX_INFO_SIZE) {
-			ramInfo.remove(0);
+			if (ramInfo.size() > MAX_INFO_SIZE) {
+				ramInfo.remove(0);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -1,11 +1,12 @@
 package websocket;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class WebSocketMessage {
 	
 	public final static String METHOD_START = "start",
-			METHOD_ERROR = "error", METHOD_SUCCESS = "success", METHOD_REFRESH = "refresh";
+			METHOD_ERROR = "error", METHOD_SUCCESS = "success", METHOD_REFRESH = "refresh", METHOD_CHANGE_PAGE = "changePage";
 	
 	private String method;
 	private Object message;
@@ -31,7 +32,9 @@ public class WebSocketMessage {
 	}
 	
 	public String toJSon(){
-		return new Gson().toJson(this);
+		GsonBuilder builder = new GsonBuilder();
+		return builder.serializeSpecialFloatingPointValues().create().toJson(this);
+		
 	}
 	
 }

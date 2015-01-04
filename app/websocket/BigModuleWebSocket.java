@@ -58,7 +58,7 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 
 		WebSocketMessage response = new WebSocketMessage();
 
-		if (socketMessage.getMessage().toString()
+		if (socketMessage.getMethod().toString()
 				.equalsIgnoreCase(WebSocketMessage.METHOD_START)) {
 			startRefresh();
 		} else {

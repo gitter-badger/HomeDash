@@ -1,13 +1,32 @@
 var ws;
 
+
+var CURRENT_PAGE = 1;
+
+
+
 $(document).ready(function() {
+	if(typeof(Storage) !== "undefined") {
+		var page = localStorage.getItem("page");
+		if(page != undefined){
+			CURRENT_PAGE = page; 
+		}
+	}
+	
+	if($('.page-container[data='+CURRENT_PAGE+']').length == 0){
+		CURRENT_PAGE = 1;
+	}
+	
+	
 	ws = new WebSocket(WS_ADDRESS);
 	try {
 		ws.onmessage = onMessage;
 
 		ws.onopen = function(e) {
 			var wsMsg = new WebsocketMessage();
-			wsMsg.message = "start";
+			wsMsg.message = CURRENT_PAGE;
+			wsMsg.method = "start";
+			
 			ws.send(JSON.stringify(wsMsg));
 			
 			$(".spinner-black").addClass('fadeOutSmall');

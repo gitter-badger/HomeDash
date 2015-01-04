@@ -28,7 +28,7 @@
 <div id="message-box" class="success"> Plop</div>
 
 
-<form id="module-info" method="post" action="@routes.Application.addRemoteModule">
+<form id="module-info" method="post" action="/addRemoteModule">
 	<input type="hidden" name="url" />
 	<input type="hidden" name="api_key" />
 	<input type="hidden" name="class"/>
@@ -37,8 +37,20 @@
 </form>
 <script type="text/javascript" src="@routes.Assets.at("javascripts/addRemote.js")"></script>
 <script type="text/javascript">
+	var CURRENT_PAGE = 1;
 	$(document).ready(function() {
-		$("#showSettings").hide();
+
+		if(typeof(Storage) !== "undefined") {
+			var page = localStorage.getItem("page");
+			if(page != undefined){
+				CURRENT_PAGE = page; 
+			}
+		}
+
+		var moduleForm = $('#module-info');
+		moduleForm.attr('action', moduleForm.attr('action')+'/'+CURRENT_PAGE);
+		
+		$(".persistent-setting").hide();
 		$("#global-overlay").hide();
 
 		$(".internal-link").click(function(event) {

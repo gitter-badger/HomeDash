@@ -1,4 +1,4 @@
-@(plugin: interfaces.PlugIn)
+@(plugin: interfaces.PlugIn, page: Integer)
 
 @main("Home Dash"){
 	
@@ -6,7 +6,7 @@
 	<div class="row">
 		<div class="col-md-12 module">
 			<h3>Settings for @plugin.getName()</h3>
-			<form role="form" method="post" action="@controllers.routes.Application.saveModule">
+			<form role="form" method="post" action="@controllers.routes.Application.saveModule(page)">
 				<input type="hidden" name="class" value="@plugin.getClass().getName()" />
 				@plugin.getSettingsView(null)
 			  	<p><button type="submit" class="btn btn-primary">Submit</button></p>
@@ -16,7 +16,7 @@
 	
 	<script type="text/javascript">
   		$(document).ready(function(){
-  			$("#showSettings").hide();
+  			$(".persistent-setting").hide();
   			$("#global-overlay").hide();
   		});
     </script>

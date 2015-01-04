@@ -43,6 +43,8 @@ public class Module extends Model implements Comparable<Module> {
 	public int remote = 0;
 
 	public String pluginId;
+	
+	public int page = 1;
 
 	public static final int REMOTE = 1, LOCAL = 0;
 	public static final String REMOTE_API = "api_key", REMOTE_URL=  "url", REMOTE_ID = "id", REMOTE_NAME = "name", METHOD = "method", COMMAND = "command";
