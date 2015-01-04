@@ -24,7 +24,7 @@ public class BackgroundTasks implements Runnable {
 
 				for (Module module : Application.modules) {
 					int refreshRate = module.getPlugin().getBackgroundRefreshRate();
-					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0) {
+					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0 && module.remote == Module.LOCAL) {
 						module.doInBackground();
 						module.saveData();
 					}
