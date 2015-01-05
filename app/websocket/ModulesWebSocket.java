@@ -37,10 +37,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 		WebSocketClient client = new WebSocketClient(in, out, System.currentTimeMillis());
 
 		clients.put(client.id, client);
-		time = 0;
-		if (clients.size() > 0) {
-			startRefresh();
-		}
+		
 
 		Logger.info("WebSocket clients {}", clients.size());
 	}
@@ -60,12 +57,22 @@ public class ModulesWebSocket extends WebSocket<String> {
 			try {
 				clients.get(clientId).page = Double.valueOf(socketMessage.getMessage().toString()).intValue();
 				Logger.info("Client [{}] connected on page [{}]", clientId, socketMessage.getMessage());
+				
+				time = 0;
+				if (clients.size() > 0) {
+					startRefresh();
+				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}else if(socketMessage.getMethod().toString().equalsIgnoreCase(WebSocketMessage.METHOD_CHANGE_PAGE)){
 			clients.get(clientId).page = Double.valueOf(socketMessage.getMessage().toString()).intValue();
 			Logger.info("Client [{}] changed page to page [{}]", clientId, socketMessage.getMessage());
+			time = 0;
+			if (clients.size() > 0) {
+				startRefresh();
+			}
 		} else {
 
 			for (Module module : Application.modules) {
