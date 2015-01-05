@@ -12,7 +12,7 @@ $(document).ready(function() {
 		toggleSettings();
 	});
 
-	$(".overlay-settings").click(function(event) {
+	$(".overlay-settings, .setting-action").click(function(event) {
 		var source = $(this);
 
 		var fn = window[source.attr("action")];

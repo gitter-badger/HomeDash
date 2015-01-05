@@ -7,7 +7,7 @@
 			@if(module.getPlugin().hasSettings() && module.remote == Module.LOCAL){
 				<li><a href="@controllers.routes.Application.editModule(module.id)"><span class="glyphicon glyphicon-wrench"></span></a></li>
 			}
-			<li><a data="@module.id" class="overlay-settings" action="move"><span class="glyphicon glyphicon-th-large"></span></a></li>
+			<li><a data="@module.id" class="setting-action" action="move"><span class="glyphicon glyphicon-th-large"></span></a></li>
 			<li><a href="@controllers.routes.Application.deleteModule(module.id)"><span class="glyphicon glyphicon-remove"></span></a></li>
 					
  		</ul>
