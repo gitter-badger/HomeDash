@@ -243,4 +243,21 @@ public class Application extends Controller {
 
 	}
 
+	public static Result moveModule(int moduleId, int to) {
+		Module module = Module.find.byId(moduleId);
+
+		if (module != null && module.page != to) {
+			module.page = to;
+			module.moduleOrder = 0;
+			module.size = 12;
+			module.save();
+			modules = Module.find.all();
+			ws.moduleListChanged();
+		} else {
+			return notFound();
+		}
+
+		return ok();
+	}
+
 }

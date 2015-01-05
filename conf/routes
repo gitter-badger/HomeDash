@@ -17,6 +17,7 @@ GET		/edit/:id					controllers.Application.editModule(id: Integer)
 POST	/saveModule/:id				controllers.Application.saveEdittedModule(id :Integer)
 GET		/deleteModule/:id			controllers.Application.deleteModule(id: Integer)
 POST 	/exploreRemoteHost			controllers.Application.exploreRemoteHost()
+GET		/module/:id/move/:to	controllers.Application.moveModule(id: Integer, to: Integer)
 
 #Settings
 GET		/globalSettings				controllers.GlobalSettings.index()

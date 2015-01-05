@@ -1,9 +1,8 @@
 #pages {
-	position: fixed;
+	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-	height: 200px;
 	background-color: #2C3C7F;
 	border-bottom: 3px solid #5677fc;
 	z-index: 500;
@@ -12,8 +11,6 @@
 }
 
 #pages {
-	overflow-x: auto;
-	white-space: nowrap;
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
 	-moz-user-select: none; /* mozilla browsers */
 	-khtml-user-select: none; /* webkit (konqueror) browsers */
@@ -22,9 +19,6 @@
 
 #pages ul {
 	list-style: none;
-	overflow-x: auto;
-	white-space: nowrap;
-	overflow-y: hidden;
 }
 
 #pages ul::-webkit-scrollbar {
@@ -69,18 +63,14 @@ a.page-icon.active {
 }
 
 .page-button {
-	padding: 5px;
-	color: #2C3C7F;
-	border-radius: 50%;
-	background-color: #fff;
-	font-size: 7px;
-	bottom: 15px;
+	display:none;
+	font-size:20px;
+	color:black;
+	margin-left:10px;
 }
 
 .remove-page {
-	float: right;
 }
 
 .edit-page {
-	float: left;
 }

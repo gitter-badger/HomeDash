@@ -228,8 +228,8 @@ btn-success {
 .bounceDown {
 	-webkit-animation-name: bounceInDown;
 	animation-name: bounceInDown;
-	-webkit-animation-duration: 1.5s;
-	animation-duration: 1.5s;
+	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 }
@@ -237,8 +237,8 @@ btn-success {
 .bounceUp {
 	-webkit-animation-name: bounceOutUp;
 	animation-name: bounceOutUp;
-	-webkit-animation-duration: 1.5s;
-	animation-duration: 1.5s;
+	-webkit-animation-duration: 1.0s;
+	animation-duration: 1.0s;
 	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
 }

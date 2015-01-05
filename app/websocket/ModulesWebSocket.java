@@ -26,7 +26,11 @@ public class ModulesWebSocket extends WebSocket<String> {
 	private long time = 0;
 
 	Map<Long, WebSocketClient> clients = new Hashtable<Long, ModulesWebSocket.WebSocketClient>();
-
+	
+	//Client Mapping will keep record of which client is on which page to optimize the 
+	//refresh process so that we don't refresh a module that is on a page that no one is on.
+	Map<Integer, List<WebSocketClient>> clientMapping = new Hashtable<Integer, List<WebSocketClient>>();
+	
 	private final int THREADS_COUNT = 5;
 
 	private Gson gson = new Gson();
@@ -58,6 +62,9 @@ public class ModulesWebSocket extends WebSocket<String> {
 				clients.get(clientId).page = Double.valueOf(socketMessage.getMessage().toString()).intValue();
 				Logger.info("Client [{}] connected on page [{}]", clientId, socketMessage.getMessage());
 				
+				//Refresh client mapping.
+				mapClients();
+				
 				time = 0;
 				if (clients.size() > 0) {
 					startRefresh();
@@ -69,6 +76,10 @@ public class ModulesWebSocket extends WebSocket<String> {
 		}else if(socketMessage.getMethod().toString().equalsIgnoreCase(WebSocketMessage.METHOD_CHANGE_PAGE)){
 			clients.get(clientId).page = Double.valueOf(socketMessage.getMessage().toString()).intValue();
 			Logger.info("Client [{}] changed page to page [{}]", clientId, socketMessage.getMessage());
+			
+			//Refresh client mapping
+			mapClients();
+			
 			time = 0;
 			if (clients.size() > 0) {
 				startRefresh();
@@ -129,8 +140,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 					int refreshRate = module.getPlugin().getRefreshRate();
 					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0) {
 						// check the eligible clients to receive message;
-						final List<WebSocketClient> eligibleClients = getEligibleClients(module);
-						if (eligibleClients.size() > 0) {
+						if (clientMapping.containsKey(module.page)) {
 							exec.execute(new Runnable() {
 
 								@Override
@@ -141,7 +151,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 										WebSocketMessage response = module.refreshModule();
 										response.setMethod("refresh");
 
-										sendToClients(eligibleClients, response.toJSon());
+										sendToClients(clientMapping.get(module.page), response.toJSon());
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
@@ -163,19 +173,19 @@ public class ModulesWebSocket extends WebSocket<String> {
 		}
 
 	}
-
-	private List<WebSocketClient> getEligibleClients(Module module) {
-		List<WebSocketClient> eligible = new ArrayList<WebSocketClient>();
-
-		for (long id : clients.keySet()) {
+	
+	private void mapClients(){
+	 	clientMapping = new Hashtable<Integer, List<WebSocketClient>>();
+		for(long id: clients.keySet()){
 			WebSocketClient client = clients.get(id);
-			Logger.info("Testing client page[{}] on module [{}] page [{}]", client.page, module.getPlugin().getName(), module.page);
-			if (client.page == module.page) {
-				eligible.add(client);
+			if(client.page > 0){
+				if(!clientMapping.containsKey(client.page)){
+					clientMapping.put(client.page, new ArrayList<WebSocketClient>());
+				}
+				
+				clientMapping.get(client.page).add(client);
 			}
 		}
-
-		return eligible;
 	}
 
 	private void sendToClients(List<WebSocketClient> eligibleClients, String message) {

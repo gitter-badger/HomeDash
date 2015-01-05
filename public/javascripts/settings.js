@@ -32,6 +32,9 @@ $(document).ready(function() {
 		handle : '.sort-module',
 		stop : afterSort
 	});
+	
+	
+	$(document).on('click', ".move-destination" , moveModule);
 });
 
 function afterSort(event, ui) {
@@ -181,4 +184,16 @@ function findAfter(moduleId) {
 	}
 
 	return after;
+}
+
+function move(moduleId){
+	$('.move-destination').attr('data-source', moduleId);
+	$('#move-module').modal('show');
+}
+
+function moveModule(){
+	var source = $(this).attr('data-source');
+	var dest = $(this).attr('data');
+	
+	$.get('/module/'+source+'/move/'+dest);
 }
