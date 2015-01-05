@@ -43,12 +43,12 @@
 	
 	<div class="row" id="modules">
    	@for(page <- pages){
-		<div class="page-container" data="@page.id">
+		<div class="page-container toFadeIn" data="@page.id">
 		<h1 class="page-title">@page.name</h1>
    		@if(modules.size() > 0){
 			@for(module <- modules){
 						@if(page.id == module.page){
-							<div id="module@module.id" data="@module.id" class="module toFadeIn col-md-@module.size">
+							<div id="module@module.id" data="@module.id" class="module col-md-@module.size">
 								
 								@if(module.getPlugin().hasBigScreen()){
 									<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
