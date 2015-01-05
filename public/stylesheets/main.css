@@ -28,6 +28,10 @@ body {
 	background-color: #e74c3c;
 }
 
+.page-title{
+	margin-top:0px;
+}
+
 .module {
 	background: white;
 	margin-bottom: 10px;
