@@ -212,6 +212,7 @@ public class Application extends Controller {
 	}
 
 	public static Result saveEdittedModule(int moduleId) {
+		Logger.info("Saving preferences for module [{}]", moduleId);
 		Module module = Module.find.byId(moduleId);
 
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
