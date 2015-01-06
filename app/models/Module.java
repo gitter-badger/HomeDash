@@ -199,7 +199,7 @@ public class Module extends Model implements Comparable<Module> {
 	@Override
 	public void save() {
 		super.save();
-		System.out.println("CALLING SAVE !!!!!!!");
+
 		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
 		for (ModuleSetting setting : oldSettings) {
 			setting.delete();
@@ -215,10 +215,10 @@ public class Module extends Model implements Comparable<Module> {
 			setting.save();
 		}
 	}
-	
+		
 	@Override
 	public void update(){
-		System.out.println("CALLING UPDATED !!!!!!!");
+
 		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
 		for (ModuleSetting setting : oldSettings) {
 			setting.delete();
@@ -234,7 +234,7 @@ public class Module extends Model implements Comparable<Module> {
 			setting.save();
 		}
 		
-		System.out.println(this.id);
+
 		super.update(this.id);
 
 	}

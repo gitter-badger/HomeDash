@@ -34,7 +34,7 @@ public class Application extends Controller {
 	public static List<Module> modules = Module.find.all();
 
 	public static Result index() {
-
+		Logger.info("index()");
 		Collections.sort(modules);
 
 		/*
@@ -51,14 +51,17 @@ public class Application extends Controller {
 	}
 
 	public static Result add() {
+		Logger.info("add()");
 		return ok(addModule.render(Constants.PLUGINS));
 	}
 
 	public static Result addRemote() {
+		Logger.info("addRemote()");
 		return ok(addRemoteModule.render());
 	}
 
 	public static Result exploreRemoteHost() {
+		Logger.info("exploreRemoteHost()");
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 		Map<String, String> params = new HashMap<String, String>();
 
@@ -75,6 +78,7 @@ public class Application extends Controller {
 	}
 
 	public static Result addRemoteModule(int page) {
+		Logger.info("addRemoteModule({})", page);
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 
 		Module module = new Module();
@@ -108,6 +112,7 @@ public class Application extends Controller {
 	}
 
 	public static Result addModule(int page, String moduleClass) {
+		Logger.info("addRemoteModule({}, {})", page, moduleClass);
 		Class<?> clazz;
 		try {
 			clazz = Class.forName(moduleClass);
@@ -139,6 +144,7 @@ public class Application extends Controller {
 	}
 
 	public static Result saveModule(int page) {
+		Logger.info("saveModule({})", page);
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 		Map<String, String> settings = new java.util.Hashtable<String, String>();
 
@@ -173,6 +179,7 @@ public class Application extends Controller {
 	}
 
 	public static Result showBig(int moduleId) {
+		Logger.info("showBig({})", moduleId);
 		Module module = Module.find.byId(moduleId);
 		module.init();
 		return ok(big.render(module));
@@ -183,6 +190,7 @@ public class Application extends Controller {
 	}
 
 	public static Result settings() {
+		Logger.info("settings()");
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 
 		String[] sizes = values.get("sizes")[0].split("\\|");
@@ -208,11 +216,12 @@ public class Application extends Controller {
 	}
 
 	public static Result editModule(int moduleId) {
+		Logger.info("editModule({})", moduleId);
 		return ok(edit.render(Module.find.byId(moduleId)));
 	}
 
 	public static Result saveEdittedModule(int moduleId) {
-		Logger.info("Saving preferences for module [{}]", moduleId);
+		Logger.info("saveEdittedModule({})", moduleId);
 		Module module = Module.find.byId(moduleId);
 
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
@@ -235,6 +244,7 @@ public class Application extends Controller {
 	}
 
 	public static Result deleteModule(int moduleId) {
+		Logger.info("deleteModule({})", moduleId);
 		Module module = Module.find.byId(moduleId);
 		module.delete();
 
@@ -245,6 +255,7 @@ public class Application extends Controller {
 	}
 
 	public static Result moveModule(int moduleId, int to) {
+		Logger.info("moveModule({}, {})", moduleId, to);
 		Module module = Module.find.byId(moduleId);
 
 		if (module != null && module.page != to) {
