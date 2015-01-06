@@ -54,7 +54,7 @@ public class Module extends Model implements Comparable<Module> {
 	public String data;
 
 	@Transient
-	private PlugIn plugin;
+	public PlugIn plugin;
 
 	@Transient
 	private Map<String, String> settingsMap = new Hashtable<String, String>();
@@ -75,6 +75,30 @@ public class Module extends Model implements Comparable<Module> {
 
 	public void setPlugin(PlugIn plugin) {
 		this.plugin = plugin;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setRemote(int remote) {
+		this.remote = remote;
+	}
+
+	public void setPluginId(String pluginId) {
+		this.pluginId = pluginId;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public static void setFind(Finder<Integer, Module> find) {
+		Module.find = find;
 	}
 
 	public WebSocketMessage refreshModule() {
@@ -158,7 +182,7 @@ public class Module extends Model implements Comparable<Module> {
 		Object s = plugin.saveData();
 		if (s != null) {
 			Gson gson = new Gson();
-			data = gson.toJson(s);
+			setData(gson.toJson(s));
 
 			this.save();
 		}
@@ -183,9 +207,9 @@ public class Module extends Model implements Comparable<Module> {
 
 		for (String name : settingsMap.keySet()) {
 			ModuleSetting setting = new ModuleSetting();
-			setting.moduleId = id;
-			setting.value = settingsMap.get(name);
-			setting.name = name;
+			setting.setModuleId(id);
+			setting.setValue(settingsMap.get(name));
+			setting.setName(name);
 
 			// setting.delete();
 			setting.save();

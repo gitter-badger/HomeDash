@@ -26,7 +26,6 @@ public class SysteminfoPlugin implements PlugIn {
 	private List<String> roots = new ArrayList<String>();
 	private List<CpuInfo> cpuInfo = new ArrayList<CpuInfo>();
 	private List<RamInfo> ramInfo = new ArrayList<RamInfo>();
-	private OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 	private final int MAX_INFO_SIZE = 100, WARNING_THRESHOLD = 90;
 	private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 	private final String SETTING_NOTIFICATIONS = "notifications";
@@ -191,6 +190,7 @@ public class SysteminfoPlugin implements PlugIn {
 	@Override
 	public void doInBackground(Map<String, String> settings) {
 		try {
+			OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
 			CpuInfo cpu = getCPUInfo(osBean);
 			RamInfo ram = getRamInfo(osBean);
 

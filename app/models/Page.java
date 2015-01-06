@@ -30,4 +30,14 @@ public class Page extends Model{
 	public static void setFind(Finder<Integer, Page> find) {
 		Page.find = find;
 	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	
 }

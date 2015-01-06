@@ -10,7 +10,7 @@ public class Pages extends Controller {
 	public static Result addPage() {
 		Page page = new Page();
 		int count = Page.find.findRowCount() + 1;
-		page.name = "Screen " + count;
+		page.setName("Screen " + count);
 		page.save();
 
 		Application.ws.moduleListChanged();

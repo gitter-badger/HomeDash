@@ -78,9 +78,9 @@ public class Application extends Controller {
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 
 		Module module = new Module();
-		module.remote = Module.REMOTE;
-		module.page = page;
-		module.pluginId = values.get("class")[0];
+		module.setRemote(Module.REMOTE);
+		module.setPage(page);
+		module.setPluginId(values.get("class")[0]);
 
 		Map<String, String> settings = new Hashtable<String, String>();
 
@@ -117,8 +117,8 @@ public class Application extends Controller {
 
 			if (!plugin.hasSettings()) {
 				Module module = new Module();
-				module.pluginId = plugin.getClass().getName();
-				module.page = page;
+				module.setPluginId(plugin.getClass().getName());
+				module.setPage(page);
 				module.save();
 
 				modules = Module.find.all();
@@ -157,9 +157,9 @@ public class Application extends Controller {
 			PlugIn plugin = (PlugIn) ctor.newInstance();
 
 			Module module = new Module();
-			module.pluginId = plugin.getClass().getName();
+			module.setPluginId(plugin.getClass().getName());
 			module.setSettingsMap(settings);
-			module.page = page;
+			module.setPage(page);
 			module.save();
 
 			modules = Module.find.all();
@@ -247,9 +247,9 @@ public class Application extends Controller {
 		Module module = Module.find.byId(moduleId);
 
 		if (module != null && module.page != to) {
-			module.page = to;
-			module.moduleOrder = 0;
-			module.size = 12;
+			module.setPage(to);
+			module.setModuleOrder(0);
+			module.setSize(12);
 			module.save();
 			modules = Module.find.all();
 			ws.moduleListChanged();
