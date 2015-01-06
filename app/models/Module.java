@@ -215,6 +215,26 @@ public class Module extends Model implements Comparable<Module> {
 			setting.save();
 		}
 	}
+	
+	@Override
+	public void update(){
+		super.update();
+
+		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
+		for (ModuleSetting setting : oldSettings) {
+			setting.delete();
+		}
+
+		for (String name : settingsMap.keySet()) {
+			ModuleSetting setting = new ModuleSetting();
+			setting.setModuleId(id);
+			setting.setValue(settingsMap.get(name));
+			setting.setName(name);
+
+			// setting.delete();
+			setting.save();
+		}
+	}
 
 	@Override
 	public void delete() {

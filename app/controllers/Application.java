@@ -200,7 +200,7 @@ public class Application extends Controller {
 			module.setModuleOrder(moduleOrder);
 
 			Logger.info("Saving module #{}, size:{}, order:{}", module.id, module.size, module.moduleOrder);
-			module.save();
+			module.update();
 
 		}
 		modules = Module.find.all();
@@ -225,7 +225,7 @@ public class Application extends Controller {
 
 		module.setSettingsMap(settings);
 
-		module.save();
+		module.update();
 
 		modules = Module.find.all();
 		ws.moduleListChanged();
@@ -250,7 +250,7 @@ public class Application extends Controller {
 			module.setPage(to);
 			module.setModuleOrder(0);
 			module.setSize(12);
-			module.save();
+			module.update();
 			modules = Module.find.all();
 			ws.moduleListChanged();
 		} else {
