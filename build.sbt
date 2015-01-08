@@ -23,6 +23,6 @@ libraryDependencies ++= Seq(
     "com.googlecode.plist"%"dd-plist"%"1.8",
     "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT"
 )
-includeFilter in (Assets, LessKeys.less) := "*.less"
-// for minified *.min.css files
+
+
 LessKeys.compress := true
