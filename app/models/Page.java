@@ -10,6 +10,7 @@ import play.db.ebean.Model;
 
 @Entity
 public class Page extends Model{
+	
 	private static final long serialVersionUID = 90175401985687572L;
 	
 	@Id

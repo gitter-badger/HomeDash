@@ -1,10 +1,12 @@
+
+
 #pages {
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 0;
-	background-color: #2C3C7F;
-	border-bottom: 3px solid #5677fc;
+	background-color: darken(@primary-color, 30%);
+	border-bottom: 3px solid @primary-color;
 	z-index: 500;
 	padding-top: 60px;
 	display: none;
@@ -38,24 +40,24 @@
 	display: block;
 	margin: 5px;
 	height: 100px;
-	border: 1px solid #fff;
+	border: 1px solid @text-on-primary-color;
 }
 
 a.add-page {
-	border: 1px dotted #fff;
+	border: 1px dotted @text-on-primary-color;
 	font-size: 30px;
 	text-align: center;
-	color: white;
+	color: @text-on-primary-color;
 	padding-top: 30px;
 }
 
 a.page-icon.active {
-	background-color: #5677fc;
+	background-color: @primary-color;
 }
 
 .page-name {
 	width: 100%;
-	color: #fff;
+	color: @text-on-primary-color;
 	text-align: center;
 	white-space: nowrap;
 	overflow: hidden;
@@ -65,7 +67,7 @@ a.page-icon.active {
 .page-button {
 	display:none;
 	font-size:20px;
-	color:black;
+	color: contrast(@primary-color);
 	margin-left:10px;
 }
 
@@ -74,3 +76,4 @@ a.page-icon.active {
 
 .edit-page {
 }
+

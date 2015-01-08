@@ -51,10 +51,12 @@ function showCurrentPage() {
 }
 
 function showPages() {
+	 
 	var pages = $('#pages');
 	var showAnimation = 'bounceDown';
 	var hideAnimation = 'bounceUp';
 	if (!pages.hasClass(showAnimation)) {
+		scrolltoTop();
 		pages.show();
 		pages.removeClass(hideAnimation);
 		pages.addClass(showAnimation);
@@ -79,4 +81,11 @@ function renamePage() {
 	if (name != "") {
 		$.get('/pages/rename/' + $(this).attr('data') + '/' + name);
 	}
+}
+
+
+function scrolltoTop(){
+	$('html,body').animate({
+        scrollTop: 0
+     }, 250);
 }

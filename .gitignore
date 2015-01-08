@@ -22,3 +22,15 @@ conf/home.conf
 
 public/plugins/osx/images/*
 cache/public/plugins/osx/images/*
+
+cache/plugins/osx/images/Coda2.png
+
+cache/plugins/osx/images/Eclipse.png
+
+cache/plugins/osx/images/MAMP.png
+
+cache/plugins/osx/images/SSHTunnelManager.png
+
+cache/plugins/osx/images/Twitter.png
+
+cache/plugins/osx/images/ZipCleaner.png

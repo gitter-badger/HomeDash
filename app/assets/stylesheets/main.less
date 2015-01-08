@@ -1,9 +1,21 @@
+@import "theme.less";
+@import "pages.less";
+
 body {
 	font-family: 'Roboto', sans-serif;
 	font-weight: 300;
-	background-color: #EBEAEA;
+	background-color: @background-color;
 	padding-top: 70px;
 	padding-bottom:30px;
+	color: @text-color
+}
+
+a{
+	color: @primary-color;	
+}
+
+a:hover{
+	color: @primary-color;
 }
 
 #message-box {
@@ -33,26 +45,26 @@ body {
 }
 
 .module {
-	background: white;
+	background: @secondary-color;
 	margin-bottom: 10px;
 	border-radius: 2px;
-	border: 1px solid #F0F0F0;
+	color: @text-on-secondary-color;
 }
 
 .module h3 {
 	margin-top: 0;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	color: #5677fc;
+	color: @primary-color;
 }
 
 .navbar,.navbar-inverse .navbar-brand,.navbar-inverse  .navbar-nav>li>a
 	{
-	color: white;
+	color: @text-on-primary-color;
 }
 
 .navbar {
-	background-color: #5677fc;
+	background-color: @primary-color;
 	border: none;
 	border-radius: 0;
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
@@ -64,7 +76,7 @@ body {
 .navbar-inverse .navbar-toggle {
 	border: none;
 	border-radius: 0;
-	color: white;
+	color: @text-on-primary-color;
 }
 
 @media ( min-width : 0px) {
@@ -87,8 +99,8 @@ body {
 }
 
 .modal-header {
-	background-color: #5677fc;
-	color: white;
+	background-color: @primary-color;
+	color: @text-on-primary-color;
 }
 
 .btn {
@@ -97,7 +109,7 @@ body {
 }
 
 btn-default {
-	background-color: ##fafafa;
+	background-color: #fafafa;
 }
 
 btn-primary {
@@ -149,7 +161,7 @@ btn-success {
 *Overlays
 */
 .module-overlay {
-	background-color: #FFFFFF;
+	background-color: @secondary-color;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -213,8 +225,8 @@ btn-success {
 #global-overlay {
 	z-index: 2000;
 	text-align: center;
-	background-color: #5677fc;
-	color: white;
+	background-color: @primary-color;
+	color: @text-on-primary-color;
 	width: 100%;
 	height: 100%;
 	top: 0;
@@ -324,7 +336,7 @@ footer{
 }
 
 .spinner-black>.spinner>div {
-	background-color: #666666;
+	background-color: @text-color;
 }
 
 .spinner .rect2 {
@@ -362,7 +374,7 @@ footer{
 .bouncer > div {
   width: 18px;
   height: 18px;
-  background-color: #1E88E5;
+  background-color: @primary-color;
 
   border-radius: 100%;
   display: inline-block;
