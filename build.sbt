@@ -23,6 +23,3 @@ libraryDependencies ++= Seq(
     "com.googlecode.plist"%"dd-plist"%"1.8",
     "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT"
 )
-
-
-LessKeys.compress := true
