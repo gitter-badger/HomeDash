@@ -6,7 +6,7 @@
 @main("Home Dash"){
 	@for(module <- modules){
 		@if(module.getPlugin().hasCss()){
-        	<link rel="stylesheet" media="screen" href="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/css/style.css")">
+        	<link rel="stylesheet" media="screen" href="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/css/small.css")">
         }
 	}
 		
@@ -53,22 +53,20 @@
    		@if(modules.size() > 0){
 			@for(module <- modules){
 						@if(page.id == module.page){
-							<div id="module@module.id" data="@module.id" class="module col-md-@module.size">
+							<div id="module@module.id" data="@module.id" class="module @module.getPlugin().getId() col-md-@module.size">
 								
-								@if(module.getPlugin().hasBigScreen()){
-									<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
-								}
-								@if(module.getPlugin().getExternalLink() != null){
-									<a class="module-links" target="_blank" href="@module.getPlugin().getExternalLink()"><span class="glyphicon glyphicon-new-window"></span></a>
-								}
-								
-									
-								<h3>
-									@if(module.remote == Module.REMOTE){
-										@module.getSettingsMap().get("name")'s 
+								<div class="module-links-container">
+									@if(module.getPlugin().hasBigScreen()){
+										<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>
 									}
-									@module.getPlugin().getName()
-								</h3>
+									@if(module.getPlugin().getExternalLink() != null){
+										<a class="module-links" target="_blank" href="@module.getPlugin().getExternalLink()"><span class="glyphicon glyphicon-new-window"></span></a>
+									}
+								</div>
+									
+								@if(module.remote == Module.REMOTE){
+									<h5> @module.getSettingsMap().get("name")'s </h5> 
+								}
 								<div style="position:relative;">
 									@module.getPlugin().getSmallView(module)
 								</div>

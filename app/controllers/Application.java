@@ -189,7 +189,7 @@ public class Application extends Controller {
 		return new BigModuleWebSocket(moduleId);
 	}
 
-	public static Result settings() {
+	public synchronized static Result settings() {
 		Logger.info("settings()");
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 

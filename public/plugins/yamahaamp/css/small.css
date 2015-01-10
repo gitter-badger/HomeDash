@@ -1,0 +1,37 @@
+.yamahaamp {
+	background-image: url('../images/yamaha.svg');
+	background-repeat: no-repeat;
+	background-position: -100px center;
+	background-size: contain;
+	padding: 30px;
+}
+
+.yamp-power {
+	border-radius: 50%;
+}
+
+.yam-input.active {
+	background-color: #DDD;
+}
+
+.yamp-inputs {
+	position: absolue;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+.yamp-input {
+	width: 25%;
+	-webkit-box-shadow: none !important;
+	-moz-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.yamp-volume-controle{
+	
+}
+
+.yamp-volume{
+	font-size:20px;
+}

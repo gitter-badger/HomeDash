@@ -3,8 +3,7 @@ var sizes = [];
 
 $(document).ready(function() {
 
-	$(".glyphicon-resize-small").click(shrink);
-	$(".glyphicon-resize-full").click(expand);
+	
 
 	currentOrder = getOrder();
 
@@ -42,23 +41,27 @@ function afterSort(event, ui) {
 }
 
 function saveSettings(hideSettings) {
+	var links = $('.module-setting-link');
+	links.css('pointer-events', 'none');
 	var sizesStr = [];
 	$('.bouncer').show();
-	$.each($(".module"), function(index, object) {
+	$(".module").each(function(index, object) {
 		var item = $(object);
 
 		var classes = item.attr("class");
 		var split = classes.split(" ");
-
-		var colSplit = split[1].split("-");
+		
+		var colSplit = split[split.length-1].split("-");
 
 		var currentSize = colSplit[2];
 
 		sizesStr.push(item.attr("data") + '-' + currentSize);
 	});
+	
+	console.log(sizesStr.join(''));
 
 	var orderStr = [];
-	$.each($(".module"), function(index, object) {
+	$(".module").each(function(index, object) {
 		orderStr.push($(object).attr("data") + '-' + index);
 	});
 
@@ -75,6 +78,8 @@ function saveSettings(hideSettings) {
 		// $(".settings").slideToggle("fast");
 		// $(".module-settings-overlay").slideToggle("fast");
 		$('.bouncer').hide();
+		links.css('pointer-events', 'auto');
+
 	});
 }
 
@@ -117,7 +122,7 @@ function shrink(moduleId) {
 	var classes = item.attr("class");
 	var split = classes.split(" ");
 
-	var colSplit = split[1].split("-");
+	var colSplit = split[split.length - 1].split("-");
 
 	var currentSize = colSplit[2];
 
@@ -141,7 +146,7 @@ function expand(moduleId) {
 	var classes = item.attr("class");
 	var split = classes.split(" ");
 
-	var colSplit = split[1].split("-");
+	var colSplit = split[split.length - 1].split("-");
 
 	var currentSize = colSplit[2];
 

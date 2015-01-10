@@ -49,7 +49,7 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public boolean hasCss() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class SysteminfoPlugin implements PlugIn {
 	@Override
 	public int getRefreshRate() {
 		// TODO Auto-generated method stub
-		return FIVE_SECONDS;
+		return ONE_SECOND;
 	}
 
 	@Override

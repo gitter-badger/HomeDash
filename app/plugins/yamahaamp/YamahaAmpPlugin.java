@@ -37,7 +37,7 @@ public class YamahaAmpPlugin implements PlugIn {
 	
 	@Override
 	public boolean hasCss() {
-		return false;
+		return true;
 	}
 	
 	@Override

@@ -50,7 +50,7 @@ function couchpotato(moduleId){
 		$("#cp"+this.moduleId+"-movieList").html('');
 		$.each(message, function (index, value){
 			$("#cp"+parent.moduleId+"-movieList").append(parent.movieToHtml(value));
-			$("#cp"+parent.moduleId+"-movieList").append('<hr style="margin:0"/>');
+			$("#cp"+parent.moduleId+"-movieList").append('<hr style="border-color: black; margin:0"/>');
 		});
 		
 		$("#cp"+this.moduleId+"-searchmovie-input").val("");
@@ -59,9 +59,9 @@ function couchpotato(moduleId){
 	
 	this.movieToHtml = function(movie){
 		var html = [];
-		html.push('<div class="cp',this.moduleId,'-movie" data-imdb="',movie.imdbId,'" data-title="',movie.originalTitle);
-		html.push('" style="cursor:pointer; padding:20px 0 20px 0">');
-		html.push('<p style="margin:0"><strong>',movie.originalTitle,' </strong>');
+		html.push('<div class="cp',this.moduleId,'-movie  cp-movie" data-imdb="',movie.imdbId,'" data-title="',movie.originalTitle);
+		html.push('" style="background-image:url(',movie.poster,');">');
+		html.push('<p class="cp-movie-name"><strong>',movie.originalTitle,' </strong>');
 		
 		if(movie.wanted){
 		 	html.push('<small>(already wanted)</small>');
@@ -71,7 +71,7 @@ function couchpotato(moduleId){
 		 	html.push('<small>(already in library)</small>');
 		}
 		
-		html.push('<span style="float:right">',movie.year,'</span></p>');
+		html.push('<span class="cp-movie-year" style="float:right">',movie.year,'</span></p>');
 		
 		html.push('</div>')
 		return html.join('');
@@ -79,10 +79,10 @@ function couchpotato(moduleId){
 	}
 	
 	this.processData = function (message){
-		if(message){
-			$("#cp"+this.moduleId+"-overlay").hide();
-		}else{
+		if(!message){
 			$("#cp"+this.moduleId+"-overlay").show();
+		}else{
+			$("#module"+this.moduleId).css('background-image', 'url('+message+')');
 		}
 	}
 }

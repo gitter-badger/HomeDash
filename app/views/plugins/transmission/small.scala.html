@@ -1,18 +1,26 @@
 @* small Template File *@
 @(module: Module)
-<div id="transmission-@module.id-overlay" class="module-overlay">
-	<p>Transmission is not available at the moment</p>
+<h4>Transmission</h4>
+
+<div class="transmission-content">
+	<div id="transmission-@module.id-overlay" class="module-overlay">
+		<p>Transmission is not available at the moment</p>
+	</div>
+	<div class="transmission-info transmission-torrents">
+		<p>Torrents</p>
+		<span id="torrentcount@module.id"></span>
+	</div>
+	<div class="transmission-info transmission-ul">
+		<p>Upload</p>
+		<span id="ulSpeed@module.id"></span>/s
+	</div>
+	<div class="transmission-info transmission-dl">
+		<p>Download</p>
+		<span id="dlSpeed@module.id"></span>/s
+	</div>
+	
+	<p class="transmission-actions">
+		<button type="button" id="addTorrent@module.id" class="btn"><i class="fa fa-plus"></i></button>
+		<button type="button" id="altSpeed@module.id" class="btn"><i class="fa fa-fighter-jet"></i></button>
+	</p>
 </div>
-<p>
-	<strong>Torrents:</strong> <span id="torrentcount@module.id"></span>
-</p>
-<p>
-	<strong>Download:</strong> <span id="dlSpeed@module.id"></span>/s
-<p>
-</p>
-	<strong>Upload:</strong> <span id="ulSpeed@module.id"></span>/s
-</p>
-<p>
-	<button type="button" id="addTorrent@module.id" class="btn btn-success">Add torrent</button>
-	<button type="button" id="altSpeed@module.id" class="btn">Alt Speed</button>
-</p>

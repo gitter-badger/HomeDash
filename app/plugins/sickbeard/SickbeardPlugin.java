@@ -2,6 +2,7 @@ package plugins.sickbeard;
 
 import interfaces.PlugIn;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,9 +14,11 @@ import java.util.Map;
 import misc.HttpTools;
 import models.Module;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import play.Logger;
+import play.Play;
 import play.twirl.api.Html;
 import views.html.plugins.sickbeard.settings;
 import views.html.plugins.sickbeard.small;
@@ -28,8 +31,12 @@ public class SickbeardPlugin implements PlugIn {
 
 	public static final String URL = "url", API_KEY = "apiKey";
 	private static final String SHOWS = "/?cmd=shows";
+	private static final String POSTER = "/?cmd=show.getposter&tvdbid=[showId]";
 	private Gson gson = new Gson();
 	private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+	private final String PNG_PATH = "cache/plugins/sickbeard/images/";
+	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/" + PNG_PATH;
 
 	private String baseUrl;
 
@@ -40,9 +47,9 @@ public class SickbeardPlugin implements PlugIn {
 
 	@Override
 	public boolean hasCss() {
-		return false;
+		return true;
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Sickbeard";
@@ -69,16 +76,29 @@ public class SickbeardPlugin implements PlugIn {
 					if (json.get(key) instanceof JSONObject) {
 						JSONObject show = (JSONObject) json.get(key);
 
-						if (!show.getString("next_ep_airdate").trim()
-								.equalsIgnoreCase("")) {
+						if (!show.getString("next_ep_airdate").trim().equalsIgnoreCase("")) {
 							try {
 								TvShowObject showObject = new TvShowObject();
 								showObject.name = show.getString("show_name");
-								showObject.nextShowing = df.parse(show
-										.getString("next_ep_airdate"));
-								showObject.nextShowingReadable = show
-										.getString("next_ep_airdate");
+								showObject.nextShowing = df.parse(show.getString("next_ep_airdate"));
+								showObject.nextShowingReadable = show.getString("next_ep_airdate");
+								showObject.showId = show.getLong("tvdbid");
+								// downloading poster
+								if (show.getJSONObject("cache").getInt("poster") == 1) {
+									try {
+										File f = new File(FULL_PNG_PATH + showObject.showId);
+										if (!f.exists()) {
+											String poster = url + "/" + apiKey + POSTER.replace("[showId]", Long.toString(showObject.showId));
+											System.out.println(poster);
+											FileUtils.copyURLToFile(new java.net.URL(poster), f);
+										}
+										showObject.poster = PNG_PATH + showObject.showId;
+									} catch (Exception e) {
+										Logger.info("Couldn't get poster for show [{}]", showObject.showId);
+									}
+								}
 								comingShows.add(showObject);
+
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -141,13 +161,21 @@ public class SickbeardPlugin implements PlugIn {
 		}
 
 		if (!url.startsWith("http")) {
-			url = "http://"+url;
+			url = "http://" + url;
 		}
 
 		baseUrl = url;
 
 		url += "api";
 		apiKey = settings.get(API_KEY);
+		
+		File f = new File(FULL_PNG_PATH);
+		if(!f.exists()){
+			f.mkdirs();
+		}
+		f.deleteOnExit();
+		
+		
 	}
 
 	@Override
@@ -156,8 +184,9 @@ public class SickbeardPlugin implements PlugIn {
 	}
 
 	private class TvShowObject implements Comparable<TvShowObject> {
-		public String name, nextShowingReadable;
+		public String name, nextShowingReadable, poster;
 		public Date nextShowing;
+		public long showId;
 
 		@Override
 		public int compareTo(TvShowObject o) {
@@ -181,14 +210,14 @@ public class SickbeardPlugin implements PlugIn {
 	}
 
 	@Override
-	public void doInBackground(Map<String, String>  settings) {
+	public void doInBackground(Map<String, String> settings) {
 	}
-	
+
 	@Override
 	public int getBackgroundRefreshRate() {
 		return NO_REFRESH;
 	}
-	
+
 	@Override
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;

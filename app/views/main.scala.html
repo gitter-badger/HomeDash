@@ -18,13 +18,15 @@
         <title>@title</title>
         <!-- Latest compiled and minified CSS -->
         <link href='http://fonts.googleapis.com/css?family=Roboto:300,300italic' rel='stylesheet' type='text/css' />
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animations.css")">
-		<script type="text/javascript" src="@routes.Assets.at("javascripts/jquery-2.1.1.js")"></script>
+		<script type="text/javascript" src="@routes.Assets.at("javascripts/vendor/jquery-2.1.1.js")"></script>
 		<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-		<script src="@routes.Assets.at("javascripts/jquery.ui.touch-punch.min.js")"></script>
+		<script src="@routes.Assets.at("javascripts/vendor/jquery.ui.touch-punch.min.js")"></script>
+		<script src="@routes.Assets.at("javascripts/vendor/packery.js")"></script>
 		@css
     </head>
     <body>
@@ -61,7 +63,6 @@
         @footer()
         
         <div id="global-overlay">
-        	<div class="logo"></div>
 			<p></p>
         </div>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

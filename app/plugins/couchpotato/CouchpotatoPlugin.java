@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import misc.HttpTools;
 import models.Module;
@@ -14,6 +15,8 @@ import models.Module;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
 
 import play.Logger;
 import play.twirl.api.Html;
@@ -31,7 +34,9 @@ public class CouchpotatoPlugin implements PlugIn {
 	private final String API_MOVIE_SEARCH = "/movie.search/?q=";
 	private final String API_ADD_MOVIE = "/movie.add/?title=[TITLE]&identifier=[IMDB]";
 	private final String API_AVAILABLE = "/app.available";
-
+	private final String API_MOVIE_LIST = "/movie.list/?status=active";
+	
+	private boolean initialized = false;
 	@Override
 	public boolean hasBigScreen() {
 		// TODO Auto-generated method stub
@@ -50,7 +55,21 @@ public class CouchpotatoPlugin implements PlugIn {
 		try {
 			JSONObject json = new JSONObject(HttpTools.sendGet(url + API_AVAILABLE));
 
-			return json.getBoolean("success");
+			//System.out.println(HttpTools.sendGet(url + API_MOVIE_LIST));
+			JSONObject movieList = new JSONObject(HttpTools.sendGet(url + API_MOVIE_LIST));
+			String poster = null;
+			if(movieList.getBoolean("success")){
+				JSONArray movies = movieList.getJSONArray("movies");
+				for(int i = 0; i < movies.length() && poster == null; i++){
+					JSONArray images = movies.getJSONObject(new Random().nextInt(movies.length())).getJSONObject("info").getJSONObject("images").getJSONArray("poster_original");
+					if(images.length() != 0){
+						poster = images.getString(new Random().nextInt(images.length()));
+					}
+				}
+			}
+			
+			
+			return poster;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -109,8 +128,15 @@ public class CouchpotatoPlugin implements PlugIn {
 
 			JSONObject movie = jsonarray.getJSONObject(i);
 
+			
+			
 			MovieObject movieObject = new MovieObject();
 			movieObject.imdbId = movie.getString("imdb");
+			
+			JSONArray images = movie.getJSONObject("images").getJSONArray("poster_original");
+			if(images.length() != 0){
+				movieObject.poster = images.getString(0);
+			}
 			
 			try{
 				movieObject.inLibrary = movie.getBoolean("in_library");
@@ -177,7 +203,7 @@ public class CouchpotatoPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return PlugIn.FIVE_SECONDS;
+		return PlugIn.ONE_MINUTE;
 	}
 
 	private class MovieObject {
@@ -186,6 +212,7 @@ public class CouchpotatoPlugin implements PlugIn {
 		public int year;
 		public boolean wanted;
 		public String imdbId;
+		public String poster;
 
 	}
 
@@ -201,7 +228,7 @@ public class CouchpotatoPlugin implements PlugIn {
 
 	@Override
 	public boolean hasCss() {
-		return false;
+		return true;
 	}
 
 	@Override

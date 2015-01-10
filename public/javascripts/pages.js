@@ -1,10 +1,10 @@
 $(document).ready(function() {
 	showCurrentPage();
-	$(document).on('click touchend', '.page-icon', changePage);
+	$(document).on('click', '.page-icon', changePage);
 
-	$(document).on('click touchend', '.remove-page', removePage);
+	$(document).on('click', '.remove-page', removePage);
 
-	$(document).on('click touchend', '.edit-page', renamePage);
+	$(document).on('click', '.edit-page', renamePage);
 
 	$('#showPages').click(showPages);
 

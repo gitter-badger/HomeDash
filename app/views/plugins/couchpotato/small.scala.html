@@ -3,26 +3,26 @@
 	<div id="cp@module.id-overlay" class="module-overlay">
 		<p>Couchpotato is not available at the moment</p>
 	</div>
-<p>
 	<form id="cp@module.id-form">
 		<div class="input-group">
-			<input type="text" class="form-control"  id="cp@module.id-searchmovie-input" placeholder="Search movie to add">
+			<input type="text" class="form-control"  id="cp@module.id-searchmovie-input" placeholder="Search movie">
 		    	<span class="input-group-btn">
-		    	<button id="cp@module.id-searchmovie" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button>
 			</span>
 		</div><!-- /input-group -->
+		<button id="cp@module.id-searchmovie" type="button"><span class="glyphicon glyphicon-search"></span></button>
     </form>
-</p>
 
 <div class="modal fade" tabindex="-1" id="cp@module.id-modal" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog">
     <div class="modal-content" >
+    	<!-- 
 	     <div class="modal-header">
 	     	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
 	      	<h4 class="modal-title"><strong>Choose your movie</strong></h4>
 	      	<small>Click on the movie you want or close this dialog</small>
 	      </div>
-	      <div class="modal-body" id="cp@module.id-movieList">
+	      -->
+	      <div class="modal-body couchpotato-movie-list" id="cp@module.id-movieList">
 	        
 	      </div>
     </div>

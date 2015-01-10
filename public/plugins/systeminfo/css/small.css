@@ -1,0 +1,92 @@
+.systeminfo{
+	padding:0px;
+	background-color: rgb(16, 207, 189);
+	color:white;
+}
+
+.systeminfo a{
+	color:white;
+}
+
+.sys-info{
+	height:100px;
+}
+
+svg.sys-info-graph{
+	width:100%;
+	height:100px;
+}
+
+.sys-info-legend{
+	position:absolute;
+	top:0;
+	left:0;
+	padding:10px;
+	z-index:10;
+}
+.sys-info-legend p{
+	color: #EEEEEE;
+	margin-bottom:5px;
+}
+.sys-info-legend p span{
+	color:white;
+	font-size:25px;
+}
+
+.sys-info-svg{
+	width:100%;
+	height:150px;
+	z-index:2;
+}
+
+svg.sys-info-graph .cpu-svg {
+  fill: rgb(10,127,116);
+}
+
+
+svg.sys-info-graph .ram-svg {
+  fill: #05403A;
+}
+
+svg.sys-info-graph .surfaces {
+  fill-opacity: 0.2;
+}
+
+svg.sys-info-hdd{
+	width:100%;
+	height:2px;
+	position:relative;
+	top:-16px;
+}
+
+svg.sys-info-hdd .sys-info-hdd-rect{
+ 	fill: #FFF;
+  	fill-opacity: 1;
+}
+
+
+svg.sys-info-hdd .sys-info-hdd-rect-full{
+ 	fill: #05403A;
+  	fill-opacity: 0.5;
+}
+
+.hdd-info{
+	height:35px;
+}
+
+.hdd-info p{
+	padding:3px;
+	margin:0;
+	color: #EEEEEE;
+	white-space: nowrap;
+	overflow-x: ellipsis;
+}
+
+.hdd-info p span{
+	color:white;
+	font-size:20px;
+}
+
+.sys-info-hdd-container{
+	background-color: rgba(10,127,116,0.8);
+}

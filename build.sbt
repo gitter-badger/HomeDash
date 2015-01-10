@@ -1,6 +1,6 @@
 name := """HomeDash"""
 
-version := "0.9.10"
+version := "0.9.11"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
@@ -21,5 +21,6 @@ libraryDependencies ++= Seq(
     "org.xerial"%"sqlite-jdbc"%"3.7.2",
     "org.bitlet"%"weupnp"%"0.1.2",
     "com.googlecode.plist"%"dd-plist"%"1.8",
-    "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT"
+    "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT",
+    "org.apache.commons" % "commons-io" % "1.3.2"
 )

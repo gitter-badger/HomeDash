@@ -1,9 +1,10 @@
 @import "theme.less";
 @import "pages.less";
+@import "grid.less";
 
 body {
 	font-family: 'Roboto', sans-serif;
-	font-weight: 300;
+	font-weight: 100;
 	background-color: @background-color;
 	padding-top: 70px;
 	padding-bottom:30px;
@@ -16,6 +17,17 @@ a{
 
 a:hover{
 	color: @primary-color;
+}
+
+input[type=text],input[type=password],input[type=email]{
+	-webkit-appearance: none;	
+}
+
+input.form-control,input.form-control:focus {
+  outline: none;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 #message-box {
@@ -46,10 +58,11 @@ a:hover{
 
 .module {
 	background: @secondary-color;
-	margin-bottom: 10px;
+	//margin-bottom: 10px;
 	padding-bottom: 3px;
 	border-radius: 2px;
 	color: @text-on-secondary-color;
+	border: 3px solid @background-color;
 }
 
 .module h3 {
@@ -132,10 +145,16 @@ btn-success {
 	box-shadow: none;
 }
 
+.module-links-container{
+	position:absolute;
+	right:0;
+	top:0;
+	z-index:10;
+	padding:5px;
+}
 .module-links {
 	padding: 3px;
 	margin-left: 10px;
-	float: right;
 }
 
 .small-progress-bar {
@@ -168,7 +187,7 @@ btn-success {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	z-index: 10;
+	z-index: 5;
 	display: none;
 }
 

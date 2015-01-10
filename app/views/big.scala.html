@@ -3,7 +3,9 @@
 
 
 @main("Home Dash"){
-	
+	@if(module.getPlugin().hasCss()){
+        	<link rel="stylesheet" media="screen" href="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/css/big.css")">
+        }
 } {
 	<div class="spinner-black">
 		<div class="spinner">
@@ -16,7 +18,7 @@
 	</div>
 
    	<div class="row">
-   		<div class="module toFadeIn col-md-12">
+   		<div class="module toFadeIn col-md-12 @module.getPlugin().getId()">
    		<h3>
 			@if(module.remote == Module.REMOTE){
 				@module.getSettingsMap().get("name")'s 

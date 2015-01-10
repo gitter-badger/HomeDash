@@ -1,0 +1,10 @@
+@row-size: 125px;
+
+.generate-rows(10);
+
+.generate-rows(@n, @i: 1) when (@i =< @n) {
+  .row-@{i} {
+    height: (@i * @row-size);
+  }
+  .generate-rows(@n, (@i + 1));
+}
