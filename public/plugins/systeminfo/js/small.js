@@ -158,8 +158,8 @@ function systeminfo(moduleId) {
 		}*/
 		
 		html.push('<div class="hdd-info">');
-
-		html.push('<p>', path, '&nbsp;&nbsp;&nbsp;<span>', usedSpace, '</span>/<span>', diskSpace[0],'</span></p>');
+		html.push('<span>', usedSpace, '/', diskSpace[0],'</span>');
+		html.push('<p>', path, '</p>');
 		html.push(this.getDiskSpaceSVG(percentage));
 
 		html.push('</div>');

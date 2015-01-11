@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	showCurrentPage();
-	$(document).on('click', '.page-icon', changePage);
+	$(document).on('click touchend', '.page-icon', changePage);
 
 	$(document).on('click', '.remove-page', removePage);
 
@@ -26,6 +26,7 @@ function changePage() {
 
 	showCurrentPage();
 	showPages();
+	fireCallbacks(CURRENT_PAGE);
 }
 
 function showCurrentPage() {
@@ -43,11 +44,32 @@ function showCurrentPage() {
 		newPage.show();
 	},300);
 	
-	/*$('.page-container').hide();
-	$('.page-container[data=' + CURRENT_PAGE + ']').show();
+	/*
+	 * $('.page-container').hide(); $('.page-container[data=' + CURRENT_PAGE +
+	 * ']').show();
 	 */
 	$('.page-icon').removeClass('active');
 	$('.page-icon[data=' + CURRENT_PAGE + ']').addClass('active');
+}
+
+function fireCallbacks(page){
+	var selector = '.page-container[data='+page+'] .module';
+	
+	$(selector).each(function(index, module){
+		var moduleId = $(module).attr('data');
+		if(modules[moduleId].onPageChange != undefined){
+			modules[moduleId].onPageChange(page);
+		}
+	});
+	
+}
+
+
+
+function PageChangeCallback() {
+	this.page = -1;
+	this.moduleId = "";
+	this.func = "";
 }
 
 function showPages() {

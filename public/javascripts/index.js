@@ -29,8 +29,8 @@ $(document).ready(function() {
 			
 			ws.send(JSON.stringify(wsMsg));
 			
-			//$(".spinner-black").addClass('fadeOutSmall');
-			//$(".toFadeIn").addClass('fadeInLeft');
+			$(".spinner-black").addClass('fadeOutSmall');
+			$(".toFadeIn").addClass('fadeInLeft');
 			
 			setTimeout(function(){
 				$(".toFadeIn").removeClass('fadeInLeft');

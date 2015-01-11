@@ -1,9 +1,13 @@
 function sickbeard(moduleId) {
 	this.moduleId = moduleId;
-
+	this.shows = [];
 	this.documentReady = function() {
 	}
 
+	this.onPageChange = function(page){
+		//this.refreshShows(this.shows);
+	}
+	
 	this.onMessage = function(method, message) {
 		if (method == 'refresh') {
 			this.processData(message);
@@ -11,6 +15,16 @@ function sickbeard(moduleId) {
 	}
 
 	this.processData = function(message) {
+		if(this.compareShows(message,this.shows)){
+			return;
+		}else{
+			this.shows = message;
+			this.refreshShows(this.shows);
+		}
+
+	}
+	
+	this.refreshShows = function(shows){
 		var body = $("#sb-shows-" + this.moduleId);
 		body.remove();
 		var container = $('#sb-slide-container-'+this.moduleId);
@@ -21,7 +35,7 @@ function sickbeard(moduleId) {
 
 		var parent = this;
 
-		$.each(message, function(index, value) {
+		$.each(shows, function(index, value) {
 			var html = [];
 
 			// html.push('<tr><td>');
@@ -71,9 +85,22 @@ function sickbeard(moduleId) {
 			        // [number] restart delay on inactive slideshow
 			    }
 		});
-
 	}
 
+	this.compareShows = function(a, b){
+		if (a === b) return true;
+		  if (a == null || b == null) return false;
+		  if (a.length != b.length) return false;
+
+		  // If you don't care about the order of the elements inside
+		  // the array, you should sort both arrays here.
+
+		  for (var i = 0; i < a.length; ++i) {
+		    if (a[i].showId !== b[i].showId) return false;
+		  }
+		  return true;
+	}
+	
 	this.showToHtml = function(show) {
 		var html = [];
 		html.push('<div class="sb-show" style="background-image:url(',

@@ -80,11 +80,13 @@ svg.sys-info-hdd .sys-info-hdd-rect-full{
 	color: #EEEEEE;
 	white-space: nowrap;
 	overflow-x: ellipsis;
+	width:100%;
 }
 
-.hdd-info p span{
+.hdd-info span{
 	color:white;
 	font-size:20px;
+	float:right;
 }
 
 .sys-info-hdd-container{
