@@ -149,8 +149,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 										Logger.info("Refreshing module [{}]", module.id);
 
 										WebSocketMessage response = module.refreshModule();
-										response.setMethod("refresh");
-
+										
 										sendToClients(clientMapping.get(module.page), response.toJSon());
 									} catch (Exception e) {
 										e.printStackTrace();

@@ -2,7 +2,6 @@ package models;
 
 import interfaces.PlugIn;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 import java.util.List;
@@ -14,14 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import misc.HttpTools;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
-
-import controllers.Application;
 import play.Logger;
 import play.db.ebean.Model;
 import websocket.WebSocketMessage;
+
+import com.google.gson.Gson;
 
 @Entity
 public class Module extends Model implements Comparable<Module> {
@@ -43,11 +39,11 @@ public class Module extends Model implements Comparable<Module> {
 	public int remote = 0;
 
 	public String pluginId;
-	
+
 	public int page = 1;
 
 	public static final int REMOTE = 1, LOCAL = 0;
-	public static final String REMOTE_API = "api_key", REMOTE_URL=  "url", REMOTE_ID = "id", REMOTE_NAME = "name", METHOD = "method", COMMAND = "command";
+	public static final String REMOTE_API = "api_key", REMOTE_URL = "url", REMOTE_ID = "id", REMOTE_NAME = "name", METHOD = "method", COMMAND = "command";
 
 	// Json of the data hold by the module.
 	@Column(columnDefinition = "TEXT")
@@ -76,7 +72,7 @@ public class Module extends Model implements Comparable<Module> {
 	public void setPlugin(PlugIn plugin) {
 		this.plugin = plugin;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -104,18 +100,30 @@ public class Module extends Model implements Comparable<Module> {
 	public WebSocketMessage refreshModule() {
 		try {
 			WebSocketMessage response = new WebSocketMessage();
+			response.setMethod(WebSocketMessage.METHOD_REFRESH);
 			if (remote == LOCAL) {
 				response.setMethod(WebSocketMessage.METHOD_REFRESH);
 				response.setId(id);
 				response.setMessage(plugin.smallScreenRefresh(settingsMap));
 			} else {
-				String url = settingsMap.get(REMOTE_URL) + "api/refreshModule/" + settingsMap.get(REMOTE_ID);
-				
-				Map<String, String> params = new Hashtable<String, String>();
-				params.put(REMOTE_API, settingsMap.get(REMOTE_API));
-				
-				response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
-				response.setId(id);
+				try {
+					String url = settingsMap.get(REMOTE_URL) + "api/refreshModule/" + settingsMap.get(REMOTE_ID);
+
+					Map<String, String> params = new Hashtable<String, String>();
+					params.put(REMOTE_API, settingsMap.get(REMOTE_API));
+
+					response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
+					response.setId(id);
+				} catch (Exception e) {
+					Logger.info("Error while refreshing module [{}]", id);
+					response = new WebSocketMessage();
+					response.setId(id);
+					response.setMethod(WebSocketMessage.REMOTE_MODULE_NOT_FOUND);
+
+					response.setMessage("Can't refresh module:" + e.getMessage());
+					return response;
+					
+				}
 			}
 			return response;
 		} catch (Exception e) {
@@ -136,13 +144,22 @@ public class Module extends Model implements Comparable<Module> {
 				response.setId(id);
 				response.setMessage(plugin.bigScreenRefresh(settingsMap, count));
 			} else {
-				String url = settingsMap.get(REMOTE_URL) + "api/bigRefreshModule/" + settingsMap.get(REMOTE_ID) + "/" + count;
-				
-				Map<String, String> params = new Hashtable<String, String>();
-				params.put(REMOTE_API, settingsMap.get(REMOTE_API));
-				
-				response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
-				response.setId(id);
+				try {
+					String url = settingsMap.get(REMOTE_URL) + "api/bigRefreshModule/" + settingsMap.get(REMOTE_ID) + "/" + count;
+
+					Map<String, String> params = new Hashtable<String, String>();
+					params.put(REMOTE_API, settingsMap.get(REMOTE_API));
+
+					response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
+					response.setId(id);
+				} catch (Exception e) {
+					Logger.error("Error while refreshing module", e);
+					response = new WebSocketMessage();
+					response.setId(id);
+					response.setMethod(WebSocketMessage.REMOTE_MODULE_NOT_FOUND);
+					response.setMessage("Can't refresh module:" + e.getMessage());
+					return response;
+				}
 			}
 			return response;
 		} catch (Exception e) {
@@ -215,9 +232,9 @@ public class Module extends Model implements Comparable<Module> {
 			setting.save();
 		}
 	}
-		
+
 	@Override
-	public void update(){
+	public void update() {
 
 		List<ModuleSetting> oldSettings = ModuleSetting.find.where().ieq("module_id", Integer.toString(id)).findList();
 		for (ModuleSetting setting : oldSettings) {
@@ -233,7 +250,6 @@ public class Module extends Model implements Comparable<Module> {
 			// setting.delete();
 			setting.save();
 		}
-		
 
 		super.update(this.id);
 
@@ -256,18 +272,22 @@ public class Module extends Model implements Comparable<Module> {
 			response.setId(id);
 		} else {
 			String url = settingsMap.get(REMOTE_URL) + "api/sendMessage/" + settingsMap.get(REMOTE_ID);
-			
+
 			Map<String, String> params = new Hashtable<String, String>();
 			params.put(REMOTE_API, settingsMap.get(REMOTE_API));
 			params.put(COMMAND, command);
 			params.put(METHOD, method);
 			try {
 				response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
-			} catch (JsonSyntaxException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				response.setId(id);
+			} catch (Exception e) {
+				Logger.error("Error while refreshing module", e);
+				 response = new WebSocketMessage();
+				response.setId(id);
+				response.setMethod(WebSocketMessage.REMOTE_MODULE_NOT_FOUND);
+				response.setMessage("Can't refresh module:" + e.getMessage());
+				return response;
 			}
-			response.setId(id);
 		}
 		return response;
 	}

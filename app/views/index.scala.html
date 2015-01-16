@@ -54,7 +54,9 @@
 			@for(module <- modules){
 						@if(page.id == module.page){
 							<div id="module@module.id" data="@module.id" class="module @module.getPlugin().getId() col-md-@module.size">
-								
+								<div id="@module.id-overlay" class="module-overlay">
+									
+								</div>
 								<div class="module-links-container">
 									@if(module.getPlugin().hasBigScreen()){
 										<a class="module-links internal-link" href="/big/@module.id"><span class="glyphicon glyphicon-resize-full"></span></a>

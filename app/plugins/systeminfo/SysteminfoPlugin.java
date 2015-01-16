@@ -12,6 +12,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.NotSupportedException;
+
 import notifications.Notifications;
 import models.Module;
 import play.Logger;
@@ -33,7 +35,7 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public boolean hasBigScreen() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -80,16 +82,8 @@ public class SysteminfoPlugin implements PlugIn {
 			// File[] roots = File.listRoots();
 
 			if (cpuInfo.size() > 0 && ramInfo.size() > 0) {
-				RamInfo ram = ramInfo.get(ramInfo.size() - 1);
-				CpuInfo cpu = cpuInfo.get(cpuInfo.size() - 1);
-
-				data.cpuUsage = cpu.cpuUsage;
-
-				data.maxRam = ram.maxRam;
-
-				data.availableRam = ram.availableRam;
-
-				data.usedRam = ram.usedRam;
+				data.cpuInfo = this.cpuInfo;
+				data.ramInfo = this.ramInfo;
 			}
 
 			for (String path : roots) {
@@ -137,44 +131,7 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public Object bigScreenRefresh(Map<String, String> settings, long count) {
-		if (count == 0) { // sending all the data we have
-			Logger.info("First time refresh");
-			Map<String, List<Double[]>> data = new Hashtable<String, List<Double[]>>();
-
-			List<Double[]> cpuData = new ArrayList<Double[]>();
-			List<Double[]> ramData = new ArrayList<Double[]>();
-
-			for (int i = 0; i < cpuInfo.size(); i++) {
-				CpuInfo cpu = cpuInfo.get(i);
-				cpuData.add(new Double[] { (double) cpu.time, cpu.cpuUsage });
-
-				RamInfo ram = ramInfo.get(i);
-				ramData.add(new Double[] { (double) ram.time, ram.percentageUsed });
-
-			}
-
-			data.put("cpu", cpuData);
-			data.put("ram", ramData);
-
-			return data;
-		} else {// subsequent one, we just send the last data
-
-			Map<String, List<Double[]>> data = new Hashtable<String, List<Double[]>>();
-
-			List<Double[]> cpuData = new ArrayList<Double[]>();
-			List<Double[]> ramData = new ArrayList<Double[]>();
-
-			CpuInfo cpu = cpuInfo.get(cpuInfo.size() - 1);
-			cpuData.add(new Double[] { (double) cpu.time, cpu.cpuUsage });
-
-			RamInfo ram = ramInfo.get(ramInfo.size() - 1);
-			ramData.add(new Double[] { (double) ram.time, ram.percentageUsed });
-
-			data.put("cpu", cpuData);
-			data.put("ram", ramData);
-
-			return data;
-		}
+		return null;
 	}
 
 	@Override
@@ -249,10 +206,7 @@ public class SysteminfoPlugin implements PlugIn {
 	public CpuInfo getCPUInfo(OperatingSystemMXBean osBean) {
 
 		CpuInfo info = new CpuInfo();
-		Date date = new Date();
-		info.time = date.getTime();
-		info.formattedTime = df.format(date);
-		info.cpuUsage = osBean.getSystemCpuLoad() * 100;
+		info.cpuUsage = Math.ceil(osBean.getSystemCpuLoad() * 100);
 		return info;
 	}
 
@@ -265,11 +219,9 @@ public class SysteminfoPlugin implements PlugIn {
 
 		info.usedRam = info.maxRam - info.availableRam;
 
-		info.percentageUsed = (info.usedRam / info.maxRam) * 100;
+		info.percentageUsed = Math.ceil((info.usedRam / info.maxRam) * 100);
 
-		Date date = new Date();
-		info.time = date.getTime();
-		info.formattedTime = df.format(date);
+		
 
 		return info;
 	}
@@ -279,20 +231,16 @@ public class SysteminfoPlugin implements PlugIn {
 	// //////////////////
 
 	public class SystemInfoData {
-		public double cpuUsage = 0;
-		public double maxRam, availableRam, usedRam;
+		public List<CpuInfo> cpuInfo;
+		public List<RamInfo> ramInfo;
 		public Hashtable<String, String[]> diskSpace = new Hashtable<String, String[]>();
 	}
 
 	public class CpuInfo {
 		public double cpuUsage = 0;
-		public long time;
-		public String formattedTime;
 	}
 
 	public class RamInfo {
 		public double maxRam, availableRam, usedRam, percentageUsed;
-		public long time;
-		public String formattedTime;
 	}
 }

@@ -80,7 +80,8 @@ function couchpotato(moduleId){
 	
 	this.processData = function (message){
 		if(!message){
-			$("#cp"+this.moduleId+"-overlay").show();
+			$("#"+this.moduleId+"-overlay").html('Couch potato is not available at the moment');
+			$("#"+this.moduleId+"-overlay").show();
 		}else{
 			$("#module"+this.moduleId).css('background-image', 'url('+message+')');
 		}

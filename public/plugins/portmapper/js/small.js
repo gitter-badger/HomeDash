@@ -14,7 +14,8 @@ function portmapper(moduleId){
 	this.documentReady = function(){
 		var parent = this;
 		
-		$('#mapper'+this.moduleId+'-overlay').show();
+		$('#'+this.moduleId+'-overlay').html("No router found.");
+		$('#'+this.moduleId+'-overlay').show();
 		$('#mapper'+this.moduleId+'-add').click(function(){
 			$("#mapper"+parent.moduleId+"-modal").modal('show');
 		});
@@ -45,7 +46,7 @@ function portmapper(moduleId){
 	this.getRouter = function(router){
 		$('#mapper'+this.moduleId+'-routerName').html(router.name);
 		$('#mapper'+this.moduleId+'-ip').html(router.externalIp);
-		$('#mapper'+this.moduleId+'-overlay').hide();
+		$('#'+this.moduleId+'-overlay').hide();
 		sendMessage(this.moduleId, 'getMappings','');
 	}
 	

@@ -1,0 +1,51 @@
+.portmapper {
+	padding: 0px;
+	background-color: #e67e22;
+	background-image: url(../images/background.svg);
+	background-repeat: no-repeat;
+	background-position: center -50px;
+	background-size: 100% 250px;
+	color: white;
+}
+
+.pm-ip {
+	font-size: 25px;
+	margin-bottom: 0;
+	margin-left: 10px;
+}
+
+.pm-router {
+	margin-top: 0px;
+	margin-left: 10px;
+}
+
+.pm-add-button {
+	margin-left: 10px;
+	background: none;
+	float: right;
+	font-size: 20px;
+}
+
+.portmapper table td {
+	padding-top: 10px;
+	padding-botton: 10px;
+	font-size: 17px;
+	border: none;
+}
+
+.portmapper table tr:hover {
+	background-color: #d35400;
+}
+
+.portmapper table tr {
+	
+}
+
+.portmapper .modal-header {
+	background-color: #e67e22;
+	color: white;
+}
+
+.portmapper .modal-body {
+	color: #666666;
+}

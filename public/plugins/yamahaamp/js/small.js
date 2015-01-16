@@ -8,7 +8,7 @@ function yamahaamp(moduleId){
 			sendMessage(parent.moduleId, 'ampCommand', 'On/Standby');
 		});
 		
-		$("#amp"+this.moduleId+"-power2").click(function(){
+		$(document).on('click', "#amp"+this.moduleId+"-power2", function(){
 			sendMessage(parent.moduleId, 'ampCommand', 'On/Standby');
 		});
 		
@@ -49,10 +49,13 @@ function yamahaamp(moduleId){
 		
 			$(".input-button").removeClass("active");
 			$('.input-button[data="'+json.input+'"]').addClass("active");
-			$("#amp"+this.moduleId+"-overlay").hide();
+			$("#"+this.moduleId+"-overlay").hide();
 		}else{
 			$(".amp"+this.moduleId+"-power").removeClass("btn-success");
-			$("#amp"+this.moduleId+"-overlay").show();
+			var html = [];
+			html.push('<p>The amplifier is off, turn it on</p><button id="amp'+this.moduleId+'-power2" class="btn yamp-power"><span class="glyphicon glyphicon-off"></span></button>');
+			$("#"+this.moduleId+"-overlay").html(html);
+			$("#"+this.moduleId+"-overlay").show();
 		}
 		
 		

@@ -85,6 +85,14 @@ function onMessage(event) {
 	case 'reload':
 		location.reload();
 		break;
+	case 'remote404':
+		$('#'+json.id+'-overlay').html('This remote module is not available at the moment.');
+		$('#'+json.id+'-overlay').show();
+		break;
+	default:
+		$('#'+json.id+'-overlay').hide();
+		break;
+			
 	}
 	
 	modules[json.id].onMessage(json.method, json.message);

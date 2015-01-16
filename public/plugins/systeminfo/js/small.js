@@ -17,58 +17,17 @@ function systeminfo(moduleId) {
 
 		var html = [];
 
-		var ramPercent = Math.ceil((obj.usedRam / obj.maxRam) * 100);
+		
 
-		var cpu = Math.ceil(obj.cpuUsage);
+		this.cpuHistory = obj.cpuInfo;
+		this.ramHistory = obj.ramInfo;
 
-		/*$("#ramText" + this.moduleId).html(
-				humanFileSize(obj.usedRam, true) + " / "
-						+ humanFileSize(obj.maxRam, true));
-
-		var ramProgress = $("#ram" + this.moduleId);
-		ramProgress.css("width", ramPercent + "%");
-		ramProgress
-				.removeClass("progress-bar-danger progress-bar-warning progress-bar-info");
-
-		if (ramPercent > 90) {
-			ramProgress.addClass("progress-bar-danger");
-		} else if (ramPercent > 70) {
-			ramProgress.addClass("progress-bar-warning");
-		} else if (ramPercent > 50) {
-			ramProgress.addClass("progress-bar-info");
+		if(this.ramHistory.length > 0 && this.cpuHistory.length > 0){
+			$('#cpu-txt-'+this.moduleId).html(this.cpuHistory[this.cpuHistory.length -1].cpuUsage);
+			$('#ram-txt-'+this.moduleId).html(this.ramHistory[this.ramHistory.length -1].percentageUsed);
+		
+			$('#sys-info-svg-'+this.moduleId).html(this.generateSVG());
 		}
-
-		var cpuProgress = $("#cpu" + this.moduleId);
-		cpuProgress.css("width", cpu + "%");
-
-		cpuProgress.removeClass("progress-bar-danger progress-bar-warning progress-bar-info progress-bar-success");
-		
-		
-
-		if (cpu > 90) {
-			cpuProgress.addClass("progress-bar-danger");
-		} else if (cpu > 70) {
-			cpuProgress.addClass("progress-bar-warning");
-		} else if (cpu > 50) {
-			cpuProgress.addClass("progress-bar-info");
-		} else if (cpu < 25) {
-			cpuProgress.addClass("progress-bar-success");
-		}*/
-		
-		$('#cpu-txt-'+this.moduleId).html(cpu);
-		$('#ram-txt-'+this.moduleId).html(ramPercent);
-
-		this.cpuHistory.push(cpu);
-		this.ramHistory.push(ramPercent);
-		
-		if(this.cpuHistory.length > 100){
-			this.cpuHistory.shift();
-		}
-		
-		if(this.ramHistory.length > 100){
-			this.ramHistory.shift();
-		}
-		
 		var parent = this;
 
 		var i = 0;
@@ -85,7 +44,6 @@ function systeminfo(moduleId) {
 		
 		$("#systeminfo" + this.moduleId + "-harddisk").html(html.join(""));
 		
-		$('#sys-info-svg-'+this.moduleId).html(this.generateSVG());
 	};
 	
 	this.generateSVG = function(){
@@ -94,12 +52,12 @@ function systeminfo(moduleId) {
 		html.push('<svg class="sys-info-graph" preserveAspectRatio="none" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100">');
 	    html.push('<g class="surfaces">');
 	    
-	    var cpuSvg = this.arrayToSVGGraph(this.cpuHistory);
+	    var cpuSvg = this.cpuArrayToSVGGraph(this.cpuHistory);
 	    html.push('<path class="cpu-svg" d="');
 	    html.push(cpuSvg);
 	    html.push('"></path>');
 	        
-	    var ramSvg = this.arrayToSVGGraph(this.ramHistory);
+	    var ramSvg = this.ranArrayToSVGGraph(this.ramHistory);
 	    html.push('<path class="ram-svg" d="');
 	    html.push(ramSvg);
 	    html.push('"></path>');
@@ -110,15 +68,32 @@ function systeminfo(moduleId) {
 		
 	}
 	
-	this.arrayToSVGGraph = function(array){
+	
+	
+	this.cpuArrayToSVGGraph = function(array){
 		var html = [];
 		html.push('M0,100');
 		var lastIndex = 0;
 		var step = 100/array.length;
-    	html.push(' L0,',100-array[0]);
-		 $.each(array, function(index, percent){
+    	html.push(' L0,',100-array[0].cpuUsage);
+		 $.each(array, function(index, cpuInfo){
 			 
-		    	html.push(' L',(index+1)*step,',',100-percent);
+		    	html.push(' L',(index+1)*step,',',100-cpuInfo.cpuUsage);
+		    	lastIndex = index*step;
+		    });
+		 html.push(' L',100,',100 Z');
+		 return html.join('');
+	}
+	
+	this.ranArrayToSVGGraph = function(array){
+		var html = [];
+		html.push('M0,100');
+		var lastIndex = 0;
+		var step = 100/array.length;
+    	html.push(' L0,',100-array[0].percentageUsed);
+		 $.each(array, function(index, ramInfo){
+			 
+		    	html.push(' L',(index+1)*step,',',100-ramInfo.percentageUsed);
 		    	lastIndex = index*step;
 		    });
 		 html.push(' L',100,',100 Z');
