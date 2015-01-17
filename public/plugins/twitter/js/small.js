@@ -17,7 +17,7 @@ function twitter(moduleId){
 	
 	this.processData = function(tweets){
 		this.tweets = tweets;
-		this.currentIndex = tweets.length-1;
+		this.currentIndex = 0;
 		this.showTweet();
 	}
 	
@@ -45,12 +45,12 @@ function twitter(moduleId){
 	}
 	
 	this.showPreviousTweet = function(event){
-		this.currentIndex = this.currentIndex - 1;
+		this.currentIndex = this.currentIndex + 1;
 		this.showTweet();
 	}
 	
 	this.showNextTweet = function(event){
-		this.currentIndex = this.currentIndex + 1;
+		this.currentIndex = this.currentIndex - 1;
 		this.showTweet();
 	}
 }
