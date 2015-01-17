@@ -3,8 +3,7 @@
 	background-color: #e67e22;
 	background-image: url(../images/background.svg);
 	background-repeat: no-repeat;
-	background-position: center -50px;
-	background-size: 100% 250px;
+	background-position: center top;
 	color: white;
 }
 
@@ -26,26 +25,27 @@
 	font-size: 20px;
 }
 
-.portmapper table td {
+.portmapper .table>tbody>tr>td {
 	padding-top: 10px;
 	padding-botton: 10px;
 	font-size: 17px;
 	border: none;
 }
 
-.portmapper table tr:hover {
+.portmapper .table>tbody>tr:hover {
 	background-color: #d35400;
 }
 
-.portmapper table tr {
-	
+.portmapper .table>tbody>tr.success>td  {
+	background: none;
+	font-weight: bold;
 }
 
-.portmapper .modal-header {
+.pm-modal .modal-header {
 	background-color: #e67e22;
 	color: white;
 }
 
-.portmapper .modal-body {
+.pm-modal .modal-body {
 	color: #666666;
 }

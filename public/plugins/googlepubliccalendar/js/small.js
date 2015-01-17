@@ -11,7 +11,7 @@ function googlepubliccalendar(moduleId){
 			$('#gcal'+parent.moduleId+'-eventDate').html(tr.attr('data-date'));
 			$('#gcal'+parent.moduleId+'-eventDescription').html(parent.url2link(parent.nl2br(tr.attr('data-description')))+'<br /><br />'+link);
 			
-			$('#gcal'+parent.moduleId+'-modal').modal('show');
+			$('#gcal'+parent.moduleId+'-modal').appendTo("body").modal('show');
 		});
 	}
 	

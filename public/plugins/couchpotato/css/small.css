@@ -73,11 +73,13 @@
 
 .cp-movie-name {
 	background-color: rgba(0, 0, 0, 0.2);
-	padding-top: 20px;
+	padding-top: 18px;
 	padding-bottom: 20px;
 	margin: 0;
 	padding-left: 2px;
 	height: 100%;
+	color:white;
+	font-size:20px;
 }
 
 .cp-movie-year {

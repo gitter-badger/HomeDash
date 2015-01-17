@@ -4,7 +4,7 @@ function couchpotato(moduleId){
 	
 	this.searchMovie = function (){
 		$("#cp"+this.moduleId+"-movieList").html('<p style="text-align:center"><img src="/assets/images/loading.gif" /></p>');
-		$("#cp"+this.moduleId+"-modal").modal('show');
+		$("#cp"+this.moduleId+"-modal").appendTo("body").modal('show');
 		sendMessage(this.moduleId, 'searchMovie', $("#cp"+this.moduleId+"-searchmovie-input").val());
 	}
 

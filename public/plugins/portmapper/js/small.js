@@ -17,7 +17,7 @@ function portmapper(moduleId){
 		$('#'+this.moduleId+'-overlay').html("No router found.");
 		$('#'+this.moduleId+'-overlay').show();
 		$('#mapper'+this.moduleId+'-add').click(function(){
-			$("#mapper"+parent.moduleId+"-modal").modal('show');
+			$("#mapper"+parent.moduleId+"-modal").appendTo("body").modal('show');
 		});
 		
 		$('#mapper'+this.moduleId+'-form').submit(function(){
