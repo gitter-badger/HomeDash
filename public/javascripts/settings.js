@@ -84,22 +84,25 @@ function saveSettings(hideSettings) {
 }
 
 function toggleSettings() {
+	var IN_ANIMATION = 'fadeIn';
+	var OUT_ANIMATION = 'fadeOut';
+	
 	var overlay = $(".module-settings-overlay");
 	var settings = $('.settings');
-	if (settings.hasClass('fadeInLeftNoDelay')) {
-		settings.removeClass('fadeInLeftNoDelay');
-		settings.addClass('fadeOutSmall');
-		overlay.removeClass('fadeInLeftNoDelay');
-		overlay.addClass('fadeOutSmall');
+	if (settings.hasClass(IN_ANIMATION)) {
+		settings.removeClass('animated '+IN_ANIMATION);
+		settings.addClass('animated '+OUT_ANIMATION);
+		overlay.removeClass('animated '+IN_ANIMATION);
+		overlay.addClass('animated '+OUT_ANIMATION);
 		setTimeout(function() {
 			overlay.hide();
 		}, 500);
 
 	} else {
-		settings.removeClass('fadeOutSmall');
-		settings.addClass('fadeInLeftNoDelay');
-		overlay.removeClass('fadeOutSmall');
-		overlay.addClass('fadeInLeftNoDelay');
+		settings.removeClass('animated '+OUT_ANIMATION);
+		settings.addClass('animated '+IN_ANIMATION);
+		overlay.removeClass('animated '+OUT_ANIMATION);
+		overlay.addClass('animated '+IN_ANIMATION);
 		settings.show();
 		overlay.show();
 

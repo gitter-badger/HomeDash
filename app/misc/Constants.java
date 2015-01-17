@@ -16,5 +16,6 @@ public class Constants {
 		PLUGINS.put("Google Public Calendar", "plugins.googlepubliccalendar.GooglePublicCalendarPlugin");
 		PLUGINS.put("Port Mapper", "plugins.portmapper.PortMapperPlugin");
 		PLUGINS.put("OS X controls", "plugins.osx.OsXPlugin");
+		PLUGINS.put("Twitter", "plugins.twitter.TwitterPlugin");
 	}
 }

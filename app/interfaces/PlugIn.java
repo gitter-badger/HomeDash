@@ -7,7 +7,7 @@ import play.twirl.api.Html;
 import websocket.WebSocketMessage;
 
 public interface PlugIn {
-	public static final int NO_REFRESH = 0, ONE_SECOND = 1000, FIVE_SECONDS = 5000, TEN_SECONDS = 10000, ONE_MINUTE = 60000, TEN_MINUTES = 600000;
+	public static final int NO_REFRESH = 0, ONE_SECOND = 1000, ONE_MINUTE = ONE_SECOND * 60, ONE_HOUR = ONE_MINUTE * 60;
 	
 	/**
 	 * Get the id of the plugin

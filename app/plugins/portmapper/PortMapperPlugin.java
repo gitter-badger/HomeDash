@@ -197,7 +197,7 @@ public class PortMapperPlugin implements PlugIn {
 	@Override
 	public int getRefreshRate() {
 		// TODO Auto-generated method stub
-		return PlugIn.TEN_MINUTES;
+		return ONE_MINUTE * 10;
 	}
 
 	private List<MappingObject> getMappings() throws IOException, SAXException {
@@ -361,7 +361,7 @@ public class PortMapperPlugin implements PlugIn {
 	
 	@Override
 	public int getBackgroundRefreshRate() {
-		return TEN_MINUTES;
+		return ONE_MINUTE * 10;
 	}
 	
 	@Override

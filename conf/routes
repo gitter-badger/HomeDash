@@ -33,11 +33,13 @@ GET	/logout					controllers.Login.logout()
 GET	/pages/add				controllers.Pages.addPage()
 GET	/pages/remove/:id			controllers.Pages.removePage(id: Integer)
 GET	/pages/rename/:id/:name			controllers.Pages.renamePage(id: Integer, name: String)
+
 #API
 POST	/api/explore				controllers.API.explore()
 POST	/api/refreshModule/:id			controllers.API.refreshModule(id: Integer)
 POST	/api/bigRefreshModule/:id/:count	controllers.API.bigRefreshModule(id: Integer, count: Long)
 POST	/api/sendMessage/:id			controllers.API.sendMessage(id: Integer)
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file				controllers.Assets.at(path="/public", file)

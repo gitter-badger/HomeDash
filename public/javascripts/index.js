@@ -29,12 +29,12 @@ $(document).ready(function() {
 			
 			ws.send(JSON.stringify(wsMsg));
 			
-			$(".spinner-black").addClass('fadeOutSmall');
-			$(".toFadeIn").addClass('fadeInLeft');
-			
+			$(".spinner-black").addClass('animated fadeOut');
+//			$(".toFadeIn").addClass('animated bounceIn');
+//			
 			setTimeout(function(){
-				$(".toFadeIn").removeClass('fadeInLeft');
-				$(".toFadeIn").removeClass('toFadeIn');
+//				$(".toFadeIn").removeClass('animated bounceIn');
+//				$(".toFadeIn").removeClass('animated fadeOut');
 				$(".spinner-black").remove();
 			},1500);
 			

@@ -168,7 +168,7 @@ public class OsXPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return PlugIn.TEN_SECONDS*2;
+		return ONE_SECOND  * 20;
 	}
 
 	private Map<String, OsXApp> getDockAndRunningApplications() throws Exception {

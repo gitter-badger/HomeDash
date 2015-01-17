@@ -11,6 +11,9 @@ $(document).ready(function() {
 	$('.add-page').click(addPage);
 });
 
+var IN_ANIMATION = 'fadeIn';
+var OUT_ANIMATION = 'fadeOut';
+
 function changePage() {
 	// alert('chaging to page '+$(this).attr('data'));
 	CURRENT_PAGE = $(this).attr('data');
@@ -33,11 +36,11 @@ function showCurrentPage() {
 	var oldPages = $('.page-container:not(.page-container[data=' + CURRENT_PAGE + '])');
 	var newPage = $('.page-container[data=' + CURRENT_PAGE + ']');
 	
-	oldPages.removeClass('fadeInLeft');
-	newPage.removeClass('fadeOutSmall');
+	oldPages.removeClass('animated '+IN_ANIMATION);
+	newPage.removeClass('animated '+OUT_ANIMATION);
 	
-	oldPages.addClass('fadeOutSmall');
-	newPage.addClass('fadeInLeft');
+	oldPages.addClass('animated '+OUT_ANIMATION);
+	newPage.addClass('animated '+IN_ANIMATION);
 	
 	setTimeout(function(){
 		oldPages.hide();
@@ -75,16 +78,16 @@ function PageChangeCallback() {
 function showPages() {
 	 
 	var pages = $('#pages');
-	var showAnimation = 'bounceDown';
-	var hideAnimation = 'bounceUp';
+	var showAnimation = 'bounceInDown';
+	var hideAnimation = 'bounceOutUp';
 	if (!pages.hasClass(showAnimation)) {
 		scrolltoTop();
 		pages.show();
-		pages.removeClass(hideAnimation);
-		pages.addClass(showAnimation);
+		pages.removeClass('animated '+hideAnimation);
+		pages.addClass('animated '+showAnimation);
 	} else {
-		pages.removeClass(showAnimation);
-		pages.addClass(hideAnimation);
+		pages.removeClass('animated '+showAnimation);
+		pages.addClass('animated '+hideAnimation);
 	}
 }
 

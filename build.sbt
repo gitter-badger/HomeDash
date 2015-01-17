@@ -22,5 +22,6 @@ libraryDependencies ++= Seq(
     "org.bitlet"%"weupnp"%"0.1.2",
     "com.googlecode.plist"%"dd-plist"%"1.8",
     "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT",
-    "org.apache.commons" % "commons-io" % "1.3.2"
+    "org.apache.commons" % "commons-io" % "1.3.2",
+    "org.twitter4j" % "twitter4j-core" % "4.0.2"
 )

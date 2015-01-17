@@ -7,6 +7,7 @@ import java.util.Map;
 
 import models.Setting;
 import play.Logger;
+import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 import exceptions.FormException;
@@ -40,6 +41,7 @@ public class Login extends Controller{
 				
 			
 		}
+		
 		Logger.info("Login failed");
 
 		FormException exception = new FormException();
@@ -56,6 +58,8 @@ public class Login extends Controller{
 	public static String hashString(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest md5;
 		md5 = MessageDigest.getInstance("MD5");
+		str += Play.application().configuration().getString("application.secret");
+
 		md5.update(str.getBytes());
 		
 		byte[] byteData = md5.digest();

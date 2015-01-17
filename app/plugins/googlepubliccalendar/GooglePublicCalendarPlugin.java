@@ -161,7 +161,7 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	@Override
 	public int getRefreshRate() {
 		// TODO Auto-generated method stub
-		return PlugIn.TEN_MINUTES*6;
+		return ONE_HOUR;
 	}
 	
 	private class GoogleCalendar{

@@ -1,6 +1,7 @@
 @import "theme.less";
 @import "pages.less";
 @import "grid.less";
+@import "loadingAnimation.less";
 
 body {
 	font-family: 'Roboto', sans-serif;
@@ -261,52 +262,6 @@ btn-success {
 	display: none;
 }
 
-.bounceDown {
-	-webkit-animation-name: bounceInDown;
-	animation-name: bounceInDown;
-	-webkit-animation-duration: 0.5s;
-	animation-duration: 0.5s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-}
-
-.bounceUp {
-	-webkit-animation-name: bounceOutUp;
-	animation-name: bounceOutUp;
-	-webkit-animation-duration: 1.0s;
-	animation-duration: 1.0s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-}
-
-.fadeInLeft {
-	-webkit-animation-duration: 1.0s;
-	animation-duration: 1.0s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: fadeInLeft;
-	animation-name: fadeInLeft;
-	animation-delay: +0.5s;
-	-webkit-animation-delay: +0.5s;
-}
-
-.fadeInLeftNoDelay {
-	-webkit-animation-duration: 0.3s;
-	animation-duration: 0.3s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-	-webkit-animation-name: fadeInLeft;
-	animation-name: fadeInLeft;
-}
-
-.fadeOutSmall {
-	-webkit-animation-name: fadeOutSmall;
-	animation-name: fadeOutSmall;
-	-webkit-animation-duration: 0.5s;
-	animation-duration: 0.5s;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
-}
 
 .logo {
 	margin: 50px auto;
@@ -357,6 +312,7 @@ footer{
 	right: 0;
 	position: fixed;
 	padding-top: 20%;
+	background-color:@background-color;
 }
 
 .spinner-black>.spinner>div {
