@@ -58,7 +58,7 @@ then
 elif [ $1 == "stop" ]
 then
     stop
-elif [ $1 == "update"]
+elif [ $1 == "update" ]
 then
     git pull
     restart
