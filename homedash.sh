@@ -36,7 +36,6 @@ function start {
 
         echo "Starting Home Dash in the background"
         nohup $FULLDIR/bin/homedash -Dhttp.port=9000 -DapplyEvolutions.default=true  -DapplyDownEvolutions.default=true -J-Xms64M -J-Xmx128M &> "$DIR/homedash.log" &
-
     fi
 }
 
@@ -46,9 +45,10 @@ function restart {
 }
 
 
+
 if [ $# -eq 0 ]
 then
-    echo "Argument needed start|restart|stop"
+    echo "Argument needed start|restart|stop|update"
 elif [ $1 == "start" ]
 then
     start
@@ -58,8 +58,12 @@ then
 elif [ $1 == "stop" ]
 then
     stop
+elif [ $1 == "update"]
+then
+    git pull
+    restart
 else
-    echo "Argument needed start|restart|stop"
+    echo "Argument needed start|restart|stop|update"
 fi
 
 
