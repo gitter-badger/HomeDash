@@ -2,6 +2,7 @@ package plugins.twitter;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,8 @@ import com.google.gson.Gson;
 import models.Module;
 import play.Logger;
 import play.twirl.api.Html;
+import twitter4j.Query;
+import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -27,6 +30,8 @@ public class TwitterPlugin implements PlugIn {
 
 	private List<Tweet> tweets = new ArrayList<Tweet>();
 
+	private final static String METHOD_SHOW_USER = "showUser", METHOD_SHOW_HASHTAG = "showHashtag", METHOD_NEW_TWEET = "newTweet";
+	
 	private Twitter twitter;
 	private boolean refreshingData = false;
 
@@ -60,9 +65,40 @@ public class TwitterPlugin implements PlugIn {
 
 	@Override
 	public WebSocketMessage processCommand(String method, String command) {
-		// TODO Auto-generated method stub
-		return null;
+		WebSocketMessage wsMessage = new WebSocketMessage();
+		wsMessage.setMethod(method);
+		
+		if(method.equalsIgnoreCase(METHOD_SHOW_HASHTAG)){
+			try {
+				wsMessage.setMessage(searchHashTag(command));
+			} catch (TwitterException e) {
+				wsMessage.setMethod(WebSocketMessage.METHOD_ERROR);
+				wsMessage.setMessage("Can't get #"+command+" tweets");
+			}
+		}else if(method.equalsIgnoreCase(METHOD_SHOW_USER)){
+			try {
+				wsMessage.setMessage(searchUser(command));
+			} catch (TwitterException e) {
+				wsMessage.setMethod(WebSocketMessage.METHOD_ERROR);
+				wsMessage.setMessage("Can't get @"+command+" timeline");
+			}
+		}else if(method.equalsIgnoreCase(METHOD_NEW_TWEET)){
+			try {
+				newTweet(command);
+				
+				
+				wsMessage.setMessage("Tweet sent !");
+				wsMessage.setExtra(tweets);
+				wsMessage.setMethod(WebSocketMessage.METHOD_SUCCESS);
+			} catch (TwitterException e) {
+				wsMessage.setMethod(WebSocketMessage.METHOD_ERROR);
+				wsMessage.setMessage("Can't send tweet");
+			}
+		}
+		return wsMessage;
 	}
+
+
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -147,23 +183,54 @@ public class TwitterPlugin implements PlugIn {
 			statuses = twitter.getHomeTimeline();
 			Logger.info("Twitter home timeline size:[{}]", statuses.size());
 			for (Status status : statuses) {
-				Tweet tweet = new Tweet();
-				tweet.username = status.getUser().getName();
-				tweet.content = status.getText();
-				tweet.isRetweet = status.isRetweet();
-				tweet.userPicture = status.getUser().getProfileImageURL();
-				tweet.id = status.getId();
-				tweet.date = status.getCreatedAt();
-				tweets.add(tweet);
+				tweets.add(fromStatusToTweet(status));
 			}
-
 		} catch (TwitterException e) {
 			Logger.error("Can't get Timeline", e);
 		}
 	}
 
+	private List<Tweet> searchUser(String command) throws TwitterException {
+		Logger.info("Searching tweets for user @{}", command);
+		
+		List<Tweet> tweets = new ArrayList<>();
+		for(Status status: twitter.getUserTimeline(command)){
+			tweets.add(fromStatusToTweet(status));
+		}
+		return tweets;
+	}
+
+	private List<Tweet> searchHashTag(String command) throws TwitterException {
+		Query query = new Query(command);
+        QueryResult result = twitter.search(query);
+        query.count(100);
+        List<Tweet> tweets = new ArrayList<>();
+        for (Status status : result.getTweets()) {
+			tweets.add(fromStatusToTweet(status));
+		}
+		return tweets;
+	}
+	
+	private Tweet fromStatusToTweet(Status status){
+		Tweet tweet = new Tweet();
+		tweet.username = status.getUser().getName();
+		tweet.content = status.getText();
+		tweet.isRetweet = status.isRetweet();
+		tweet.userPicture = status.getUser().getProfileImageURL();
+		tweet.id = status.getId();
+		tweet.date = status.getCreatedAt();
+		tweet.userId = status.getUser().getScreenName();
+		return tweet;
+	}
+	
+	private void newTweet(String command) throws TwitterException {
+		twitter.updateStatus(command);
+		refreshTimeline();
+	}
+	
 	// //INNER CLASSES
 	private class Tweet {
+		public String userId;
 		public Date date;
 		public long id;
 		public String userPicture;

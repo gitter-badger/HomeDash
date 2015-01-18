@@ -95,7 +95,7 @@ function onMessage(event) {
 			
 	}
 	
-	modules[json.id].onMessage(json.method, json.message);
+	modules[json.id].onMessage(json.method, json.message, json.extra);
 }
 
 function showSuccessMessage(message) {

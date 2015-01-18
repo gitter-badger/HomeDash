@@ -7,11 +7,34 @@ function twitter(moduleId){
 		var parent = this;
 		$('#twitter-'+this.moduleId+'-previous').click(function(){parent.showPreviousTweet()});
 		$('#twitter-'+this.moduleId+'-next').click(function(){parent.showNextTweet()});
+		$('#twitter-'+this.moduleId+'-tweet').click(function(){parent.newTweet()});
+		$(document).on('click', '.twitter-userid', function(){
+			
+			$("#twitter-"+parent.moduleId+"-modal .modal-body").html('<p style="text-align:center"><img src="/assets/images/loading.gif" /></p>');
+			$("#twitter-"+parent.moduleId+"-modal").appendTo("body").modal('show');
+			
+			sendMessage(parent.moduleId, 'showUser', $(this).attr('data'));
+		});
+
+		$(document).on('click', '.twitter-hashtag', function(){
+	
+			$("#twitter-"+parent.moduleId+"-modal .modal-body").html('<p style="text-align:center"><img src="/assets/images/loading.gif" /></p>');
+			$("#twitter-"+parent.moduleId+"-modal").appendTo("body").modal('show');
+			
+			sendMessage(parent.moduleId, 'showHashtag', $(this).attr('data'));
+		});
 	}
 
-	this.onMessage = function (method, message){
+	this.onMessage = function (method, message, extra){
 		if(method == 'refresh'){
 			this.processData(message);
+		}else if(method == 'showUser' || method == 'showHashtag'){
+			this.showTweets(message);
+		}else if(method == 'error'){
+			$("#twitter-"+this.moduleId+"-modal").modal('hide');
+		}
+		else if(method == 'success'){
+			this.processData(extra);
 		}
 	}
 	
@@ -35,9 +58,19 @@ function twitter(moduleId){
 	
 	this.tweetToHtml = function(tweet){
 		var html = [];
+		
+	    var pattern = new RegExp("@([a-zA-Z0-9]+)", 'g');
+	    tweet.content = tweet.content.replace(pattern, '<a class="twitter-userid" data="$1">@$1</a>');
+	    
+	    var hashtag = new RegExp("#([a-zA-Z0-9]+)", 'g');
+	    tweet.content = tweet.content.replace(hashtag, '<a class="twitter-hashtag" data="$1">#$1</a>');
+	    
+	    var urlRegex = new RegExp("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)", 'ig');
+	    tweet.content = tweet.content.replace(urlRegex, '<a href="$&" target="_blank" class="twitter-link">$&</a>');
+	    
 		html.push('<div class="animated fadeIn" id="twitter-',this.moduleId,'-tweet">');
 		html.push('<p class="twitter-username">');
-		html.push('<img src="',tweet.userPicture,'"/>',tweet.username, '</p>');
+		html.push('<img src="',tweet.userPicture,'"/><a class="twitter-userid" data="',tweet.userId,'">',tweet.username, '</a></p>');
 		html.push('<p class="twitter-content">', tweet.content,'</p>')
 		html.push('<p class="twitter-date">', tweet.date,'</p>')
 		html.push('</div>');
@@ -53,4 +86,27 @@ function twitter(moduleId){
 		this.currentIndex = this.currentIndex - 1;
 		this.showTweet();
 	}
+	
+	
+	this.showTweets = function(tweets){
+		var body = $("#twitter-"+this.moduleId+"-modal .modal-body");
+		body.html('');
+		var parent=  this;
+		$.each(tweets, function(index, tweet){
+			body.append(parent.tweetToHtml(tweet));
+			body.append('<hr />');
+		});
+		
+	}
+	
+	this.newTweet = function(){
+		var tweet = prompt('Tweet', '#homedash');
+		if(tweet != undefined){
+			tweet = $.trim(tweet);
+			if(tweet != ''){
+				sendMessage(this.moduleId, 'newTweet', tweet);
+			}
+		}
+	}
+	
 }
