@@ -28,7 +28,9 @@ function twitter(moduleId){
 	this.onMessage = function (method, message, extra){
 		if(method == 'refresh'){
 			this.processData(message);
-		}else if(method == 'showUser' || method == 'showHashtag'){
+		}else if(method == 'showUser'){
+			this.showTweets(message);
+		}else if( method == 'showHashtag'){
 			this.showTweets(message);
 		}else if(method == 'error'){
 			$("#twitter-"+this.moduleId+"-modal").modal('hide');
@@ -51,27 +53,27 @@ function twitter(moduleId){
 		}
 		
 		if(this.currentIndex < 0){
-			this.currentIndex =  this.tweets.length -1;
+			this.currentIndex =  this.tweets.length-1;
 		}
 		$('#twitter-'+this.moduleId).html(this.tweetToHtml(this.tweets[this.currentIndex]));
 	}
 	
 	this.tweetToHtml = function(tweet){
 		var html = [];
-		
-	    var pattern = new RegExp("@([a-zA-Z0-9]+)", 'g');
-	    tweet.content = tweet.content.replace(pattern, '<a class="twitter-userid" data="$1">@$1</a>');
+		var content = tweet.content;
+	    var pattern = new RegExp("@([0-9A-Za-z\u00C0-\u017F-_]+)", 'g');
+	    content = content.replace(pattern, '<a class="twitter-userid" data="$1">@$1</a>');
 	    
-	    var hashtag = new RegExp("#([a-zA-Z0-9]+)", 'g');
-	    tweet.content = tweet.content.replace(hashtag, '<a class="twitter-hashtag" data="$1">#$1</a>');
+	    var hashtag = new RegExp("#([0-9A-Za-z\u00C0-\u017F-_]+)", 'g');
+	    content = content.replace(hashtag, '<a class="twitter-hashtag" data="$1">#$1</a>');
 	    
 	    var urlRegex = new RegExp("[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)", 'ig');
-	    tweet.content = tweet.content.replace(urlRegex, '<a href="$&" target="_blank" class="twitter-link">$&</a>');
+	    content = content.replace(urlRegex, '<a href="$&" target="_blank" class="twitter-link">$&</a>');
 	    
 		html.push('<div class="animated fadeIn" id="twitter-',this.moduleId,'-tweet">');
 		html.push('<p class="twitter-username">');
 		html.push('<img src="',tweet.userPicture,'"/><a class="twitter-userid" data="',tweet.userId,'">',tweet.username, '</a></p>');
-		html.push('<p class="twitter-content">', tweet.content,'</p>')
+		html.push('<p class="twitter-content">', content,'</p>')
 		html.push('<p class="twitter-date">', tweet.date,'</p>')
 		html.push('</div>');
 		return html.join('');
