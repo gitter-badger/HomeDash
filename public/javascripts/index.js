@@ -30,11 +30,11 @@ $(document).ready(function() {
 			ws.send(JSON.stringify(wsMsg));
 			
 			$(".spinner-black").addClass('animated fadeOut');
-//			$(".toFadeIn").addClass('animated bounceIn');
+			if(BIG_SCREEN == 1){
+				$('.module').addClass('animated fadeIn');
+			}
 //			
 			setTimeout(function(){
-//				$(".toFadeIn").removeClass('animated bounceIn');
-//				$(".toFadeIn").removeClass('animated fadeOut');
 				$(".spinner-black").remove();
 			},1500);
 			

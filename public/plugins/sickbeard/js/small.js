@@ -2,6 +2,10 @@ function sickbeard(moduleId) {
 	this.moduleId = moduleId;
 	this.shows = [];
 	this.documentReady = function() {
+		
+		var parent = this;
+		$('#sb-'+this.moduleId+'-previous').click(function(){parent.showPreviousShow()});
+		$('#sb-'+this.moduleId+'-next').click(function(){parent.showNextShow()});
 	}
 
 	this.onPageChange = function(page){
@@ -19,72 +23,25 @@ function sickbeard(moduleId) {
 			return;
 		}else{
 			this.shows = message;
-			this.refreshShows(this.shows);
+			this.currentIndex = 0;
+			this.showShow();
 		}
 
 	}
 	
-	this.refreshShows = function(shows){
+	
+	
+	this.showShow = function(){
 		var body = $("#sb-shows-" + this.moduleId);
-		body.remove();
-		var container = $('#sb-slide-container-'+this.moduleId);
-		container.html('<div id="sb-shows-' + this.moduleId+'" class="sb-shows-container"></div>'); 
+
+		if(this.currentIndex >= this.shows.length){
+			this.currentIndex = 0;
+		}
 		
-		body = $("#sb-shows-" + this.moduleId + "");
-		body.html("");
-
-		var parent = this;
-
-		$.each(shows, function(index, value) {
-			var html = [];
-
-			// html.push('<tr><td>');
-			// html.push(value.nextShowingReadable);
-			// html.push('</td><td>');
-			// html.push(value.name);
-			// html.push('</td></tr>');
-
-			html.push(parent.showToHtml(value));
-
-			body.append(html.join(''));
-		});
-
-		// starting slideshow
-		body.slidesjs({
-			height : 500,
-			navigation : {
-				active : true,
-				effect : "slide"
-			// [string] Can be either "slide" or "fade".
-			},
-			pagination : {
-				active : false,
-				effect : "slide"
-			},
-			callback : {
-				loaded : function(number) {
-					$('.sickbeard .slidesjs-next').html('<i class="fa fa-chevron-right"></i>');
-					$('.sickbeard .slidesjs-previous').html('<i class="fa fa-chevron-left"></i>');
-				}
-			},
-			play: {
-			      active: false,
-			        // [boolean] Generate the play and stop buttons.
-			        // You cannot use your own buttons. Sorry.
-			      effect: "slide",
-			        // [string] Can be either "slide" or "fade".
-			      interval: 5000,
-			        // [number] Time spent on each slide in milliseconds.
-			      auto: true,
-			        // [boolean] Start playing the slideshow on load.
-			      swap: true,
-			        // [boolean] show/hide stop and play buttons
-			      pauseOnHover: true,
-			        // [boolean] pause a playing slideshow on hover
-			      restartDelay: 2500
-			        // [number] restart delay on inactive slideshow
-			    }
-		});
+		if(this.currentIndex < 0){
+			this.currentIndex =  this.shows.length -1;
+		}
+		body.html(this.showToHtml(this.shows[this.currentIndex]));	
 	}
 
 	this.compareShows = function(a, b){
@@ -103,8 +60,7 @@ function sickbeard(moduleId) {
 	
 	this.showToHtml = function(show) {
 		var html = [];
-		html.push('<div class="sb-show" style="background-image:url(',
-				show.poster, ')">');
+		html.push('<div class="sb-show animated fadeIn" style="background-image:url(',show.poster, ')">');
 		html.push('<div class="sb-show-info">');
 		html.push('<p>');
 		html.push('<span class="sb-show-date">', show.nextShowingReadable,'</span>');
@@ -114,5 +70,15 @@ function sickbeard(moduleId) {
 		html.push('</div>');
 
 		return html.join('');
+	}
+	
+	this.showPreviousShow = function(event){
+		this.currentIndex = this.currentIndex + 1;
+		this.showShow();
+	}
+	
+	this.showNextShow = function(event){
+		this.currentIndex = this.currentIndex - 1;
+		this.showShow();
 	}
 }

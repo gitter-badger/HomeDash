@@ -32,23 +32,22 @@
    	</div>
 	
 	<div id="message-box" class="success"> Plop</div>
+	<script type="text/javascript" src="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/js/big.js")"></script>
 	<script type="text/javascript">
 		var MODULE_ID = @module.id;
 		var WS_ADDRESS = "ws://" + window.location.host + "/ws/big/"+MODULE_ID;
 		var showLoadingOverlay = true;
+		var modules = [];
+		var BIG_SCREEN = 1;
+		
   		$(document).ready(function(){
+  		
   			$(".persistent-setting").hide();
   			$("#global-overlay").hide();
-  		});
-	</script>
-	
-	<script type="text/javascript" src="@routes.Assets.at("plugins/"+module.getPlugin().getId()+"/js/big.js")"></script>
-	<script type="text/javascript">
-		var modules = [];
-		$(document).ready(function(){
-				modules[@module.id] = new @{module.getPlugin().getId()}(@{module.id});
+  		
+			modules[@module.id] = new @{module.getPlugin().getId()}(@{module.id});
 				
-				modules[@module.id].documentReady();
+			modules[@module.id].documentReady();
 		});
 		
 	</script>
