@@ -4,6 +4,7 @@ import interfaces.PlugIn;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import play.Logger;
 
 import models.Module;
 import controllers.Application;
