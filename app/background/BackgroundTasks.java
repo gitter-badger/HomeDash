@@ -25,6 +25,7 @@ public class BackgroundTasks implements Runnable {
 				for (Module module : Application.modules) {
 					int refreshRate = module.getPlugin().getBackgroundRefreshRate();
 					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0 && module.remote == Module.LOCAL) {
+						Logger.info("Background module #{}[{}] refresh", module.id, module.getPlugin().getName());
 						module.doInBackground();
 						module.saveData();
 					}
@@ -36,7 +37,7 @@ public class BackgroundTasks implements Runnable {
 					time = 0;
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				Logger.error("Error while refreshing modules", e);
 			}
 		}
 	}
