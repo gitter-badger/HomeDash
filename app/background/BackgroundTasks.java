@@ -26,9 +26,13 @@ public class BackgroundTasks implements Runnable {
 				for (Module module : Application.modules) {
 					int refreshRate = module.getPlugin().getBackgroundRefreshRate();
 					if (refreshRate != PlugIn.NO_REFRESH && time % refreshRate == 0 && module.remote == Module.LOCAL) {
-						Logger.info("Background module #{}[{}] refresh", module.id, module.getPlugin().getName());
-						module.doInBackground();
-						module.saveData();
+						try{
+							Logger.info("Background module #{}[{}] refresh", module.id, module.getPlugin().getName());
+							module.doInBackground();
+							module.saveData();
+						}catch(Exception e){
+							Logger.error("Unable to refresh module #"+module.id+"["+module.getPlugin().getName()+"]", e);
+						}
 					}
 				}
 
@@ -37,9 +41,9 @@ public class BackgroundTasks implements Runnable {
 				if(time > Integer.MAX_VALUE){
 					time = 0;
 				}
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				Logger.error("Error while refreshing modules", e);
-			}
+			} 
 		}
 	}
 
