@@ -25,3 +25,4 @@ libraryDependencies ++= Seq(
     "org.apache.commons" % "commons-io" % "1.3.2",
     "org.twitter4j" % "twitter4j-core" % "4.0.2"
 )
+

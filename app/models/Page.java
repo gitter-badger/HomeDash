@@ -3,9 +3,9 @@ package models;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.google.gson.annotations.Expose;
-
 import play.db.ebean.Model;
+
+import com.google.gson.annotations.Expose;
 
 
 @Entity

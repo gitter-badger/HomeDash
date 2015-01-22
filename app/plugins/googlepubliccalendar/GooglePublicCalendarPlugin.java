@@ -1,5 +1,7 @@
 package plugins.googlepubliccalendar;
 
+import interfaces.PlugIn;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -11,18 +13,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
+import misc.HttpTools;
+import models.Module;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import misc.HttpTools;
-import models.Module;
 import play.twirl.api.Html;
-import views.html.plugins.googlepubliccalendar.settings;
-import views.html.plugins.googlepubliccalendar.small;
+import plugins.googlepubliccalendar.views.html.*;
 import websocket.WebSocketMessage;
-import interfaces.PlugIn;
 
 public class GooglePublicCalendarPlugin implements PlugIn{
 

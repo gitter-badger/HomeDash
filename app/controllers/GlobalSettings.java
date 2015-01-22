@@ -6,13 +6,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import exceptions.FormException;
 import models.Setting;
 import notifications.Notifications;
 import play.Play;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.globalSettings;
+import exceptions.FormException;
 
 public class GlobalSettings extends Controller {
 

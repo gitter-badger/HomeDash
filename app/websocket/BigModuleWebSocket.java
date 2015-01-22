@@ -3,14 +3,15 @@ package websocket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.google.gson.Gson;
-
-import controllers.Application;
 import models.Module;
 import play.Logger;
 import play.libs.F;
 import play.libs.F.Callback0;
 import play.mvc.WebSocket;
+
+import com.google.gson.Gson;
+
+import controllers.Application;
 
 public class BigModuleWebSocket extends WebSocket<String> implements
 		F.Callback<String>, Callback0 {

@@ -16,12 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.JsonObject;
-
 import play.Logger;
 import play.twirl.api.Html;
-import views.html.plugins.couchpotato.settings;
-import views.html.plugins.couchpotato.small;
+import plugins.couchpotato.views.html.*;
 import websocket.WebSocketMessage;
 
 public class CouchpotatoPlugin implements PlugIn {

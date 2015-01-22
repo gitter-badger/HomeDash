@@ -13,9 +13,7 @@ import org.json.JSONException;
 
 import play.Logger;
 import play.twirl.api.Html;
-import views.html.plugins.transmission.big;
-import views.html.plugins.transmission.settings;
-import views.html.plugins.transmission.small;
+import plugins.transmission.views.html.*;
 import websocket.WebSocketMessage;
 import ca.benow.transmission.AddTorrentParameters;
 import ca.benow.transmission.TransmissionClient;

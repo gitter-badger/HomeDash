@@ -18,13 +18,13 @@ import org.bitlet.weupnp.GatewayDiscover;
 import org.bitlet.weupnp.PortMappingEntry;
 import org.xml.sax.SAXException;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-
 import play.Logger;
 import play.twirl.api.Html;
-import views.html.plugins.portmapper.small;
+import plugins.portmapper.views.html.*;
 import websocket.WebSocketMessage;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 
 public class PortMapperPlugin implements PlugIn {
 

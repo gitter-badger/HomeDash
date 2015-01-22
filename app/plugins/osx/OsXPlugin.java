@@ -3,23 +3,15 @@ package plugins.osx;
 import interfaces.PlugIn;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
-
-import com.dd.plist.PropertyListFormatException;
 
 import misc.Utils;
 import models.Module;
 import play.Logger;
 import play.Play;
 import play.twirl.api.Html;
-import views.html.plugins.osx.small;
+import plugins.osx.views.html.*;
 import websocket.WebSocketMessage;
 
 public class OsXPlugin implements PlugIn {

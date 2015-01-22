@@ -18,7 +18,6 @@ import org.apache.commons.imaging.formats.icns.IcnsImageParser;
 import org.xml.sax.SAXException;
 
 import play.Logger;
-import play.Play;
 
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;

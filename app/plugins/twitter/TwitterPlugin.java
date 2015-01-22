@@ -1,12 +1,11 @@
 package plugins.twitter;
 
+import interfaces.PlugIn;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.Gson;
 
 import models.Module;
 import play.Logger;
@@ -18,10 +17,10 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
-import views.html.plugins.twitter.settings;
-import views.html.plugins.twitter.small;
+import plugins.twitter.views.html.*;
 import websocket.WebSocketMessage;
-import interfaces.PlugIn;
+
+import com.google.gson.Gson;
 
 public class TwitterPlugin implements PlugIn {
 	private Map<String, String> twitterKeys;

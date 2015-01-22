@@ -12,14 +12,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
-import javax.transaction.NotSupportedException;
-
-import notifications.Notifications;
 import models.Module;
+import notifications.Notifications;
 import play.Logger;
 import play.twirl.api.Html;
-import views.html.plugins.systeminfo.big;
-import views.html.plugins.systeminfo.settings;
+import plugins.systeminfo.views.html.*;
 import websocket.WebSocketMessage;
 
 import com.sun.management.OperatingSystemMXBean;
@@ -62,7 +59,7 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public Html getSmallView(Module module) {
-		return views.html.plugins.systeminfo.small.render(module);
+		return small.render(module);
 	}
 
 	@Override
@@ -113,7 +110,7 @@ public class SysteminfoPlugin implements PlugIn {
 	@Override
 	public int getRefreshRate() {
 		// TODO Auto-generated method stub
-		return ONE_SECOND;
+		return ONE_SECOND*3;
 	}
 
 	@Override

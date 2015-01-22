@@ -20,8 +20,7 @@ import org.json.JSONObject;
 import play.Logger;
 import play.Play;
 import play.twirl.api.Html;
-import views.html.plugins.sickbeard.settings;
-import views.html.plugins.sickbeard.small;
+import plugins.sickbeard.views.html.*;
 import websocket.WebSocketMessage;
 
 import com.google.gson.Gson;

@@ -7,8 +7,7 @@ import java.util.Map;
 import misc.HttpTools;
 import models.Module;
 import play.twirl.api.Html;
-import views.html.plugins.yamahaamp.settings;
-import views.html.plugins.yamahaamp.small;
+import plugins.yamahaamp.views.html.*;
 import websocket.WebSocketMessage;
 
 public class YamahaAmpPlugin implements PlugIn {

@@ -1,21 +1,21 @@
-import play.*;
-import play.libs.F.Function;
-import play.libs.F.Function0;
-import play.libs.F.Promise;
-import play.mvc.Action;
-import play.mvc.Http.Cookie;
-import play.mvc.Result;
-import play.mvc.Http.Context;
-import play.mvc.Http.Request;
-import views.html.login;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import background.BackgroundTasks;
 import models.Module;
 import models.Setting;
+import play.Application;
+import play.GlobalSettings;
+import play.Logger;
+import play.libs.F.Function0;
+import play.libs.F.Promise;
+import play.mvc.Action;
+import play.mvc.Http.Context;
+import play.mvc.Http.Cookie;
+import play.mvc.Http.Request;
+import play.mvc.Result;
+import views.html.login;
+import background.BackgroundTasks;
 
 public class Global extends GlobalSettings {
 

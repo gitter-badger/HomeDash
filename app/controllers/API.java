@@ -10,13 +10,12 @@ import java.util.Map;
 
 import models.Module;
 import models.Setting;
-
-import com.google.gson.Gson;
-
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import websocket.WebSocketMessage;
+
+import com.google.gson.Gson;
 
 public class API extends Controller {
 	private static final Gson gson = new Gson();

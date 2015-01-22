@@ -1,18 +1,18 @@
-@(plugins: Map[String, String])
+@(plugins: List[interfaces.PlugIn])
 
 
 @main("Home Dash"){
 	
 } {
 	<p><a href="@routes.Application.addRemote" class="internal-link btn btn-success">Add remote module</a></p>
-    @for((name, pluginClass) <- plugins) {
+    @for((plugin) <- plugins) {
     	<div class="row">
     		
     		<div class="module col-md-12">
     			<h3>
-    				@name
+    				@plugin.getName
     			</h3>
-    			<p><a class="internal-link module-link" data="@pluginClass"><button class="btn btn-success">Add @name module</button></a></p>
+    			<p><a class="internal-link module-link" data="@plugin.getClass.getCanonicalName"><button class="btn btn-success">Add @plugin.getName module</button></a></p>
     		</div>
     	</div>
     
