@@ -54,6 +54,11 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	@Override
+	public String getDescription() {
+		return "Manage your router open ports via UPnP.";
+	}
+	
+	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
 		try {
 

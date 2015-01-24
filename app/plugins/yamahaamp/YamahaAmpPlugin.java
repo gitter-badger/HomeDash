@@ -30,6 +30,11 @@ public class YamahaAmpPlugin implements PlugIn {
 	}
 
 	@Override
+	public String getDescription() {
+		return "Interact with your Yamaha amplifier, turn it on/off, ajust volume and select your input source.";
+	}
+	
+	@Override
 	public String getId() {
 		return "yamahaamp";
 	}

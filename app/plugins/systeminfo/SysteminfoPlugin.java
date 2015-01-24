@@ -45,6 +45,11 @@ public class SysteminfoPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "SystemInfo";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Monitor your server CPU, RAM and HDD.";
+	}
 
 	@Override
 	public boolean hasCss() {

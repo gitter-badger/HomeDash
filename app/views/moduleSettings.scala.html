@@ -4,8 +4,8 @@
 	
 } {
 	<div class="row">
+		<h1>Settings for @plugin.getName()</h1>
 		<div class="col-md-12 module">
-			<h3>Settings for @plugin.getName()</h3>
 			<form role="form" method="post" action="@controllers.routes.Application.saveModule(page)">
 				<input type="hidden" name="class" value="@plugin.getClass().getName()" />
 				@plugin.getSettingsView(null)

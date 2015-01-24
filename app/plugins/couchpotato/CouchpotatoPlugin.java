@@ -45,6 +45,11 @@ public class CouchpotatoPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "CouchPotato";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Add movies to your Couchpotato wanted list.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
@@ -248,5 +253,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
+
+	
 
 }

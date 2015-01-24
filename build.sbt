@@ -8,6 +8,8 @@ scalaVersion := "2.11.1"
 
 resolvers += "apache.snapshots" at "http://repository.apache.org/snapshots/"
 
+resolvers += "julman99-github" at "https://raw.github.com/julman99/mvn-repo/master"
+
     
 libraryDependencies ++= Seq(
   javaJdbc,
@@ -23,6 +25,7 @@ libraryDependencies ++= Seq(
     "com.googlecode.plist"%"dd-plist"%"1.8",
     "org.apache.commons"%"commons-imaging"%"1.0-SNAPSHOT",
     "org.apache.commons" % "commons-io" % "1.3.2",
-    "org.twitter4j" % "twitter4j-core" % "4.0.2"
+    "org.twitter4j" % "twitter4j-core" % "4.0.2",
+    "com.github.julman99" % "gson-fire" % "0.11.0"
 )
 

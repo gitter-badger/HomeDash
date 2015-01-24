@@ -55,6 +55,11 @@ public class TransmissionPlugin implements PlugIn {
 	public String getName() {
 		return "Transmission";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Monitor your downloads on Transmission torrent client.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {

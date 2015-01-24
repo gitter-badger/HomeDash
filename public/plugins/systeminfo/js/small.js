@@ -23,10 +23,20 @@ function systeminfo(moduleId) {
 		this.ramHistory = obj.ramInfo;
 
 		if(this.ramHistory.length > 0 && this.cpuHistory.length > 0){
-			$('#cpu-txt-'+this.moduleId).html(this.cpuHistory[this.cpuHistory.length -1].cpuUsage);
-			$('#ram-txt-'+this.moduleId).html(this.ramHistory[this.ramHistory.length -1].percentageUsed);
+			var cpu = this.cpuHistory[this.cpuHistory.length -1].cpuUsage;
+			var ram = this.ramHistory[this.ramHistory.length -1].percentageUsed;
+			var cpuText = $('#cpu-txt-'+this.moduleId);
+			var ramText = $('#ram-txt-'+this.moduleId);
+			
+			cpuText.countTo({from: parseInt(cpuText.html()), to: cpu});
+			ramText.html(ram);
+			
+			//$('#cpu-txt-'+this.moduleId).html(this.cpuHistory[this.cpuHistory.length -1].cpuUsage);
+			//$('#ram-txt-'+this.moduleId).html(this.ramHistory[this.ramHistory.length -1].percentageUsed);
 		
-			$('#sys-info-svg-'+this.moduleId).html(this.generateSVG());
+			//$('#sys-info-svg-'+this.moduleId).html(this.generateSVG());
+			$('#sys-info-'+this.moduleId+'-cpu-path').attr('d',this.cpuArrayToSVGGraph(this.cpuHistory));
+			$('#sys-info-'+this.moduleId+'-ram-path').attr('d',this.ramArrayToSVGGraph(this.ramHistory));
 		}
 		var parent = this;
 
@@ -57,13 +67,14 @@ function systeminfo(moduleId) {
 	    html.push(cpuSvg);
 	    html.push('"></path>');
 	        
-	    var ramSvg = this.ranArrayToSVGGraph(this.ramHistory);
+	    var ramSvg = this.ramArrayToSVGGraph(this.ramHistory);
 	    html.push('<path class="ram-svg" d="');
 	    html.push(ramSvg);
 	    html.push('"></path>');
 	    
 	    html.push('</g>');
 	    html.push('</svg>');
+	    
 	    return html.join('');
 		
 	}
@@ -85,7 +96,7 @@ function systeminfo(moduleId) {
 		 return html.join('');
 	}
 	
-	this.ranArrayToSVGGraph = function(array){
+	this.ramArrayToSVGGraph = function(array){
 		var html = [];
 		html.push('M0,100');
 		var lastIndex = 0;
@@ -109,9 +120,7 @@ function systeminfo(moduleId) {
 	    html.push('<rect class="sys-info-hdd-rect" x="0" y="0" width="',percentage,'" height="100" />');
 	    html.push('</g>');
 	    html.push('</svg>');
-	    
-	    console.log(html.join(''));
-	    
+	   	    
 	    return html.join('');
 	}
 	

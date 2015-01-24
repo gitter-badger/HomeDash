@@ -1,5 +1,8 @@
 package websocket;
 
+import java.lang.reflect.Modifier;
+
+import com.github.julman99.gsonfire.GsonFireBuilder;
 import com.google.gson.GsonBuilder;
 
 public class WebSocketMessage {
@@ -37,7 +40,9 @@ public class WebSocketMessage {
 		this.extra = extra;
 	}
 	public String toJSon(){
-		GsonBuilder builder = new GsonBuilder();
+		GsonBuilder builder = new GsonFireBuilder().enableExposeMethodResult().createGsonBuilder();
+		builder.excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE);
+
 		return builder.serializeSpecialFloatingPointValues().create().toJson(this);
 		
 	}

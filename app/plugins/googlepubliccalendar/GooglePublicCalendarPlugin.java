@@ -50,6 +50,11 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 		// TODO Auto-generated method stub
 		return "Google Calendar";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "View upcoming events from any Google public calendar.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {

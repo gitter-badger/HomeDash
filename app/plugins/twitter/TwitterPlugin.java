@@ -51,6 +51,11 @@ public class TwitterPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "Twitter";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Browse your latest tweets.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {

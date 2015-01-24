@@ -14,7 +14,7 @@ function transmission(moduleId) {
 		});
 		
 		$(document).on('click', '.torrent', function(e){
-			$(".modal").modal('show');
+			$(".modal").appendTo('body').modal('show');
 			parent.selectedTorrent = $(this).attr('data');
 		});
 		

@@ -53,6 +53,11 @@ public class SickbeardPlugin implements PlugIn {
 	public String getName() {
 		return "Sickbeard";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "See the upcoming episodes list from your Sickbeard instance.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {

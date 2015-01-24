@@ -4,7 +4,15 @@
 @main("Home Dash"){
 	
 } {
-	<p><a href="@routes.Application.addRemote" class="internal-link btn btn-success">Add remote module</a></p>
+
+    <div class="row">
+    	<h1>Add Module</h1>
+		<div class="module col-md-12">
+    		<h3>Remote module</h3>
+    		<p>Add modules from another instance of HomeDash</p>
+			<p><a href="@routes.Application.addRemote" class="internal-link btn btn-success">Add remote module</a></p>
+		</div>
+    </div>
     @for((plugin) <- plugins) {
     	<div class="row">
     		
@@ -12,6 +20,7 @@
     			<h3>
     				@plugin.getName
     			</h3>
+    			<p>@plugin.getDescription</p>
     			<p><a class="internal-link module-link" data="@plugin.getClass.getCanonicalName"><button class="btn btn-success">Add @plugin.getName module</button></a></p>
     		</div>
     	</div>

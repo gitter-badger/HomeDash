@@ -15,6 +15,7 @@ import play.libs.F;
 import play.libs.F.Callback0;
 import play.mvc.WebSocket;
 
+import com.github.julman99.gsonfire.GsonFireBuilder;
 import com.google.gson.Gson;
 
 import controllers.Application;
@@ -33,7 +34,7 @@ public class ModulesWebSocket extends WebSocket<String> {
 	
 	private final int THREADS_COUNT = 5;
 
-	private Gson gson = new Gson();
+	private Gson gson = new GsonFireBuilder().enableExposeMethodResult().createGson();
 
 	@Override
 	public void onReady(WebSocket.In<String> in, WebSocket.Out<String> out) {

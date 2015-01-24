@@ -27,6 +27,13 @@ public interface PlugIn {
 	 */
 	public String getName();
 	
+	
+	/**
+	 * Get Plugin description to be displayed on the addModule page.
+	 * @return
+	 */
+	public String getDescription();
+	
 	/**
 	 * Refresh data on small screen view
 	 * @param settings
@@ -107,7 +114,7 @@ public interface PlugIn {
 	 */
 	public void doInBackground(Map<String, String>  settings);
 	/**
-	 * Refresh every x ms
+	 * Refresh every x ms on small size module
 	 * @return
 	 */
 	public int getRefreshRate();
@@ -119,7 +126,7 @@ public interface PlugIn {
 	public int getBackgroundRefreshRate();
 	
 	/**
-	 * Get refresh rate
+	 * Get refresh rate on the big screen
 	 * @return
 	 */
 	public int getBigScreenRefreshRate();

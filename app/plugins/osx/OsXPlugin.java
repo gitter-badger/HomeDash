@@ -38,6 +38,11 @@ public class OsXPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "OS X";
 	}
+	
+	@Override
+	public String getDescription() {
+		return "Start and Quit the applications that are on your MacOS dock.";
+	}
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
