@@ -94,7 +94,7 @@ public class GlobalSettings extends Controller {
 	}
 
 	public static Result testNotifications() {
-		String title = "Home Dash", body = "This is a test notification from Home Dash";
+		String title = "Test", body = "This is a test notification from Home Dash";
 		Notifications.send(title, body);
 		return ok();
 	}

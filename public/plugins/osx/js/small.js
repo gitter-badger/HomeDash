@@ -65,7 +65,7 @@ function osx(moduleId) {
 		if (button.hasClass('running')) {
 			$('#osx' + this.moduleId + '-modal .modal-title').html(
 					this.selectedApp);
-			$('#osx' + this.moduleId + '-modal').modal('show');
+			$('#osx' + this.moduleId + '-modal').appendTo('body').modal('show');
 		} else {
 			sendMessage(this.moduleId, 'startApp', this.selectedApp);
 		}
