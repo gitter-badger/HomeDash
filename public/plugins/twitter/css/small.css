@@ -2,7 +2,7 @@
 	padding: 20px;
 	background-image: url(../images/background.svg);
 	background-repeat: no-repeat;
-	background-position: 5px 5px;
+	background-position: left center;
 	background-size: contain;
 	min-height: 100px;
 }
