@@ -95,3 +95,4 @@ To update HomeDash to the last available version from GitHub:
 
 ###CSS
 * [Animate.less](https://github.com/machito/animate.less)
+* [Bootstrap](http://getbootstrap.com/)
