@@ -90,13 +90,13 @@ public class SickbeardPlugin implements PlugIn {
 								// downloading poster
 								if (show.getJSONObject("cache").getInt("poster") == 1) {
 									try {
-										File f = new File(FULL_PNG_PATH + showObject.showId);
+										File f = new File(FULL_PNG_PATH + showObject.showId+".jpg");
 										if (!f.exists()) {
 											String poster = url + "/" + apiKey + POSTER.replace("[showId]", Long.toString(showObject.showId));
 											System.out.println(poster);
 											FileUtils.copyURLToFile(new java.net.URL(poster), f);
 										}
-										showObject.poster = PNG_PATH + showObject.showId;
+										showObject.poster = PNG_PATH + showObject.showId+".jpg";
 									} catch (Exception e) {
 										Logger.info("Couldn't get poster for show [{}]", showObject.showId);
 									}
