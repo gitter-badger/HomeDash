@@ -95,7 +95,7 @@ function transmission(moduleId) {
 
 		html.push('<div  id="torrent-', torrent.id, '">');
 		html.push('<p style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">');
-		html.push('<button  data="',torrent.id,'" class="torrent btn btn-primary btn-xs" style="float: right"><span class="glyphicon glyphicon-pencil"></span></button>');
+		html.push('<button  data="',torrent.id,'" class="torrent btn btn-primary btn-xs" style="float: right"><i class="fa fa-pencil"></i></button>');
 		html.push(this.getStatusIcon(torrent.status, rpcVersion), ' ');
 		html.push('<strong>', torrent.name, '</strong>');
 		html.push('</p>');
@@ -124,34 +124,34 @@ function transmission(moduleId) {
 		if (rpcVersion < 14) {
 			switch (value) {
 			case 16:
-				return '<span class="glyphicon glyphicon-ok"></span>';
+				return '<i class="fa fa-check-square-o"></i>';
 			case 8:
-				return '<span class="glyphicon glyphicon-coud-upload"></span>';
+				return '<i class="fa fa-cloud-upload"></i>';
 			case 4:
-				return '<span class="glyphicon glyphicon-cloud-download"></span>';
+				return '<i class="fa fa-cloud-download"></i>';
 			case 2:
-				return '<span class="glyphicon glyphicon-refresh"></span>';
+				return '<i class="fa fa-refresh"></i>';
 			case 4:
-				return '<span class="glyphicon glyphicon-time"></span>';
+				return '<i class="fa fa-clock-o"></i>';
 			default:
 				return '';
 			}
 		} else {
 			switch (value) {
 			case 6:
-				return '<span class="glyphicon glyphicon-cloud-upload"></span>';
+				return '<i class="fa fa-cloud-upload"></i>';
 			case 5:
-				return '<span class="glyphicon glyphicon-time"></span>';
+				return '<i class="fa fa-clock-o"></i>';
 			case 4:
-				return '<span class="glyphicon glyphicon-cloud-download"></span>';
+				return '<i class="fa fa-cloud-download"></i>';
 			case 3:
-				return '<span class="glyphicon glyphicon-time"></span>';
+				return '<i class="fa fa-clock-o"></i>';
 			case 2:
-				return '<span class="glyphicon glyphicon-refresh"></span>';
+				return '<i class="fa fa-refresh"></i>';
 			case 1:
-				return '<span class="glyphicon glyphicon-time"></span>';
+				return '<i class="fa fa-clock-o"></i>';
 			case 0:
-				return '<span class="glyphicon glyphicon-pause"></span>';
+				return '<i class="fa fa-pause"></i>';
 			default:
 				return '';
 			}

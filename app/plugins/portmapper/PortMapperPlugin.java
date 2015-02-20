@@ -29,11 +29,11 @@ import com.google.gson.Gson;
 public class PortMapperPlugin implements PlugIn {
 
 	private List<MappingObject> forcedPorts = new ArrayList<>();
-	
+	private List<MappingObject> mappings = new ArrayList<>();
+
 	private GatewayDevice router;
-	private final String METHOD_GET_ROUTER = "getRouter",
-			METHOD_GET_MAPPINGS = "getMappings", METHOD_ADDPORT = "addPort",
-			METHOD_REMOVE_PORT = "removePort", METHOD_ADDPORTFORCED = "addPortForce", SAVE_PORT = "savePort";
+	private final String METHOD_GET_ROUTER = "getRouter", METHOD_GET_MAPPINGS = "getMappings", METHOD_ADDPORT = "addPort", METHOD_REMOVE_PORT = "removePort", METHOD_ADDPORTFORCED = "addPortForce",
+			SAVE_PORT = "savePort";
 
 	@Override
 	public String getId() {
@@ -57,17 +57,10 @@ public class PortMapperPlugin implements PlugIn {
 	public String getDescription() {
 		return "Manage your router open ports via UPnP.";
 	}
-	
+
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
-		try {
-
-			return getMappings();
-		} catch (IOException | SAXException e) {
-			e.printStackTrace();
-		}
-
-		return null;
+		return mappings;
 	}
 
 	@Override
@@ -117,7 +110,7 @@ public class PortMapperPlugin implements PlugIn {
 				response.setMessage("Error while adding port:" + e.getMessage());
 				response.setMethod("error");
 			}
-		}else if (method.equalsIgnoreCase(METHOD_ADDPORTFORCED)) {
+		} else if (method.equalsIgnoreCase(METHOD_ADDPORTFORCED)) {
 			try {
 				addPort(command, true);
 				response.setMethod(METHOD_GET_MAPPINGS);
@@ -127,7 +120,7 @@ public class PortMapperPlugin implements PlugIn {
 				response.setMessage("Error while adding port:" + e.getMessage());
 				response.setMethod("error");
 			}
-		}else if (method.equalsIgnoreCase(METHOD_REMOVE_PORT)) {
+		} else if (method.equalsIgnoreCase(METHOD_REMOVE_PORT)) {
 			try {
 				removePort(command);
 				response.setMethod(METHOD_GET_MAPPINGS);
@@ -137,7 +130,7 @@ public class PortMapperPlugin implements PlugIn {
 				response.setMessage("Error while Removing port:" + e.getMessage());
 				response.setMethod("error");
 			}
-		}else if (method.equalsIgnoreCase(SAVE_PORT)) {
+		} else if (method.equalsIgnoreCase(SAVE_PORT)) {
 			try {
 				savePort(command);
 				response.setMethod(SAVE_PORT);
@@ -150,8 +143,6 @@ public class PortMapperPlugin implements PlugIn {
 		}
 		return response;
 	}
-
-	
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -186,9 +177,10 @@ public class PortMapperPlugin implements PlugIn {
 	@Override
 	public void init(Map<String, String> settings, String data) {
 		Gson gson = new Gson();
-		Type collectionType = new TypeToken<ArrayList<MappingObject>>(){}.getType();
+		Type collectionType = new TypeToken<ArrayList<MappingObject>>() {
+		}.getType();
 		forcedPorts = gson.fromJson(data, collectionType);
-		if(forcedPorts == null){
+		if (forcedPorts == null) {
 			forcedPorts = new ArrayList<MappingObject>();
 		}
 		Logger.info("Loaded {} forced ports", forcedPorts.size());
@@ -202,7 +194,7 @@ public class PortMapperPlugin implements PlugIn {
 	@Override
 	public int getRefreshRate() {
 		// TODO Auto-generated method stub
-		return ONE_MINUTE * 10;
+		return ONE_SECOND * 10;
 	}
 
 	private List<MappingObject> getMappings() throws IOException, SAXException {
@@ -215,17 +207,14 @@ public class PortMapperPlugin implements PlugIn {
 			int pmCount = 0;
 			do {
 				if (router.getGenericPortMappingEntry(pmCount, portMapping)) {
-					Logger.info("Portmapping #" + pmCount
-							+ " successfully retrieved ("
-							+ portMapping.getPortMappingDescription() + ":"
-							+ portMapping.getExternalPort() + ")");
+					Logger.info("Portmapping #" + pmCount + " successfully retrieved (" + portMapping.getPortMappingDescription() + ":" + portMapping.getExternalPort() + ")");
 					MappingObject object = new MappingObject();
 					object.externalPort = portMapping.getExternalPort();
 					object.internalPort = portMapping.getInternalPort();
 					object.internalIp = portMapping.getInternalClient();
 					object.name = portMapping.getPortMappingDescription();
 					object.protocol = portMapping.getProtocol();
-					
+
 					result.add(object);
 					// portMapping = new PortMappingEntry();
 				} else {
@@ -234,15 +223,14 @@ public class PortMapperPlugin implements PlugIn {
 				}
 				pmCount++;
 			} while (portMapping != null);
-			
-			
-			//Checking against forced ports
-			for(MappingObject mapping:forcedPorts){
-				if(!result.contains(mapping)){
+
+			// Checking against forced ports
+			for (MappingObject mapping : forcedPorts) {
+				if (!result.contains(mapping)) {
 					Logger.info("Mapping {} on port {} missing", mapping.protocol, mapping.externalPort);
 					router.addPortMapping(mapping.externalPort, mapping.internalPort, mapping.internalIp, mapping.protocol, mapping.name);
 					result.add(mapping);
-				}else{
+				} else {
 					int index = result.indexOf(mapping);
 					result.get(index).forced = true;
 				}
@@ -251,9 +239,7 @@ public class PortMapperPlugin implements PlugIn {
 			Logger.info("No router yet");
 
 		}
-		
-		
-		
+
 		return result;
 	}
 
@@ -263,8 +249,7 @@ public class PortMapperPlugin implements PlugIn {
 	private void getRouter() {
 		try {
 			GatewayDiscover gatewayDiscover = new GatewayDiscover();
-			Map<InetAddress, GatewayDevice> gateways = gatewayDiscover
-					.discover();
+			Map<InetAddress, GatewayDevice> gateways = gatewayDiscover.discover();
 			router = gatewayDiscover.getValidGateway();
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -273,7 +258,7 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	private void removePort(String message) throws NumberFormatException, IOException, SAXException {
-		if(router != null){
+		if (router != null) {
 			Logger.info("Removing port:{}", message);
 			String split[] = message.split("\\|");
 			router.deletePortMapping(Integer.parseInt(split[0]), split[1]);
@@ -281,18 +266,18 @@ public class PortMapperPlugin implements PlugIn {
 			mapping.externalPort = Integer.parseInt(split[0]);
 			mapping.protocol = split[1];
 			mapping.forced = true;
-			
-			if(forcedPorts.contains(mapping)){
+
+			if (forcedPorts.contains(mapping)) {
 				Logger.info("Port in saved list, removing it");
 				forcedPorts.remove(mapping);
 			}
 		}
 	}
-	
+
 	private void savePort(String message) {
 		Logger.info("Saving port:{}", message);
 		String split[] = message.split("\\|");
-		
+
 		MappingObject mapping = new MappingObject();
 		mapping.forced = true;
 		mapping.protocol = split[1];
@@ -301,17 +286,16 @@ public class PortMapperPlugin implements PlugIn {
 		mapping.internalIp = split[2];
 		mapping.name = split[3];
 
-		forcedPorts.add(mapping);		
+		forcedPorts.add(mapping);
 	}
 
-	private void addPort(String message, boolean forced) throws NumberFormatException,
-			IOException, SAXException {
+	private void addPort(String message, boolean forced) throws NumberFormatException, IOException, SAXException {
 		if (router != null) {
 			Logger.info("Adding port:{}", message);
 			String[] split = message.split("\\|");
 			router.addPortMapping(Integer.parseInt(split[2]), Integer.parseInt(split[3]), split[4], split[1], split[0]);
-			
-			if(forced){
+
+			if (forced) {
 				MappingObject obj = new MappingObject();
 				obj.externalPort = Integer.parseInt(split[2]);
 				obj.internalPort = Integer.parseInt(split[3]);
@@ -319,14 +303,13 @@ public class PortMapperPlugin implements PlugIn {
 				obj.protocol = split[1];
 				obj.name = split[0];
 				obj.forced = true;
-				if(!forcedPorts.contains(obj)){
+				if (!forcedPorts.contains(obj)) {
 					forcedPorts.add(obj);
 					Logger.info("Added ports to forced ports. Size: {}", forcedPorts.size());
 				}
 			}
 		}
 	}
-
 
 	@Override
 	public Object saveData() {
@@ -335,40 +318,42 @@ public class PortMapperPlugin implements PlugIn {
 	}
 
 	@Override
-	public void doInBackground(Map<String, String>  settings) {
+	public void doInBackground(Map<String, String> settings) {
 		Logger.info("Doing in background");
 		try {
 			getRouter();
-			getMappings();
+			this.mappings = getMappings();
 		} catch (IOException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 	private class MappingObject {
 		public String protocol, name, internalIp;
 		public int externalPort, internalPort;
 		public boolean forced = false;
+
 		@Override
 		public boolean equals(Object obj) {
-			try{
+			try {
 				MappingObject o = (MappingObject) obj;
 				return protocol.equalsIgnoreCase(o.protocol) && externalPort == o.externalPort;
-			}catch(Exception e){
+			} catch (Exception e) {
 				return false;
 			}
 		}
 	}
-	
+
 	private class RouterObject {
 		public String name, externalIp;
 	}
-	
+
 	@Override
 	public int getBackgroundRefreshRate() {
 		return ONE_MINUTE * 10;
 	}
-	
+
 	@Override
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;

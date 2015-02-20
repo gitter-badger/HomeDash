@@ -14,11 +14,11 @@
 		<link rel="apple-touch-icon" sizes="120x120" href="@routes.Assets.at("images/homeDash-120.png")">
 		<link rel="apple-touch-icon" sizes="152x152" href="@routes.Assets.at("images/homeDash-152.png")">
 		<link rel="apple-touch-startup-image" href="@routes.Assets.at("images/homeDash-startup-small.png")">
-		
+		<link rel="icon" type="image/png"  href="@routes.Assets.at("images/favicon.png")">
         <title>@title</title>
         <!-- Latest compiled and minified CSS -->
         <link href='http://fonts.googleapis.com/css?family=Roboto:300,300italic' rel='stylesheet' type='text/css' />
-		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+
 		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/animate.min.css")">
@@ -46,12 +46,11 @@
 						<input id="settings-form-sizes" type="hidden" name="sizes" />
 						<input id="settings-form-order" type="hidden" name="order" />
 					</form>
-					<a id="save-settings" alt="Save settings"><span class="glyphicon glyphicon-ok"></span></a>
 		        </li>
-		        <li class="settings"><a alt="Add Module" class="internal-link" href="/add"><span class="glyphicon glyphicon-plus"></span></a></li>
-		        <li class="settings"><a alt="Global Settings" class="internal-link" href="/globalSettings"><span class="glyphicon glyphicon-wrench"></span></a></li>
-		        <li class="persistent-setting"><a id="showSettings"><span class="glyphicon glyphicon-cog"></span></a></li>
-		        <li class="persistent-setting"><a id="showPages"><span class="glyphicon glyphicon-th-large"></span></a></li>
+		        <li class="settings"><a alt="Add Module" class="internal-link" href="/add"><i class="fa fa-plus"></i></a></li>
+		        <li class="settings"><a alt="Global Settings" class="internal-link" href="/globalSettings"><i class="fa fa-wrench"></i></a></li>
+		        <li class="persistent-setting"><a id="showSettings"><i class="fa fa-cog"></i></a></li>
+		        <li class="persistent-setting"><a id="showPages"><i class="fa fa-th-large"></i></a></li>
 		      </ul>
 		  </div><!-- /.container-fluid -->
 		</nav>
@@ -63,6 +62,7 @@
         @footer()
         
         <div id="global-overlay">
+        	<span class="overlay-logo"><img src="@routes.Assets.at("images/HomeDash.png")" /></span>
 			<p></p>
         </div>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

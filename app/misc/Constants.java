@@ -10,6 +10,7 @@ import plugins.dyndns.DynDNSPlugin;
 import plugins.googlepubliccalendar.GooglePublicCalendarPlugin;
 import plugins.osx.OsXPlugin;
 import plugins.portmapper.PortMapperPlugin;
+import plugins.sickbeard.SickbeardPlugin;
 import plugins.systeminfo.SysteminfoPlugin;
 import plugins.transmission.TransmissionPlugin;
 import plugins.twitter.TwitterPlugin;
@@ -31,5 +32,6 @@ public class Constants {
 		PLUGINS.add(new TwitterPlugin());
 		PLUGINS.add(new DynDNSPlugin());
 		PLUGINS.add(new PortMapperPlugin());
+		PLUGINS.add(new SickbeardPlugin());
 	}
 }

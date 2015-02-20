@@ -59,8 +59,8 @@ function couchpotato(moduleId){
 	
 	this.movieToHtml = function(movie){
 		var html = [];
-		html.push('<div class="cp',this.moduleId,'-movie  cp-movie" data-imdb="',movie.imdbId,'" data-title="',movie.originalTitle);
-		html.push('" style="background-image:url(',movie.poster,');">');
+		html.push('<div class="cp',this.moduleId,'-movie  cp-movie" data-imdb="',movie.imdbId,'" data-title="',movie.originalTitle,'">');
+		html.push('<div class="cp-movie-poster" style="background-image:url(',movie.poster,');"></div>');
 		html.push('<p class="cp-movie-name"><strong>',movie.originalTitle,' </strong>');
 		
 		if(movie.wanted){
@@ -71,7 +71,7 @@ function couchpotato(moduleId){
 		 	html.push('<small>(already in library)</small>');
 		}
 		
-		html.push('<span class="cp-movie-year" style="float:right">',movie.year,'</span></p>');
+		html.push(' - <span class="cp-movie-year">',movie.year,'</span></p>');
 		
 		html.push('</div>')
 		return html.join('');

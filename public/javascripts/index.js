@@ -1,8 +1,8 @@
 var ws;
 
 var CURRENT_PAGE = 1;
-var NOTIFICATION_SHOW_CLASS = "fadeInDown";
-var NOTIFICATION_HIDE_CLASS = "fadeOutUp";
+var NOTIFICATION_SHOW_CLASS = "fadeInRight";
+var NOTIFICATION_HIDE_CLASS = "fadeOutRight";
 
 $(document).ready(function() {
 	if (typeof (Storage) !== "undefined") {
@@ -94,35 +94,26 @@ function onMessage(event) {
 }
 
 function showSuccessMessage(message) {
-	var box = $("#message-box");
-	box.html(message);
-	box.removeClass("error");
-	box.addClass('success');
-	
-	box.show();
-	box.removeClass(NOTIFICATION_HIDE_CLASS);
-	box.addClass(NOTIFICATION_SHOW_CLASS);
-
-	setInterval(function() {
-		box.removeClass(NOTIFICATION_SHOW_CLASS);
-		box.addClass(NOTIFICATION_HIDE_CLASS);
-	}, 4000);
+	showNotification(message, 'success');
 }
 
 function showErrorMessage(message) {
+	showNotification(message, 'error');	
+}
 
-	var box = $("#message-box");
-	box.html(message);
-	box.removeClass("success");
-	box.addClass('error');
+function showNotification(message, type){
+var box = $("#message-box");
 	
-	box.show();
-	box.removeClass(NOTIFICATION_HIDE_CLASS);
-	box.addClass(NOTIFICATION_SHOW_CLASS);
-
+	var id = Date.now();
+	var html = '<div id="'+id+'" class="notification '+type+' animated '+NOTIFICATION_SHOW_CLASS+'">'+message+'</div>';
+	box.append(html);
 	setInterval(function() {
-		box.removeClass(NOTIFICATION_SHOW_CLASS);
-		box.addClass(NOTIFICATION_HIDE_CLASS);
+		
+		$('#'+id).removeClass(NOTIFICATION_SHOW_CLASS);
+		$('#'+id).addClass(NOTIFICATION_HIDE_CLASS);
+		setInterval(function() {
+			$('#'+id).remove();
+		}, 1000);
 	}, 4000);
 }
 

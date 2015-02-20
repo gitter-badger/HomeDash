@@ -97,6 +97,7 @@ function toggleSettings() {
 		setTimeout(function() {
 			overlay.hide();
 		}, 500);
+		$("#showSettings i").removeClass("fa-spin");
 
 	} else {
 		settings.removeClass('animated '+OUT_ANIMATION);
@@ -105,6 +106,7 @@ function toggleSettings() {
 		overlay.addClass('animated '+IN_ANIMATION);
 		settings.show();
 		overlay.show();
+		$("#showSettings i").addClass("fa-spin");
 
 	}
 }

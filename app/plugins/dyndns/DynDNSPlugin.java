@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import models.Module;
 import notifications.Notifications;
@@ -46,6 +47,8 @@ public class DynDNSPlugin implements PlugIn {
 	
 	private String ipCheckURL = "https://secure.internode.on.net/webtools/showmyip?textonly=1";
 
+	private final Pattern pattern = Pattern.compile("(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
+	
 	@Override
 	public String getId() {
 		return "dyndns";
@@ -202,16 +205,18 @@ public class DynDNSPlugin implements PlugIn {
 	@Override
 	public void doInBackground(Map<String, String> settings) {
 		try {
+			
 			String ip = getIP();
 
-			if (!this.ip.equalsIgnoreCase(ip)) {
+			
+			if (pattern.matcher(ip).matches() && !this.ip.equalsIgnoreCase(ip)) {
 				this.ip = ip;
 				Logger.info("New IP [{}] updating providers", ip);
 				refreshProviders();
 				
 
 			} else {
-				Logger.info("IP[{}] is the same, nothing to do", ip);
+				Logger.info("IP[{}] is the same or not valid, nothing to do", ip);
 			}
 		} catch (IllegalStateException | IOException e) {
 			Logger.error("Can't get external IP", e);
@@ -246,6 +251,8 @@ public class DynDNSPlugin implements PlugIn {
 		HttpResponse response;
 		response = client.execute(get);
 
+		
+		
 		String responseStr = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 		Logger.info("Status[{}], Response: [{}]", response.getStatusLine().getStatusCode(), responseStr.trim());
 

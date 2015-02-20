@@ -2,6 +2,7 @@ package plugins.couchpotato;
 
 import interfaces.PlugIn;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -12,11 +13,13 @@ import java.util.Random;
 import misc.HttpTools;
 import models.Module;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import play.Logger;
+import play.Play;
 import play.twirl.api.Html;
 import plugins.couchpotato.views.html.*;
 import websocket.WebSocketMessage;
@@ -24,16 +27,19 @@ import websocket.WebSocketMessage;
 public class CouchpotatoPlugin implements PlugIn {
 	public static final String URL = "url", API_KEY = "apiKey";
 	public String url, apiKey, baseUrl;
-	
-	public static final String METHOD_SEARCH_MOVIE = "searchMovie",
-			METHOD_MOVIE_LIST = "movieList", METHOD_ADD_MOVIE = "addMovie";
+
+	public static final String METHOD_SEARCH_MOVIE = "searchMovie", METHOD_MOVIE_LIST = "movieList", METHOD_ADD_MOVIE = "addMovie";
 
 	private final String API_MOVIE_SEARCH = "/movie.search/?q=";
 	private final String API_ADD_MOVIE = "/movie.add/?title=[TITLE]&identifier=[IMDB]";
 	private final String API_AVAILABLE = "/app.available";
 	private final String API_MOVIE_LIST = "/movie.list/?status=active";
-	
+
+	private final String PNG_PATH = "cache/plugins/couchpotato/images/";
+	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/" + PNG_PATH;
+
 	private boolean initialized = false;
+
 	@Override
 	public boolean hasBigScreen() {
 		// TODO Auto-generated method stub
@@ -45,7 +51,7 @@ public class CouchpotatoPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "CouchPotato";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Add movies to your Couchpotato wanted list.";
@@ -57,20 +63,28 @@ public class CouchpotatoPlugin implements PlugIn {
 		try {
 			JSONObject json = new JSONObject(HttpTools.sendGet(url + API_AVAILABLE));
 
-			//System.out.println(HttpTools.sendGet(url + API_MOVIE_LIST));
 			JSONObject movieList = new JSONObject(HttpTools.sendGet(url + API_MOVIE_LIST));
 			String poster = null;
-			if(movieList.getBoolean("success")){
+			if (movieList.getBoolean("success")) {
 				JSONArray movies = movieList.getJSONArray("movies");
-				for(int i = 0; i < movies.length() && poster == null; i++){
-					JSONArray images = movies.getJSONObject(new Random().nextInt(movies.length())).getJSONObject("info").getJSONObject("images").getJSONArray("poster_original");
-					if(images.length() != 0){
-						poster = images.getString(new Random().nextInt(images.length()));
+				for (int i = 0; i < movies.length() && poster == null; i++) {
+					JSONObject movieInfo = movies.getJSONObject(new Random().nextInt(movies.length())).getJSONObject("info");
+					JSONArray images = movieInfo.getJSONObject("images").getJSONArray("poster_original");
+					if (images.length() != 0) {
+
+						// poster = images.getString(new
+						// Random().nextInt(images.length()));
+
+						File f = new File(FULL_PNG_PATH + movieInfo.getString("imdb") + ".jpg");
+						if (!f.exists()) {
+							FileUtils.copyURLToFile(new java.net.URL(images.getString(new Random().nextInt(images.length()))), f);
+						}
+						poster = PNG_PATH + movieInfo.getString("imdb") + ".jpg";
+
 					}
 				}
 			}
-			
-			
+
 			return poster;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -96,11 +110,11 @@ public class CouchpotatoPlugin implements PlugIn {
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
 				response.setMessage("Error while searching movie.");
 			}
-		} else if(method.equalsIgnoreCase(METHOD_ADD_MOVIE)){
+		} else if (method.equalsIgnoreCase(METHOD_ADD_MOVIE)) {
 			try {
-				String[] split =  command.split("___");
+				String[] split = command.split("___");
 				addMovie(split[1], split[0]);
-				
+
 				response.setMethod(WebSocketMessage.METHOD_SUCCESS);
 				response.setMessage("Movie added successfully !");
 			} catch (Exception e) {
@@ -111,8 +125,8 @@ public class CouchpotatoPlugin implements PlugIn {
 		}
 		return response;
 	}
-	
-	private void addMovie(String imdbId, String movieName) throws IOException{
+
+	private void addMovie(String imdbId, String movieName) throws IOException {
 		String queryUrl = url + API_ADD_MOVIE.replace("[TITLE]", URLEncoder.encode(movieName)).replace("[IMDB]", imdbId);
 		HttpTools.sendGet(queryUrl);
 	}
@@ -126,30 +140,35 @@ public class CouchpotatoPlugin implements PlugIn {
 		JSONArray jsonarray = json.getJSONArray("movies");
 
 		for (int i = 0; i < jsonarray.length(); i++) {
-			
 
 			JSONObject movie = jsonarray.getJSONObject(i);
 
-			
-			
 			MovieObject movieObject = new MovieObject();
-			movieObject.imdbId = movie.getString("imdb");
-			
-			JSONArray images = movie.getJSONObject("images").getJSONArray("poster_original");
-			if(images.length() != 0){
-				movieObject.poster = images.getString(0);
+			try {
+				movieObject.imdbId = movie.getString("imdb");
+
+				JSONArray images = movie.getJSONObject("images").getJSONArray("poster_original");
+				if (images.length() != 0) {
+					File f = new File(FULL_PNG_PATH + movieObject.imdbId + ".jpg");
+					if (!f.exists()) {
+						FileUtils.copyURLToFile(new java.net.URL(images.getString(0)), f);
+					}
+					movieObject.poster = PNG_PATH + movieObject.imdbId + ".jpg";
+				}
+			} catch (Exception e) {
+
 			}
-			
-			try{
+
+			try {
 				movieObject.inLibrary = movie.getBoolean("in_library");
-			}catch(JSONException e){
+			} catch (JSONException e) {
 				movieObject.inLibrary = true;
 			}
-			
+
 			movieObject.originalTitle = movie.getString("original_title");
-			try{
+			try {
 				movieObject.wanted = movie.getBoolean("in_wanted");
-			}catch(JSONException e){
+			} catch (JSONException e) {
 				movieObject.wanted = true;
 			}
 			movieObject.year = movie.getInt("year");
@@ -185,22 +204,28 @@ public class CouchpotatoPlugin implements PlugIn {
 	@Override
 	public void init(Map<String, String> settings, String data) {
 		Logger.info("Initiating Couchpotato plugin.");
-		
+
 		url = settings.get(URL);
 
 		if (!url.endsWith("/")) {
 			url += "/";
 		}
 
-		if(!url.startsWith("http")){
-			url = "http://"+url;
+		if (!url.startsWith("http")) {
+			url = "http://" + url;
 		}
-		
+
 		baseUrl = url;
 		apiKey = settings.get(API_KEY);
 
 		url += "api/" + apiKey;
 		Logger.info("Couchpotato URL:{}", url);
+
+		File f = new File(FULL_PNG_PATH);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		f.deleteOnExit();
 	}
 
 	@Override
@@ -239,9 +264,9 @@ public class CouchpotatoPlugin implements PlugIn {
 	}
 
 	@Override
-	public void doInBackground(Map<String, String>  settings) {
+	public void doInBackground(Map<String, String> settings) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -253,7 +278,5 @@ public class CouchpotatoPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
-
-	
 
 }

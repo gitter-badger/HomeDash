@@ -85,9 +85,12 @@ function showPages() {
 		pages.show();
 		pages.removeClass('animated '+hideAnimation);
 		pages.addClass('animated '+showAnimation);
+		
+		$('#showPages i').addClass('fa-spin');
 	} else {
 		pages.removeClass('animated '+showAnimation);
 		pages.addClass('animated '+hideAnimation);
+		$('#showPages i').removeClass('fa-spin');
 	}
 }
 

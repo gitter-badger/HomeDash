@@ -2,6 +2,7 @@
 @import "pages.less";
 @import "grid.less";
 @import "loadingAnimation.less";
+@import "bootstrap/bootstrap.less";
 
 body {
 	font-family: 'Roboto', sans-serif;
@@ -38,19 +39,31 @@ input.form-control,input.form-control:focus {
 	right: 0;
 	position: fixed;
 	font-size: 20px;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding:0;
 	text-align: center;
 	color: white;
 	z-index: 1500;
-	display: none;
+	margin-top: 70px;
+	//display: none;
 }
 
-#message-box.success {
+@media (max-width: @screen-md) { 
+	#message-box {
+		margin-top: 0px;
+	}
+}
+
+
+.notification{
+	width:100%;
+	padding:10px;
+}
+
+.notification.success {
 	background-color: #2ecc71;
 }
 
-#message-box.error {
+.notification.error {
 	background-color: #e74c3c;
 }
 
@@ -260,7 +273,11 @@ btn-success {
 	left: 0;
 	right: 0;
 	position: fixed;
+	padding-top: 20px;
 	display: none;
+}
+#global-overlay p{
+	margin-top: 10px;
 }
 
 

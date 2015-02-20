@@ -60,30 +60,40 @@
 }
 
 .cp-movie {
-	background-repeat: no-repeat;
-	background-position: center center;
-	background-color: rgba(0, 0, 0);
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
 	cursor: pointer;
 	padding: 0;
+	height:175px;
+	vertical-align: middle;
 }
 
 .cp-movie-name {
-	background-color: rgba(0, 0, 0, 0.2);
+	background:none;
 	padding-top: 18px;
 	padding-bottom: 20px;
 	margin: 0;
-	padding-left: 2px;
+	padding-left: 130px;
 	height: 100%;
-	color:white;
+	color:#444444;
 	font-size:20px;
+	vertical-align: middle;
 }
 
 .cp-movie-year {
 	padding-right: 3px;
+	color:#444444;
+}
+
+.cp-movie-poster{
+	width:125px;
+	height: 175px;
+	float:left;
+	background-repeat: no-repeat;
+	background-position: left center;
+	background-color: white;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .couchpotato input[type=text]::-webkit-input-placeholder {

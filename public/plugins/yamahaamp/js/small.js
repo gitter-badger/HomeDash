@@ -53,7 +53,7 @@ function yamahaamp(moduleId){
 		}else{
 			$(".amp"+this.moduleId+"-power").removeClass("btn-success");
 			var html = [];
-			html.push('<p>The amplifier is off, turn it on</p><button id="amp'+this.moduleId+'-power2" class="btn yamp-power"><span class="glyphicon glyphicon-off"></span></button>');
+			html.push('<p>The amplifier is off, turn it on</p><button id="amp'+this.moduleId+'-power2" class="btn yamp-power"><i class="fa fa-power-off"></i></button>');
 			$("#"+this.moduleId+"-overlay").html(html);
 			$("#"+this.moduleId+"-overlay").show();
 		}

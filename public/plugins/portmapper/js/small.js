@@ -72,11 +72,11 @@ function portmapper(moduleId){
 		html.push('<td>',mapping.internalPort,'</td>');
 		html.push('<td>',mapping.internalIp,'</td>');
 		html.push('<td>');
-		html.push('<button class="btn btn-danger btn-xs mapper',this.moduleId,'-remove-port" data="',mapping.externalPort,'|',mapping.protocol,'"><span class="glyphicon glyphicon-remove"></span></button>');
+		html.push('<button class="btn btn-danger btn-xs mapper',this.moduleId,'-remove-port" data="',mapping.externalPort,'|',mapping.protocol,'"><i class="fa fa-minus"></i></button>');
 
 		if(!mapping.forced){
 			html.push('&nbsp;&nbsp;');
-			html.push('<button class="btn btn-success btn-xs mapper',this.moduleId,'-save-port" data="',mapping.externalPort,'|',mapping.protocol,'|',mapping.internalIp,'|',mapping.name,'"><span class="glyphicon glyphicon-plus"></span></button>');
+			html.push('<button class="btn btn-success btn-xs mapper',this.moduleId,'-save-port" data="',mapping.externalPort,'|',mapping.protocol,'|',mapping.internalIp,'|',mapping.name,'"><i class="fa fa-plus"></i></button>');
 		}
 
 		html.push('</td>');
