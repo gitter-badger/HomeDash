@@ -94,9 +94,13 @@ public class SysteminfoPlugin implements PlugIn {
 
 				long usedSpace = root.getTotalSpace() - root.getFreeSpace();
 
-				String[] space = new String[] { humanReadableByteCount(root.getTotalSpace(), true), humanReadableByteCount(root.getFreeSpace(), true), humanReadableByteCount(usedSpace, true) };
-
-				data.diskSpace.put(root.getAbsolutePath(), space);
+				 Map<String, String> spaces = new Hashtable<>();
+				//String[] space = new String[] { root.getTotalSpace(), true), humanReadableByteCount(root.getFreeSpace(), true), humanReadableByteCount(usedSpace, true) };
+				 spaces.put("total", Long.toString(root.getUsableSpace()));
+				 spaces.put("free", Long.toString(root.getFreeSpace()));
+				 spaces.put("used", Long.toString(usedSpace));
+				 spaces.put("pretty", humanReadableByteCount(usedSpace, root.getUsableSpace(), true));
+				data.diskSpace.put(root.getAbsolutePath(), spaces);
 
 			}
 
@@ -193,13 +197,13 @@ public class SysteminfoPlugin implements PlugIn {
 	// ////////////
 	// Class method
 	// //////////
-	private String humanReadableByteCount(long bytes, boolean si) {
+	private String humanReadableByteCount(long usedBytes, long maxBytes, boolean si) {
 		int unit = si ? 1000 : 1024;
-		if (bytes < unit)
-			return bytes + " B";
-		int exp = (int) (Math.log(bytes) / Math.log(unit));
+		if (maxBytes < unit)
+			return maxBytes + " B";
+		int exp = (int) (Math.log(maxBytes) / Math.log(unit));
 		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-		return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
+		return String.format("%.1f / %.1f %sB", usedBytes / Math.pow(unit, exp), maxBytes / Math.pow(unit, exp), pre);
 	}
 
 	/**
@@ -235,7 +239,7 @@ public class SysteminfoPlugin implements PlugIn {
 	public class SystemInfoData {
 		public List<CpuInfo> cpuInfo;
 		public List<RamInfo> ramInfo;
-		public Hashtable<String, String[]> diskSpace = new Hashtable<String, String[]>();
+		public Hashtable<String, Map<String, String>> diskSpace = new Hashtable<String,  Map<String, String>>();
 	}
 
 	public class CpuInfo {

@@ -126,9 +126,8 @@ function systeminfo(moduleId) {
 	
 	this.getDiskSpaceHtml = function(path, diskSpace) {
 		var html = [];
-		var totalSpace = diskSpace[0].split(" ")[0];
-		var usedSpace = diskSpace[2].split(" ")[0];
-		var freeSpace = diskSpace[1].split(" ")[0];
+		var totalSpace = diskSpace.total;
+		var usedSpace = diskSpace.used;
 		var percentage = Math.ceil((usedSpace / totalSpace) * 100);
 
 		/*var progressColor = "progress-bar-success";
@@ -142,7 +141,7 @@ function systeminfo(moduleId) {
 		}*/
 		
 		html.push('<div class="hdd-info">');
-		html.push('<span>', usedSpace, '/', diskSpace[0],'</span>');
+		html.push('<span>', diskSpace.pretty,'</span>');
 		html.push('<p>', path, '</p>');
 		html.push(this.getDiskSpaceSVG(percentage));
 
