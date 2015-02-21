@@ -203,7 +203,7 @@ public class SysteminfoPlugin implements PlugIn {
 			return maxBytes + " B";
 		int exp = (int) (Math.log(maxBytes) / Math.log(unit));
 		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-		return String.format("%.1f / %.1f %sB", usedBytes / Math.pow(unit, exp), maxBytes / Math.pow(unit, exp), pre);
+		return String.format("%.2f / %.2f %sB", usedBytes / Math.pow(unit, exp), maxBytes / Math.pow(unit, exp), pre);
 	}
 
 	/**
