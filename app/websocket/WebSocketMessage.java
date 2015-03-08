@@ -8,7 +8,7 @@ import com.google.gson.GsonBuilder;
 public class WebSocketMessage {
 	
 	public final static String METHOD_START = "start",
-			METHOD_ERROR = "error", METHOD_SUCCESS = "success", METHOD_REFRESH = "refresh", METHOD_CHANGE_PAGE = "changePage", REMOTE_MODULE_NOT_FOUND = "remote404";
+			METHOD_ERROR = "error", METHOD_SUCCESS = "success", METHOD_REFRESH = "refresh", METHOD_CHANGE_PAGE = "changePage", REMOTE_MODULE_NOT_FOUND = "remote404", RELOAD_OTHERS = "reloadOthers";
 	
 	private String method;
 	private Object message, extra;

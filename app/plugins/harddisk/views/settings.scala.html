@@ -1,0 +1,15 @@
+@* settings Template File *@
+@(module: Module)
+
+ <div class="form-group">
+    <label for="path">Path</label>
+    @if(module == null){
+		<input type="text" class="form-control" id="path" name="path" placeholder="Path" />
+    }else{
+    	<input type="text" class="form-control" id=""path"" name=""path"" placeholder="Path" value="@module.getSettingsMap().get("path")"/>    	
+    }
+  </div>
+
+
+
+

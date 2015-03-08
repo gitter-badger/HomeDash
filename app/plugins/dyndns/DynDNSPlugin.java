@@ -71,6 +71,7 @@ public class DynDNSPlugin implements PlugIn {
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
+		System.out.println(providers.size());
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put(IP, ip);
 		data.put(PROVIDERS, providers);
@@ -199,7 +200,7 @@ public class DynDNSPlugin implements PlugIn {
 
 	@Override
 	public boolean hasCss() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -236,6 +237,16 @@ public class DynDNSPlugin implements PlugIn {
 	@Override
 	public int getBigScreenRefreshRate() {
 		return 0;
+	}
+	
+	@Override
+	public int getWidth() {
+		return 4;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 3;
 	}
 
 	// ////

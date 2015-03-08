@@ -207,6 +207,15 @@ public class TransmissionPlugin implements PlugIn {
 		return ONE_SECOND * 5;
 	}
 
+	@Override
+	public int getWidth() {
+		return 3;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 2;
+	}
 	///////////////
 	/// PLUG IN METHODS
 	

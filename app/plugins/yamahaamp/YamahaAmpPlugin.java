@@ -179,4 +179,15 @@ public class YamahaAmpPlugin implements PlugIn {
 		return NO_REFRESH;
 	}
 	
+	@Override
+	public int getWidth() {
+		return 4;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 2;
+	}
+	
+	
 }

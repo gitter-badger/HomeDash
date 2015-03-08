@@ -11,11 +11,11 @@ $(document).ready(function() {
 	$('.add-page').click(addPage);
 });
 
-var IN_ANIMATION = 'fadeIn';
-var OUT_ANIMATION = 'fadeOut';
+var IN_ANIMATION = 'zoomIn';
+var OUT_ANIMATION = 'zoomOut';
 
 function changePage() {
-	// alert('chaging to page '+$(this).attr('data'));
+	var oldPages = $('.page-container[data=' + CURRENT_PAGE + ']');
 	CURRENT_PAGE = $(this).attr('data');
 	if (typeof (Storage) !== "undefined") {
 		var page = localStorage.setItem("page", CURRENT_PAGE);
@@ -27,26 +27,31 @@ function changePage() {
 
 	ws.send(JSON.stringify(wsMsg));
 
-	showCurrentPage();
+	//alert(oldPages);
+	showCurrentPage(oldPages);
 	showPages();
 	fireCallbacks(CURRENT_PAGE);
 }
 
-function showCurrentPage() {
-	var oldPages = $('.page-container:not(.page-container[data=' + CURRENT_PAGE + '])');
+function showCurrentPage(oldPages) {
+	// var oldPages = $('.page-container:not(.page-container[data=' +
+	// CURRENT_PAGE + '])');
 	var newPage = $('.page-container[data=' + CURRENT_PAGE + ']');
-	
-	oldPages.removeClass('animated '+IN_ANIMATION);
-	newPage.removeClass('animated '+OUT_ANIMATION);
-	
-	oldPages.addClass('animated '+OUT_ANIMATION);
-	newPage.addClass('animated '+IN_ANIMATION);
-	
-	setTimeout(function(){
-		oldPages.hide();
+
+	if (oldPages != undefined) {
+		oldPages.removeClass('animated ' + IN_ANIMATION);
+		oldPages.addClass('animated ' + OUT_ANIMATION);
+	}
+	newPage.removeClass('animated ' + OUT_ANIMATION);
+
+	setTimeout(function() {
+		if (oldPages != undefined) {
+			oldPages.hide();
+		}
 		newPage.show();
-	},300);
-	
+		newPage.addClass('animated ' + IN_ANIMATION);
+	}, 500);
+
 	/*
 	 * $('.page-container').hide(); $('.page-container[data=' + CURRENT_PAGE +
 	 * ']').show();
@@ -55,19 +60,17 @@ function showCurrentPage() {
 	$('.page-icon[data=' + CURRENT_PAGE + ']').addClass('active');
 }
 
-function fireCallbacks(page){
-	var selector = '.page-container[data='+page+'] .module';
-	
-	$(selector).each(function(index, module){
+function fireCallbacks(page) {
+	var selector = '.page-container[data=' + page + '] .module';
+
+	$(selector).each(function(index, module) {
 		var moduleId = $(module).attr('data');
-		if(modules[moduleId].onPageChange != undefined){
+		if (modules[moduleId].onPageChange != undefined) {
 			modules[moduleId].onPageChange(page);
 		}
 	});
-	
+
 }
-
-
 
 function PageChangeCallback() {
 	this.page = -1;
@@ -76,20 +79,20 @@ function PageChangeCallback() {
 }
 
 function showPages() {
-	 
+
 	var pages = $('#pages');
 	var showAnimation = 'bounceInDown';
 	var hideAnimation = 'bounceOutUp';
 	if (!pages.hasClass(showAnimation)) {
 		scrolltoTop();
 		pages.show();
-		pages.removeClass('animated '+hideAnimation);
-		pages.addClass('animated '+showAnimation);
-		
+		pages.removeClass('animated ' + hideAnimation);
+		pages.addClass('animated ' + showAnimation);
+
 		$('#showPages i').addClass('fa-spin');
 	} else {
-		pages.removeClass('animated '+showAnimation);
-		pages.addClass('animated '+hideAnimation);
+		pages.removeClass('animated ' + showAnimation);
+		pages.addClass('animated ' + hideAnimation);
 		$('#showPages i').removeClass('fa-spin');
 	}
 }
@@ -100,6 +103,7 @@ function addPage() {
 
 function removePage() {
 	if (confirm('Removing this screen will delete all the modules from it. Continue ?')) {
+		CURRENT_PAGE = 1;
 		$.get('/pages/remove/' + $(this).attr('data'));
 	}
 }
@@ -111,9 +115,8 @@ function renamePage() {
 	}
 }
 
-
-function scrolltoTop(){
+function scrolltoTop() {
 	$('html,body').animate({
-        scrollTop: 0
-     }, 250);
+		scrollTop : 0
+	}, 250);
 }

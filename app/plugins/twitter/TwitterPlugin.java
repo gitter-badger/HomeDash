@@ -175,6 +175,16 @@ public class TwitterPlugin implements PlugIn {
 		return NO_REFRESH;
 	}
 
+	
+	@Override
+	public int getWidth() {
+		return 3;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 4;
+	}
 	// //////
 	// / Twitter Methods
 	// //

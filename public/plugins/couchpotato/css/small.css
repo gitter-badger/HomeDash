@@ -6,7 +6,7 @@
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
-	height: 100px;
+	min-height: 100px;
 	color: white;
 }
 
@@ -18,17 +18,66 @@
 	width: 100%;
 }
 
+.couchpotato .movie-form {
+	height: 394px;
+	/*  flex */
+	display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-direction: normal;
+    -moz-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-pack: start;
+    -moz-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-box-align: stretch;
+    -moz-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+@media ( max-width : 992px) {
+	.couchpotato .movie-form {
+		height: 200px;
+	}
+}
+
 .couchpotato input[type=text] {
 	background: none;
-	font-size: 30px;
-	position: absolute;
+	font-size: 25px;
+	/* position: absolute; */
 	width: 100%;
-	top: 0;
-	right: 0;
-	left: 0;
-	height: 50px;
 	border: none;
 	color: white;
+	/* flex */
+	 -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
 }
 
 .couchpotato form {
@@ -43,16 +92,25 @@
 
 .couchpotato form button[type="button"] {
 	width: 100%;
-	height: 40px;
 	background: none;
 	border: none;
 	border-top: 1px solid white;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
 	font-size: 20px;
 	background: none;
+	/* flex */
+	 -webkit-box-ordinal-group: 1;
+    -moz-box-ordinal-group: 1;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-box-flex: 0;
+    -moz-box-flex: 0;
+    -webkit-flex: 0 1 auto;
+    -ms-flex: 0 1 auto;
+    flex: 0 1 auto;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
 }
 
 .couchpotato-movie-list {
@@ -62,31 +120,31 @@
 .cp-movie {
 	cursor: pointer;
 	padding: 0;
-	height:175px;
+	height: 175px;
 	vertical-align: middle;
 }
 
 .cp-movie-name {
-	background:none;
+	background: none;
 	padding-top: 18px;
 	padding-bottom: 20px;
 	margin: 0;
 	padding-left: 130px;
 	height: 100%;
-	color:#444444;
-	font-size:20px;
+	color: #444444;
+	font-size: 20px;
 	vertical-align: middle;
 }
 
 .cp-movie-year {
 	padding-right: 3px;
-	color:#444444;
+	color: #444444;
 }
 
-.cp-movie-poster{
-	width:125px;
+.cp-movie-poster {
+	width: 125px;
 	height: 175px;
-	float:left;
+	float: left;
 	background-repeat: no-repeat;
 	background-position: left center;
 	background-color: white;

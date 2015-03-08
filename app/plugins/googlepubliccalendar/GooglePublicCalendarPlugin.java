@@ -197,5 +197,17 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
+	
+	
+	@Override
+	public int getWidth() {
+		return 4;
+	}
+	
+	@Override
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return 4;
+	}
 
 }

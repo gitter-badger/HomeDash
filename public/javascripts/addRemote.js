@@ -48,7 +48,7 @@ function populateModules(json) {
 	html.push('<h2>', json.deviceName, '\'s modules</h2>');
 
 	$.each(json.modules, function(index, module) {
-		html.push('<div class="row"><div class="module col-md-12">');
+		html.push('<div class="row"><div class="card col-md-12">');
 		html.push('<h3>', module.moduleName, '</h3>');
 		html.push('<p><a class="internal-link addRemote" data-class="',
 				module.pluginId, '" data-id="', module.id,

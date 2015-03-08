@@ -117,6 +117,10 @@ var box = $("#message-box");
 	}, 4000);
 }
 
+function reloadOthers(){
+	sendMessage(-1, "reloadOthers", "");
+}
+
 function sendMessage(moduleId, method, message) {
 	var wsMsg = new WebsocketMessage();
 	wsMsg.message = message;

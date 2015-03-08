@@ -130,4 +130,12 @@ public interface PlugIn {
 	 * @return
 	 */
 	public int getBigScreenRefreshRate();
+	
+	/**
+	 *  Get height and Width of the module,
+	 *  1 = 100px;
+	 * @return
+	 */
+	public int getWidth();
+	public int getHeight();
 }

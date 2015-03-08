@@ -35,7 +35,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	private final String API_AVAILABLE = "/app.available";
 	private final String API_MOVIE_LIST = "/movie.list/?status=active";
 
-	private final String PNG_PATH = "cache/plugins/couchpotato/images/";
+	private final String PNG_PATH = "cache/plugins/"+getId()+"/images/";
 	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/" + PNG_PATH;
 
 	private boolean initialized = false;
@@ -277,6 +277,16 @@ public class CouchpotatoPlugin implements PlugIn {
 	@Override
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
+	}
+
+	@Override
+	public int getWidth() {
+		return 2;
+	}
+
+	@Override
+	public int getHeight() {
+		return 4;
 	}
 
 }

@@ -1,9 +1,0 @@
-.gcal-event {
-	cursor: pointer;
-}
-
-.text-wrapping {
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-}

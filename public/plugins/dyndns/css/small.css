@@ -1,0 +1,21 @@
+.dyndns {
+	padding: 20px;
+	overflow-x: auto;
+	background-color: #A1887F;
+	color: white;
+	background-image: url("../images/background.svg");
+	background-position: -50% -50%;
+	background-size: 70% auto;
+	background-repeat:no-repeat;
+}
+
+.dyndns h3 {
+	color: white;
+}
+
+.dyndns .actions .btn {
+	border: none;
+	background: none;
+	font-size: 20px;
+	margin: 10px;
+}

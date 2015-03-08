@@ -1,68 +1,78 @@
-.sickbeard{
-	padding:0;
+.sickbeard {
+	padding: 0;
+	overflow: hidden;
+	background-color: #444444;
 }
 
-.sickbeard .module-links-container{
-	z-index:20;
+@media ( max-width : 992px) {
+	.sickbeard {
+		height: 295px;
+	}
 }
 
-.sickbeard .module-links-container a{
-	color:white;
+.sickbeard .module-links-container {
+	z-index: 20;
 }
 
+.sickbeard .module-links-container a {
+	color: white;
+}
 
-
-.sb-show{
-	position:relative;
-	width:100%;
-	height:250px;
+.sb-show {
+	display:none;
+	position: absolute;
+	width: 100%;
+	height: 295px;
 	background-repeat: no-repeat;
 	background-position: center 30%;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	background-color: grey;
 	color: white;
 }
 
-.sb-show-info{
-	position:absolute;
-	bottom:0;
-	left:0;
-	right:0;
-	padding:15px;
-	background-color: rgba(0,0,0,0.5);
+.sb-show.active{
+	display:block;
 }
 
-.sb-show-date{
-	font-size:20px;
-	padding-right:10px;
-	padding-left:10px;
+.sb-show-info {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	padding: 15px;
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
-.sb-show-title{
-	font-size:15px;
+.sb-show-date {
+	font-size: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
+.sb-show-title {
+	font-size: 15px;
+}
 
-.sb-button{
-	position:absolute;
-	top:0;
-	left:0;
-	right:0;
+.sb-button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
 	text-align: left;
 	-webkit-user-select: none; /* webkit (safari, chrome) browsers */
 	-moz-user-select: none; /* mozilla browsers */
 	-khtml-user-select: none; /* webkit (konqueror) browsers */
 	-ms-user-select: none; /* IE10+ */
-	padding:10px;
-	
+	padding: 10px;
 }
-.sb-button a{
-	color:#FFF;
-	font-size:30px;
-	padding:3px;
-	cursor: pointer;
-    text-shadow: -1px 0 #ddd, 0 1px #ddd, 1px 0 #ddd, 0 -1px #ddd;
 
+.sb-button a {
+	color: #FFF;
+	font-size: 30px;
+	padding: 3px;
+	cursor: pointer;
+	text-shadow: -1px 0 #ddd, 0 1px #ddd, 1px 0 #ddd, 0 -1px #ddd;
 }

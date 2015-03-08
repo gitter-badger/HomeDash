@@ -88,22 +88,6 @@ public class SysteminfoPlugin implements PlugIn {
 				data.ramInfo = this.ramInfo;
 			}
 
-			for (String path : roots) {
-
-				File root = new File(path);
-
-				long usedSpace = root.getTotalSpace() - root.getFreeSpace();
-
-				 Map<String, String> spaces = new Hashtable<>();
-				//String[] space = new String[] { root.getTotalSpace(), true), humanReadableByteCount(root.getFreeSpace(), true), humanReadableByteCount(usedSpace, true) };
-				 spaces.put("total", Long.toString(root.getUsableSpace()));
-				 spaces.put("free", Long.toString(root.getFreeSpace()));
-				 spaces.put("used", Long.toString(usedSpace));
-				 spaces.put("pretty", humanReadableByteCount(usedSpace, root.getUsableSpace(), true));
-				data.diskSpace.put(root.getAbsolutePath(), spaces);
-
-			}
-
 			return data;
 		} catch (Exception e) {
 
@@ -124,14 +108,14 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public void init(Map<String, String> settings, String data) {
-		for (String root : settings.keySet()) {
+		/*for (String root : settings.keySet()) {
 			if (root.startsWith("path")) {
 				String path = settings.get(root);
 				if (!path.trim().equalsIgnoreCase("")) {
 					roots.add(settings.get(root));
 				}
 			}
-		}
+		}*/
 
 	}
 
@@ -193,18 +177,21 @@ public class SysteminfoPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return ONE_SECOND;
 	}
+	
+	@Override
+	public int getWidth() {
+		return 3;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 1;
+	}
 
 	// ////////////
 	// Class method
 	// //////////
-	private String humanReadableByteCount(long usedBytes, long maxBytes, boolean si) {
-		int unit = si ? 1000 : 1024;
-		if (maxBytes < unit)
-			return maxBytes + " B";
-		int exp = (int) (Math.log(maxBytes) / Math.log(unit));
-		String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-		return String.format("%.2f / %.2f %sB", usedBytes / Math.pow(unit, exp), maxBytes / Math.pow(unit, exp), pre);
-	}
+	
 
 	/**
 	 * Getting data

@@ -8,6 +8,7 @@ import java.util.List;
 import plugins.couchpotato.CouchpotatoPlugin;
 import plugins.dyndns.DynDNSPlugin;
 import plugins.googlepubliccalendar.GooglePublicCalendarPlugin;
+import plugins.harddisk.HardDiskPlugin;
 import plugins.osx.OsXPlugin;
 import plugins.portmapper.PortMapperPlugin;
 import plugins.sickbeard.SickbeardPlugin;
@@ -33,5 +34,6 @@ public class Constants {
 		PLUGINS.add(new DynDNSPlugin());
 		PLUGINS.add(new PortMapperPlugin());
 		PLUGINS.add(new SickbeardPlugin());
+		PLUGINS.add(new HardDiskPlugin());
 	}
 }

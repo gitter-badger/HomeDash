@@ -31,15 +31,12 @@ public class Module extends Model implements Comparable<Module> {
 
 	@Id
 	public int id;
-
 	public int size = FULL_SIZE;
-
-	public int moduleOrder = 0;
-
+	public int mobileOrder = 0;
+	public int col = 1;
+	public int row = 1;
 	public int remote = 0;
-
 	public String pluginId;
-
 	public int page = 1;
 
 	public static final int REMOTE = 1, LOCAL = 0;
@@ -61,8 +58,8 @@ public class Module extends Model implements Comparable<Module> {
 		this.size = size;
 	}
 
-	public void setModuleOrder(int moduleOrder) {
-		this.moduleOrder = moduleOrder;
+	public void setMobileOrder(int mobileOrder) {
+		this.mobileOrder = mobileOrder;
 	}
 
 	public PlugIn getPlugin() {
@@ -97,6 +94,14 @@ public class Module extends Model implements Comparable<Module> {
 		Module.find = find;
 	}
 
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+
 	public WebSocketMessage refreshModule() {
 		try {
 			WebSocketMessage response = new WebSocketMessage();
@@ -112,6 +117,8 @@ public class Module extends Model implements Comparable<Module> {
 					Map<String, String> params = new Hashtable<String, String>();
 					params.put(REMOTE_API, settingsMap.get(REMOTE_API));
 
+					
+					
 					response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
 					response.setId(id);
 				} catch (Exception e) {
@@ -149,7 +156,7 @@ public class Module extends Model implements Comparable<Module> {
 
 					Map<String, String> params = new Hashtable<String, String>();
 					params.put(REMOTE_API, settingsMap.get(REMOTE_API));
-
+					
 					response = new Gson().fromJson(HttpTools.sendPost(url, params), WebSocketMessage.class);
 					response.setId(id);
 				} catch (Exception e) {
@@ -213,6 +220,8 @@ public class Module extends Model implements Comparable<Module> {
 		this.settingsMap = settingsMap;
 	};
 
+	
+	
 	@Override
 	public void save() {
 		super.save();
@@ -298,8 +307,7 @@ public class Module extends Model implements Comparable<Module> {
 
 	@Override
 	public int compareTo(Module o) {
-		// TODO Auto-generated method stub
-		return Integer.valueOf(moduleOrder).compareTo(o.moduleOrder);
+		return Integer.compare(mobileOrder, o.mobileOrder);
 	}
 
 	@Override

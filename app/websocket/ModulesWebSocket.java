@@ -85,12 +85,17 @@ public class ModulesWebSocket extends WebSocket<String> {
 			if (clients.size() > 0) {
 				startRefresh();
 			}
+		} else if (socketMessage.getMethod().toString().equalsIgnoreCase(WebSocketMessage.RELOAD_OTHERS)) {
+			reloadAllExcept(clientId);
 		} else {
-
 			for (Module module : Application.modules) {
 				if (module.id == socketMessage.getId()) {
 					response = module.processCommand(socketMessage.getMethod(), socketMessage.getMessage().toString());
-					clients.get(clientId).out.write(response.toJSon());
+					String responseStr = response.toJSon();
+					if(module.remote == Module.REMOTE){
+						responseStr = changeRemoteCacheUrls(module, responseStr);
+					}
+					clients.get(clientId).out.write(responseStr);
 					return;
 				}
 			}
@@ -150,8 +155,9 @@ public class ModulesWebSocket extends WebSocket<String> {
 										Logger.info("Refreshing module [{}]", module.id);
 
 										WebSocketMessage response = module.refreshModule();
+										module.saveData();
 										
-										sendToClients(clientMapping.get(module.page), response.toJSon());
+										sendToClients(clientMapping.get(module.page), response.toJSon(), module);
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
@@ -188,8 +194,12 @@ public class ModulesWebSocket extends WebSocket<String> {
 		}
 	}
 
-	private void sendToClients(List<WebSocketClient> eligibleClients, String message) {
+	private void sendToClients(List<WebSocketClient> eligibleClients, String message, Module module) {
 		Logger.info("Sending message to clients: {}", message);
+		
+		if(module.remote == Module.REMOTE){
+			message = changeRemoteCacheUrls(module, message);
+		}
 		for (WebSocketClient client : eligibleClients) {
 			client.out.write(message);
 		}
@@ -240,11 +250,27 @@ public class ModulesWebSocket extends WebSocket<String> {
 			receiveMessage(id, message);
 		}
 	}
+	
+	public void reloadAllExcept(long clientId){
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMethod("reload");
+		
+		for (long id : clients.keySet()) {
+			if(id != clientId){
+				clients.get(id).out.write(message.toJSon());
+			}
+		}
+	}
 
 	public void moduleListChanged() {
 		WebSocketMessage message = new WebSocketMessage();
 		message.setMethod("reload");
 		sendToClients(message.toJSon());
+	}
+	
+	
+	private String changeRemoteCacheUrls(Module module, String message){
+		return message.replaceAll("cache/plugins/"+module.getPlugin().getId(), module.getSettingsMap().get(Module.REMOTE_URL)+"cache/plugins/"+module.getPlugin().getId());
 	}
 
 }

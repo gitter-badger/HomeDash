@@ -246,4 +246,14 @@ public class OsXPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
+	
+	@Override
+	public int getWidth() {
+		return 8;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 1;
+	}
 }

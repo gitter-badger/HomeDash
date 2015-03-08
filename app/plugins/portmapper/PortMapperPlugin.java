@@ -358,4 +358,14 @@ public class PortMapperPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
+	
+	@Override
+	public int getWidth() {
+		return 9;
+	}
+	
+	@Override
+	public int getHeight() {
+		return 5;
+	}
 }

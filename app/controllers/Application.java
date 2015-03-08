@@ -105,10 +105,28 @@ public class Application extends Controller {
 
 		module.setSettingsMap(settings);
 		module.save();
+		module.init();
 
 		modules = Module.find.all();
+		
+		offsetModulesRowBy(module.getPlugin().getHeight(), module.id);
 		ws.moduleListChanged();
 		return redirect("/");
+	}
+	
+	/**
+	 * Offset modules row by 'offset' rows except 'except' module id to avoid grid bugs
+	 * Used when adding a module, a remote modue, or moving a module to a new page
+	 * @param offset
+	 * @param except
+	 */
+	private static void offsetModulesRowBy(int offset, int except){
+		for(Module module:modules){
+			if(module.id != except){
+				module.setRow( module.row + offset);
+				module.save();
+			}
+		}
 	}
 
 	public static Result addModule(int page, String moduleClass) {
@@ -127,6 +145,8 @@ public class Application extends Controller {
 				module.save();
 
 				modules = Module.find.all();
+				module.init();
+				offsetModulesRowBy(module.getPlugin().getHeight(), module.id);
 				ws.moduleListChanged();
 				return redirect("/");
 
@@ -167,7 +187,8 @@ public class Application extends Controller {
 			module.setSettingsMap(settings);
 			module.setPage(page);
 			module.save();
-
+			module.init();
+			offsetModulesRowBy(module.getPlugin().getHeight(), module.id);
 			modules = Module.find.all();
 			ws.moduleListChanged();
 
@@ -189,25 +210,45 @@ public class Application extends Controller {
 		return new BigModuleWebSocket(moduleId);
 	}
 
-	public synchronized static Result settings() {
-		Logger.info("settings()");
+	public synchronized static Result saveMobileOrder() {
+		Logger.info("saveMobileOrder()");
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
 
-		String[] sizes = values.get("sizes")[0].split("\\|");
 		String[] orders = values.get("order")[0].split("\\|");
 
-		for (int i = 0; i < sizes.length; i++) {
-			String[] size = sizes[i].split("-");
+		for (int i = 0; i < orders.length; i++) {
 			String[] order = orders[i].split("-");
-			int moduleId = Integer.parseInt(size[0]);
-			int moduleSize = Integer.parseInt(size[1]);
+			int moduleId = Integer.parseInt(order[0]);
 			int moduleOrder = Integer.parseInt(order[1]);
 
 			Module module = Module.find.byId(moduleId);
-			module.setSize(moduleSize);
-			module.setModuleOrder(moduleOrder);
+			module.setMobileOrder(moduleOrder);
 
-			Logger.info("Saving module #{}, size:{}, order:{}", module.id, module.size, module.moduleOrder);
+			Logger.info("Saving module #{}, order:{}", module.id, module.mobileOrder);
+			module.update();
+
+		}
+		modules = Module.find.all();
+		return ok();
+	}
+	
+	public synchronized static Result saveDesktopOrder() {
+		Logger.info("saveDesktopOrder()");
+		Map<String, String[]> values = request().body().asFormUrlEncoded();
+
+		String[] orders = values.get("order")[0].split("\\|");
+
+		for (int i = 0; i < orders.length; i++) {
+			String[] order = orders[i].split("-");
+			int moduleId = Integer.parseInt(order[0]);
+			int moduleCol = Integer.parseInt(order[1]);
+			int moduleRow = Integer.parseInt(order[2]);
+
+			Module module = Module.find.byId(moduleId);
+			module.setRow(moduleRow);
+			module.setCol(moduleCol);
+
+			Logger.info("Saving module #{}, col:{}, row:{}", module.id, module.col, module.row);
 			module.update();
 
 		}
@@ -260,8 +301,9 @@ public class Application extends Controller {
 
 		if (module != null && module.page != to) {
 			module.setPage(to);
-			module.setModuleOrder(0);
-			module.setSize(12);
+			module.setMobileOrder(0);
+			module.setCol(1);
+			module.setRow(1);
 			module.update();
 			modules = Module.find.all();
 			ws.moduleListChanged();

@@ -1,6 +1,6 @@
 var currentOrder = [];
 var sizes = [];
-
+var windowWidth = window.innerWidth;
 $(document).ready(function() {
 
 	
@@ -24,64 +24,123 @@ $(document).ready(function() {
 		toggleSettings();
 	});
 
+	
+	
+	
+	$(document).on('click', ".move-destination" , moveModule);
+	
+	
+	/*if(is.desktop()){
+		if(window.innerWidth > 992){
+			gridster();
+		}
+	}else if(is.mobile()){
+		mobileSort();
+	}else if(is.tablet()){
+		if(window.innerHeight < window.innerWidth && window.innerWidth > 992){
+			//landscape
+			gridster()
+		}else{
+			//portait or too narrow tabler width;
+			mobileSort();
+		}
+	}*/
+	
+	if(window.innerWidth > 992){
+		gridster();
+	}else{
+		mobileSort();
+	}
+	
+	$( window ).resize(function() {
+		if(is.desktop()){
+			if(windowWidth > 992 && window.innerWidth <= 992){
+				location.reload();
+			}else if(windowWidth <= 992 && window.innerWidth > 992){
+				location.reload();
+			}
+			windowWidth = window.innerWidth;
+		}
+	});
+	window.addEventListener('orientationchange', function() {
+		if(is.tablet()){
+				location.reload();
+		}
+	});
+	
+	
+});
+
+function gridster(){
+	$('.module-container').each(function(index, element){
+		var gridster =  $(element).gridster({
+	        widget_margins: [0, 0],
+	        widget_base_dimensions: [99, 99],
+	        widget_selector: '.module',
+	        min_cols:10,
+	        max_cols:10,
+	        draggable:{
+	        	handle:'.sort-module',
+	        	stop: afterDesktopSort
+	        }
+	    }).data('gridster');
+		
+		gridster.recalculate_faux_grid();
+	});
+	
+}
+
+function afterDesktopSort(event, ui){
+	var links = $('.module-setting-link');
+	links.css('pointer-events', 'none');
+	
+
+	var orderStr = [];
+	$(".module").each(function(index, object) {
+		orderStr.push($(object).attr("data") + '-' + $(object).attr("data-col") + '-' + $(object).attr("data-row"));
+	});
+
+	var data = 'order='+orderStr.join('|')
+	$('.bouncer').show();
+
+	$.post('/saveDesktopOrder', data, function() {
+		$('.bouncer').hide();
+		links.css('pointer-events', 'auto');
+		reloadOthers();
+	});
+}
+
+function mobileSort(){
+	$('modules').addClass('col-md-12');
 	$("#modules").sortable({
 		// disabled: true,
 		items : ".module",
 		opacity : 0.5,
 		handle : '.sort-module',
-		stop : afterSort
+		stop : afterMobileSort
 	});
-	
-	
-	$(document).on('click', ".move-destination" , moveModule);
-});
-
-function afterSort(event, ui) {
-	saveSettings(false);
 }
 
-function saveSettings(hideSettings) {
+function afterMobileSort(event, ui) {
 	var links = $('.module-setting-link');
 	links.css('pointer-events', 'none');
-	var sizesStr = [];
-	$('.bouncer').show();
-	$(".module").each(function(index, object) {
-		var item = $(object);
-
-		var classes = item.attr("class");
-		var split = classes.split(" ");
-		
-		var colSplit = split[split.length-1].split("-");
-
-		var currentSize = colSplit[2];
-
-		sizesStr.push(item.attr("data") + '-' + currentSize);
-	});
 	
-	console.log(sizesStr.join(''));
 
 	var orderStr = [];
 	$(".module").each(function(index, object) {
 		orderStr.push($(object).attr("data") + '-' + index);
 	});
 
-	$("#settings-form-order").val(orderStr.join('|'));
-	$("#settings-form-sizes").val(sizesStr.join('|'));
+	var data = 'order='+orderStr.join('|')
+	$('.bouncer').show();
 
-	var data = $("#settings-form").serialize();
-
-	$.post('/settings', data, function() {
-		if (hideSettings) {
-			showSuccessMessage('Settings saved !');
-			toggleSettings();
-		}
-		// $(".settings").slideToggle("fast");
-		// $(".module-settings-overlay").slideToggle("fast");
+	$.post('/saveMobileOrder', data, function() {
 		$('.bouncer').hide();
 		links.css('pointer-events', 'auto');
-
+		reloadOthers();
 	});
 }
+
 
 function toggleSettings() {
 	var IN_ANIMATION = 'fadeIn';
@@ -89,11 +148,13 @@ function toggleSettings() {
 	
 	var overlay = $(".module-settings-overlay");
 	var settings = $('.settings');
+	var container = $('.module-container');
 	if (settings.hasClass(IN_ANIMATION)) {
 		settings.removeClass('animated '+IN_ANIMATION);
 		settings.addClass('animated '+OUT_ANIMATION);
 		overlay.removeClass('animated '+IN_ANIMATION);
 		overlay.addClass('animated '+OUT_ANIMATION);
+		container.removeClass('active');
 		setTimeout(function() {
 			overlay.hide();
 		}, 500);
@@ -104,6 +165,7 @@ function toggleSettings() {
 		settings.addClass('animated '+IN_ANIMATION);
 		overlay.removeClass('animated '+OUT_ANIMATION);
 		overlay.addClass('animated '+IN_ANIMATION);
+		container.addClass('active');
 		settings.show();
 		overlay.show();
 		$("#showSettings i").addClass("fa-spin");
@@ -118,82 +180,6 @@ function getOrder() {
 	});
 
 	return order
-}
-
-function shrink(moduleId) {
-
-	var item = $("#module" + moduleId);
-
-	var classes = item.attr("class");
-	var split = classes.split(" ");
-
-	var colSplit = split[split.length - 1].split("-");
-
-	var currentSize = colSplit[2];
-
-	if (currentSize > 3) {
-		var classToRemove = "col-md-" + currentSize;
-		currentSize--;
-		var classToAdd = "col-md-" + currentSize;
-		item.switchClass(classToRemove, classToAdd, 400, 'swing', function() {
-			sizes[moduleId] = currentSize;
-			console.log(sizes[moduleId]);
-			saveSettings(false);
-		});
-	}
-
-}
-
-function expand(moduleId) {
-
-	var item = $("#module" + moduleId);
-
-	var classes = item.attr("class");
-	var split = classes.split(" ");
-
-	var colSplit = split[split.length - 1].split("-");
-
-	var currentSize = colSplit[2];
-
-	if (currentSize < 12) {
-		var classToRemove = "col-md-" + currentSize;
-		currentSize++;
-		var classToAdd = "col-md-" + currentSize;
-		item.switchClass(classToRemove, classToAdd, 400, 'swing', function() {
-			sizes[moduleId] = currentSize;
-			console.log(sizes[moduleId]);
-			saveSettings(false);
-		});
-	}
-
-}
-
-function findBefore(moduleId) {
-	var before = moduleId;
-	for (i = 0; i < currentOrder.length; i++) {
-		value = currentOrder[i];
-		if (value != moduleId) {
-			before = value;
-		} else {
-			break;
-		}
-	}
-
-	return before;
-}
-
-function findAfter(moduleId) {
-	var after = moduleId;
-	for (i = currentOrder.length - 1; i >= 0; i--) {
-		value = currentOrder[i];
-		if (value != moduleId) {
-			after = value;
-		} else {
-			break;
-		}
-	}
-
-	return after;
 }
 
 function move(moduleId){

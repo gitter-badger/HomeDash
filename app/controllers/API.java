@@ -3,6 +3,7 @@ package controllers;
 import interfaces.PlugIn;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -15,10 +16,11 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import websocket.WebSocketMessage;
 
+import com.github.julman99.gsonfire.GsonFireBuilder;
 import com.google.gson.Gson;
 
 public class API extends Controller {
-	private static final Gson gson = new Gson();
+	private static final Gson gson = new GsonFireBuilder().enableExposeMethodResult().createGsonBuilder().excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT, Modifier.VOLATILE).serializeSpecialFloatingPointValues().create();
 	private final static String DEVICE = "deviceName", MODULES = "modules";
 
 	/**
@@ -75,7 +77,9 @@ public class API extends Controller {
 		Module module = getModuleFromId(moduleId);
 
 		if (module != null) {
-			return ok(gson.toJson(module.refreshModule()));
+			String response = gson.toJson(module.refreshModule());
+			Logger.info("Sending response to remote refresh: {}", response);
+			return ok(response);
 		} else {
 			return notFound("Can't find module with ID:" + moduleId);
 		}

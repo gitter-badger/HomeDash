@@ -40,7 +40,7 @@ function systeminfo(moduleId) {
 		}
 		var parent = this;
 
-		var i = 0;
+		/*var i = 0;
 		$.each(obj.diskSpace, function(path, value) {
 			html.push(parent.getDiskSpaceHtml(path, value));
 			i++;
@@ -53,6 +53,7 @@ function systeminfo(moduleId) {
 		}
 		
 		$("#systeminfo" + this.moduleId + "-harddisk").html(html.join(""));
+		*/
 		
 	};
 	
@@ -111,7 +112,7 @@ function systeminfo(moduleId) {
 		 return html.join('');
 	}
 
-	this.getDiskSpaceSVG = function(percentage){
+	/*this.getDiskSpaceSVG = function(percentage){
 		
 		var html = [];
 		html.push('<svg class="sys-info-hdd" preserveAspectRatio="none" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100">');
@@ -122,23 +123,15 @@ function systeminfo(moduleId) {
 	    html.push('</svg>');
 	   	    
 	    return html.join('');
-	}
+	}*/
 	
-	this.getDiskSpaceHtml = function(path, diskSpace) {
+	/*this.getDiskSpaceHtml = function(path, diskSpace) {
 		var html = [];
 		var totalSpace = diskSpace.total;
 		var usedSpace = diskSpace.used;
 		var percentage = Math.ceil((usedSpace / totalSpace) * 100);
 
-		/*var progressColor = "progress-bar-success";
-
-		if (percentage > 90) {
-			progressColor = "progress-bar-danger";
-		} else if (percentage > 70) {
-			progressColor = "progress-bar-warning";
-		} else if (percentage > 50) {
-			progressColor = "progress-bar-info";
-		}*/
+		
 		
 		html.push('<div class="hdd-info">');
 		html.push('<span>', diskSpace.pretty,'</span>');
@@ -147,13 +140,7 @@ function systeminfo(moduleId) {
 
 		html.push('</div>');
 		
-		/*html.push('<div class="progress">');
-		html.push('<div class="progress-bar ', progressColor,
-				'" role="progressbar" aria-valuenow="', usedSpace,
-				'" aria-valuemin="0" aria-valuemax="', totalSpace,
-				'" style="width: ', percentage, '%">');
-		html.push('</div></div>');
-		 */
+		
 		return html.join("");
-	}
+	}*/
 }

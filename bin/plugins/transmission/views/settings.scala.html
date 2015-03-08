@@ -1,0 +1,39 @@
+@* settings Template File *@
+@(module: Module)
+
+
+ <div class="form-group">
+    <label for="url">Transmission address</label>
+    @if(module == null){
+   	 	<input type="text" class="form-control" id="url" name="url" placeholder="Enter Url" />    	
+    }else{
+    	<input type="text" class="form-control" id="url" name="url" placeholder="Enter Url" value="@module.getSettingsMap().get("url")"/>    	
+    }
+  </div>
+  
+   <div class="form-group">
+    <label for="port">Port</label>
+   @if(module == null){
+    	<input type="text" class="form-control" id="port" name="port" placeholder="9091" />
+    }else{
+    	<input type="text" class="form-control" id="port" name="port" placeholder="9091" value="@module.getSettingsMap().get("port")"/>
+    }
+  </div>
+  
+   <div class="form-group">
+    <label for="username">Username</label>
+    @if(module == null){
+    	<input type="text" class="form-control" id="username" name="username" placeholder="Enter username" />
+    }else{
+    	<input type="text" class="form-control" id="username" name="username" placeholder="Enter username" value="@module.getSettingsMap().get("username")" />
+    }
+  </div>
+  
+   <div class="form-group">
+    <label for="password">Password</label>
+    @if(module == null){
+    	<input type="password" class="form-control" id="password" name="password" />
+    }else{
+    	<input type="password" class="form-control" id="password" name="password" placeholder="Enter password" value="@module.getSettingsMap().get("password")" />
+    }
+  </div>

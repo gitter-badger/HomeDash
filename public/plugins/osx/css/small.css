@@ -1,13 +1,24 @@
-.osx-app{
-	-webkit-appearance: none;
-	height: 64px;
-	background:none;
-	border:none;
+.osx {
+	overflow-x: auto;
+	overflow-y: hidden;
+	background-color: #607D8B;
+	background-image: url("../images/logo.svg");
+	background-position: 15% center;
+	background-size: auto 150%;
+	background-repeat: no-repeat;
+	color:white;
 }
+
+.osx-app {
+	-webkit-appearance: none;
+	background: none;
+	border: none;
+	padding-top: 20px;
+}
+
 .osx-app-list {
 	list-style: none;
-	overflow-x: auto;
-	white-space:nowrap;
+	white-space: nowrap;
 }
 
 .osx-app-list li {
@@ -25,6 +36,5 @@
 	height: 32px;
 	background-repeat: no-repeat;
 	background-position: center;
-
 	background-size: 32px 32px;
 }

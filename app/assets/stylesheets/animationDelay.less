@@ -1,0 +1,13 @@
+
+    
+ @delay-step:100ms;
+
+.generate-delay(10);
+
+.generate-delay(@n, @i: 1) when (@i =< @n) {
+  .delay-@{i} {
+  	-webkit-animation-delay:(@i*@delay-step); /* Chrome, Safari, Opera */
+    animation-delay:(@i*@delay-step); 
+   }
+  .generate-delay(@n, (@i + 1));
+}
