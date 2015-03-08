@@ -1,0 +1,36 @@
+.googlepubliccalendar{
+	overflow-x:auto;
+	background-image: url("../images/logo.svg");
+	background-repeat: no-repeat;
+	background-position: -10px -10px;
+	background-size: 110% auto;
+	background-color: #536DFE;
+	color:white;
+}
+
+
+.googlepubliccalendar h4{
+	padding:10px;
+	font-size: 30px;	
+}
+
+.gcal-event {
+	cursor: pointer;
+}
+
+.text-wrapping {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.googlepubliccalendar .table>tbody>tr>td {
+	padding-top: 10px;
+	padding-botton: 10px;
+	font-size: 17px;
+	border: none;
+}
+
+.googlepubliccalendar .table>tbody>tr:hover {
+	background-color: #3D5AFE;
+}
