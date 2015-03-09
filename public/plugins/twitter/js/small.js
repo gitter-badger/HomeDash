@@ -2,7 +2,7 @@ function twitter(moduleId) {
 	this.moduleId = moduleId;
 	this.tweets;
 	this.currentIndex;
-	this.animation = "fadeInLeft";
+	this.animation = "fadeInRight";
 	this.interval;
 	this.documentReady = function() {
 
@@ -112,13 +112,13 @@ function twitter(moduleId) {
 
 	this.showPreviousTweet = function(event) {
 		this.currentIndex = this.currentIndex - 1;
-		this.animation = "fadeInRight";
+		this.animation = "fadeInLeft";
 		this.showTweet();
 	}
 
 	this.showNextTweet = function(event) {
 		this.currentIndex = this.currentIndex + 1;
-		this.animation = "fadeInLeft";
+		this.animation = "fadeInRight";
 		this.showTweet();
 	}
 

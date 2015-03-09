@@ -1,7 +1,7 @@
 function sickbeard(moduleId) {
 	this.moduleId = moduleId;
 	this.shows = [];
-	this.animation = "slideInLeft";
+	this.animation = "slideInRight";
 	this.interval;
 	this.documentReady = function() {
 
@@ -120,13 +120,13 @@ function sickbeard(moduleId) {
 
 	this.showPreviousShow = function(event) {
 		this.currentIndex = this.currentIndex - 1;
-		this.animation = "slideInRight";
+		this.animation = "slideInLeft";
 		this.showShow();
 	}
 
 	this.showNextShow = function(event) {
 		this.currentIndex = this.currentIndex + 1;
-		this.animation = "slideInLeft"
+		this.animation = "slideInRight"
 		this.showShow();
 	}
 }
