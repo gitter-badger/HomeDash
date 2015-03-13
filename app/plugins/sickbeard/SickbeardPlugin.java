@@ -200,7 +200,7 @@ public class SickbeardPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return ONE_MINUTE;
+		return ONE_HOUR;
 	}
 
 	private class TvShowObject implements Comparable<TvShowObject> {

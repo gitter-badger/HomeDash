@@ -13,14 +13,14 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-HomeDash.db
-platypus.sh
 
 *.log
-
-conf/home.conf
 
 public/plugins/osx/images/*
 cache/public/plugins/osx/images/*
 
 cache/*
+conf/launch.conf
+
+conf/user.conf
+

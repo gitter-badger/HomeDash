@@ -146,7 +146,7 @@ public class YamahaAmpPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return PlugIn.ONE_SECOND * 2;
+		return PlugIn.ONE_SECOND * 5;
 	}
 
 	private class YamahaAmpStatus {

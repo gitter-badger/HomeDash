@@ -114,7 +114,7 @@ public class HardDiskPlugin implements PlugIn{
 
 	@Override
 	public int getRefreshRate() {
-		return ONE_MINUTE;
+		return ONE_MINUTE*2;
 	}
 
 	@Override

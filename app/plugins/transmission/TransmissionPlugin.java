@@ -155,8 +155,7 @@ public class TransmissionPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		// TODO Auto-generated method stub
-		return ONE_SECOND * 5;
+		return ONE_SECOND * 10;
 	}
 
 	@Override
@@ -204,7 +203,7 @@ public class TransmissionPlugin implements PlugIn {
 	
 	@Override
 	public int getBigScreenRefreshRate() {
-		return ONE_SECOND * 5;
+		return ONE_SECOND * 10;
 	}
 
 	@Override

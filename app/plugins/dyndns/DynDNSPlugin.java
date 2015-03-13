@@ -226,7 +226,7 @@ public class DynDNSPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return ONE_MINUTE * 5;
+		return ONE_MINUTE * 20;
 	}
 
 	@Override
