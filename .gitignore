@@ -13,7 +13,8 @@ dist
 /.project
 /RUNNING_PID
 /.settings
-
+bin
+/bin
 *.log
 
 public/plugins/osx/images/*
@@ -24,5 +25,5 @@ conf/launch.conf
 
 conf/user.conf
 
-bin
+
 
