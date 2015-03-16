@@ -180,7 +180,7 @@ public class SysteminfoPlugin implements PlugIn {
 	
 	@Override
 	public int getWidth() {
-		return 3;
+		return 2;
 	}
 	
 	@Override

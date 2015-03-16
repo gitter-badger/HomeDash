@@ -79,7 +79,7 @@ function randomString32 {
 function createdbconf {
 	CONF_FILE=$DIR/conf/user.conf
 	
-	echo "Setting up the database connection"
+	echo "Setting up the MySQL database connection"
 	
 	read -p "Host:" DB
 	read -p "Port [3306]:" DBPORT
@@ -110,20 +110,20 @@ function createlaunchconf {
 
 	echo "First time launching HomeDash, let's set up few things first"
 	
-	read -p "Enter port to run HomeDash [9000]" PORT
+	read -p "Enter port to run HomeDash [9000]:" PORT
 	if [ "$PORT" = "" ]
 	then
     	PORT=9000
 	fi
 	
 	
-	read -p "Minimum RAM used by the JVM Xms HomeDash [64M]" XMS
+	read -p "Minimum RAM used by the JVM Xms HomeDash [64M]:" XMS
 	if [ "$XMS" = "" ]
 	then
     	XMS="64M"
 	fi
 	
-	read -p "Maximum RAM used by the JVM Xmx HomeDash [128M]" XMX
+	read -p "Maximum RAM used by the JVM Xmx HomeDash [128M]:" XMX
 	if [ "$XMX" = "" ]
 	then
     	XMX="128M"

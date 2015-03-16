@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Hashtable;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -60,7 +61,21 @@ public class PortMapperPlugin implements PlugIn {
 
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
-		return mappings;
+			Map<String, Object> returnValue = new Hashtable<String,Object>();
+		try{
+			if(this.router != null){
+				RouterObject object = new RouterObject();
+				object.name = router.getFriendlyName();
+				object.externalIp = router.getExternalIPAddress();
+				returnValue.put("router", object);
+			}
+
+		} catch(Exception e){
+			Logger.info("Can't get router info");
+		}
+		
+		returnValue.put("mappings", mappings);
+		return returnValue;
 	}
 
 	@Override
@@ -193,7 +208,6 @@ public class PortMapperPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		// TODO Auto-generated method stub
 		return ONE_SECOND * 10;
 	}
 
@@ -203,6 +217,7 @@ public class PortMapperPlugin implements PlugIn {
 		if (router != null) {
 			// Integer portMapCount = router.getPortMappingNumberOfEntries();
 
+			
 			PortMappingEntry portMapping = new PortMappingEntry();
 			int pmCount = 0;
 			do {
@@ -240,6 +255,9 @@ public class PortMapperPlugin implements PlugIn {
 
 		}
 
+		if(result != null){
+			this.mappings = result;
+		}
 		return result;
 	}
 
@@ -250,7 +268,11 @@ public class PortMapperPlugin implements PlugIn {
 		try {
 			GatewayDiscover gatewayDiscover = new GatewayDiscover();
 			Map<InetAddress, GatewayDevice> gateways = gatewayDiscover.discover();
-			router = gatewayDiscover.getValidGateway();
+			GatewayDevice router = gatewayDiscover.getValidGateway();
+			
+			if(router != null){
+				this.router = router;
+			}
 		} catch (IOException | SAXException | ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -322,7 +344,7 @@ public class PortMapperPlugin implements PlugIn {
 		Logger.info("Doing in background");
 		try {
 			getRouter();
-			this.mappings = getMappings();
+			getMappings();
 		} catch (IOException | SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -351,7 +373,7 @@ public class PortMapperPlugin implements PlugIn {
 
 	@Override
 	public int getBackgroundRefreshRate() {
-		return ONE_MINUTE * 10;
+		return ONE_MINUTE * 5;
 	}
 
 	@Override
