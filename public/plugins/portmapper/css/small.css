@@ -35,7 +35,7 @@
 }
 
 .portmapper .table>tbody>tr:hover {
-	background-color: #d35400;
+	background-color: #455A64;
 }
 
 .portmapper .table>tbody>tr.success>td  {
@@ -44,7 +44,7 @@
 }
 
 .pm-modal .modal-header {
-	background-color: #e67e22;
+	background-color: #78909C;
 	color: white;
 }
 
