@@ -1,13 +1,13 @@
-<svg class="sys-info-graph" preserveAspectRatio="xMidYMid slice" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100"  opacity="0.3" >
+<svg class="sys-info-graph" preserveAspectRatio="xMidYMid slice" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 100 100"  opacity="0.2" >
   
   <style>
   	.line { 
   		fill:none;
-  		stroke:#d35400; 
+  		stroke:#455A64; 
   	}
   	
   	.router{
-	  	fill:#d35400;
+	  	fill:#455A64;
 	  	stroke:none;
   	}
   </style>

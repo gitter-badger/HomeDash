@@ -230,7 +230,7 @@ public class CouchpotatoPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return PlugIn.ONE_MINUTE;
+		return PlugIn.ONE_MINUTE*10;
 	}
 
 	private class MovieObject {
