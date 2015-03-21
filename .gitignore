@@ -20,3 +20,5 @@ cache/
 conf/launch.conf
 conf/user.conf
 *.class
+
+*.class

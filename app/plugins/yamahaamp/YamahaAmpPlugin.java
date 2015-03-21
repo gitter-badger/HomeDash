@@ -64,7 +64,7 @@ public class YamahaAmpPlugin implements PlugIn {
 		String url = "http://" + host + PATH;
 
 		YamahaAmpStatus status = new YamahaAmpStatus();
-
+		status.name = host;
 		YNCRequest request = YNC.COMMANDS.get(YNC.GET_POWER_STATUS);
 		String on = request.getResponseValue(
 				HttpTools.rawPost(url, request.getRequest())).replaceAll(
@@ -154,6 +154,7 @@ public class YamahaAmpPlugin implements PlugIn {
 		public boolean on;
 		public String input;
 		public double volume;
+		public String name;
 	}
 
 	@Override

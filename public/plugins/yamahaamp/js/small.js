@@ -42,6 +42,7 @@ function yamahaamp(moduleId){
 	}
 	
 	this.processData = function (json){
+		$('#amp'+this.moduleId+'-name').html(json.name);
 		if(json != undefined && json.on != undefined && json.on){
 			$("#amp"+this.moduleId+"-power").addClass("btn-success");
 			

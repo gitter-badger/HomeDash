@@ -1,17 +1,28 @@
 .yamahaamp {
 	background-image: url('../images/yamaha.svg');
 	background-repeat: no-repeat;
-	background-position: -100px center;
+	background-position: -10px center;
 	background-size: contain;
 	padding: 30px;
+	color:white;
+	background-color:#333;
 }
 
+.yamahaamp .module-links-container, .yamahaamp .module-links-container a{
+	color:#888;
+}
 .yamp-power {
 	border-radius: 50%;
 }
-
+.yamahaamp p, .yamahaamp .inputs{
+	text-align: center;
+}
 .yam-input.active {
 	background-color: #DDD;
+}
+
+.yamahaamp .amp-name{
+	margin-top:0;
 }
 
 .yamp-inputs {
@@ -26,10 +37,19 @@
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
+	text-align: center;
+	color:white;
+	background-color:#222;
 }
 
-.yamp-volume-controle{
-	
+.yamp-input.active{
+	background-color:#444;
+	font-weight: bold;
+	color:white;
+}
+
+.yamp-volume-control{
+	color:#EEE;
 }
 
 .yamp-volume{
