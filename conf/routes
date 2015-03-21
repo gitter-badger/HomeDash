@@ -35,6 +35,11 @@ GET	/pages/add				controllers.Pages.addPage()
 GET	/pages/remove/:id			controllers.Pages.removePage(id: Integer)
 GET	/pages/rename/:id/:name			controllers.Pages.renamePage(id: Integer, name: String)
 
+#remoteFavorites 
+GET /favorite/add/:name/:url/:apikey	controllers.Favorites.addFavortie(name :String, url: String, apikey: String)
+GET /favorite/remove/:id				controllers.Favorites.removeFavorite(id: Int)
+GET /favorite/is/:url					controllers.Favorites.isFavorite(url: String)
+
 #API
 POST	/api/explore				controllers.API.explore()
 POST	/api/refreshModule/:id			controllers.API.refreshModule(id: Integer)

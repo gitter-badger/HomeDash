@@ -4,6 +4,7 @@ import interfaces.PlugIn;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -214,6 +215,13 @@ public class TransmissionPlugin implements PlugIn {
 	@Override
 	public int getHeight() {
 		return 2;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		result.put("Transmission URL", settings.get(URL));
+		return result;
 	}
 	///////////////
 	/// PLUG IN METHODS

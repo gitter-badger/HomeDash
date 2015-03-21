@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -287,6 +288,13 @@ public class CouchpotatoPlugin implements PlugIn {
 	@Override
 	public int getHeight() {
 		return 4;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		result.put("Couchpotato URL", settings.get(URL));
+		return result;
 	}
 
 }

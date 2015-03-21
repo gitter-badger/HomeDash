@@ -14,6 +14,7 @@ import misc.Constants;
 import misc.HttpTools;
 import models.Module;
 import models.Page;
+import models.RemoteFavorite;
 import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -57,7 +58,7 @@ public class Application extends Controller {
 
 	public static Result addRemote() {
 		Logger.info("addRemote()");
-		return ok(addRemoteModule.render());
+		return ok(addRemoteModule.render(RemoteFavorite.find.all()));
 	}
 
 	public static Result exploreRemoteHost() {

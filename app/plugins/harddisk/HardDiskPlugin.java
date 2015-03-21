@@ -137,6 +137,13 @@ public class HardDiskPlugin implements PlugIn{
 		return 1;
 	}
 	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		result.put("Path", settings.get(SETTING_PATH));
+		return result;
+	}
+	
 	////// CLASS methods
 	
 	private String humanReadableByteCount(long usedBytes, long maxBytes, boolean si) {

@@ -1,10 +1,13 @@
+@(favs: List[RemoteFavorite])
+
+
 @* addRemoteModule Template File *@
 @main("Home Dash"){
 	
 } {
 <h1>Add remote module</h1>
 <div class="row">   		
-	<div class="card col-md-12">
+	<div class="card col-md-9">
 		<h3>Remote instance info</h3>
 		<form id="instance-info">
 			<div class="form-group">
@@ -18,6 +21,20 @@
 			<button type="submit" class="btn btn-success">Show modules</button>
 		</form>
 		<br />
+	</div>
+	<div class="card col-md-3">
+		<h3>Favorites</h3>
+		<div class="favorites">
+		@if(favs.size() > 0){
+			@for(fav <- favs){
+				<div class="favorite" id="fav-@fav.id">
+					<p>@fav.name &nbsp;&nbsp;<button class=" explore-favorite btn btn-sm" data-url="@fav.url" data-apikey="@fav.apikey">Explore</button></p>
+				</div>
+			}
+		}else{
+		<p>No favorites yet. To add a favorite explore a remote instance first with the form on the left.</p>
+		}
+		</div>
 	</div>
 </div>
 

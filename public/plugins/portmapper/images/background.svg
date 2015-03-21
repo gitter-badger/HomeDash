@@ -20,7 +20,7 @@
                       begin="0s; anim7.end+1s"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       repeatCount="1"/>
       </path>   
@@ -30,7 +30,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim6.end"
                       repeatCount="1"/>
@@ -41,7 +41,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim2.end+5s"
                       repeatCount="1"/>
@@ -52,7 +52,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim1.end+2s"
                       repeatCount="1"/>
@@ -63,7 +63,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim3.end+2s"
                       repeatCount="1"/>
@@ -74,7 +74,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim4.end+5s"
                       repeatCount="1"/>
@@ -85,7 +85,7 @@
                       class="blink"
                       attributeType="XML"
                       from="white"
-                      to="#d35400"
+                      to="#455A64"
                       dur="1000ms"
                       begin="anim5.end"
                       repeatCount="1"/>

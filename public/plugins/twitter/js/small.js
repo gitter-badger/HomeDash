@@ -4,17 +4,22 @@ function twitter(moduleId) {
 	this.currentIndex;
 	this.animation = "fadeInRight";
 	this.interval;
+	this.timeout;
 	this.documentReady = function() {
 
 		var parent = this;
 		$('#twitter-' + this.moduleId + '-previous').click(function() {
 			parent.showPreviousTweet();
 			clearInterval(parent.interval);
+			clearTimeout(parent.timeout);
+			parent.timeout = setTimeout(function(){parent.playSlideShow()}, 10000);
 		});
 
 		$('#twitter-' + this.moduleId + '-next').click(function() {
 			parent.showNextTweet();
 			clearInterval(parent.interval);
+			clearTimeout(parent.timeout);
+			parent.timeout = setTimeout(function(){parent.playSlideShow()}, 10000);
 		});
 
 		$('#twitter-' + this.moduleId + '-tweet').click(function() {
@@ -22,7 +27,7 @@ function twitter(moduleId) {
 		});
 
 		$(document).on('click', '.twitter-userid', function() {
-
+			parent.animation = 'zoomIn';
 			$("#twitter-" + parent.moduleId + "-modal .modal-body").html('<p style="text-align:center"><img src="/assets/images/loading.gif" /></p>');
 			$("#twitter-" + parent.moduleId + "-modal").appendTo("body").modal('show');
 
@@ -30,6 +35,7 @@ function twitter(moduleId) {
 		});
 
 		$(document).on('click', '.twitter-hashtag', function() {
+			parent.animation = 'zoomIn';
 
 			$("#twitter-" + parent.moduleId + "-modal .modal-body").html('<p style="text-align:center"><img src="/assets/images/loading.gif" /></p>');
 			$("#twitter-" + parent.moduleId + "-modal").appendTo("body").modal('show');
@@ -37,6 +43,11 @@ function twitter(moduleId) {
 			sendMessage(parent.moduleId, 'showHashtag', $(this).attr('data'));
 		});
 
+		this.playSlideShow();
+	}
+	
+	this.playSlideShow = function(){
+		var parent = this;
 		this.interval = setInterval(function() {
 			parent.showNextTweet();
 		}, 9164);

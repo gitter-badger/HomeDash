@@ -2,6 +2,7 @@ package plugins.yamahaamp;
 
 import interfaces.PlugIn;
 
+import java.util.Hashtable;
 import java.util.Map;
 
 import misc.HttpTools;
@@ -187,6 +188,13 @@ public class YamahaAmpPlugin implements PlugIn {
 	@Override
 	public int getHeight() {
 		return 2;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		result.put("Amplifier URL", settings.get(AMP_HOST));
+		return result;
 	}
 	
 	

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -21,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import play.Logger;
 import play.twirl.api.Html;
 import plugins.googlepubliccalendar.views.html.*;
 import websocket.WebSocketMessage;
@@ -207,6 +209,35 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return 4;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		
+		String apiKey = settings.get(API_KEY);
+		String calendarId = settings.get(CALENDAR_ID);
+		String url = URL.replace("[ID]", URLEncoder.encode(calendarId)).replace("[APIKEY]", apiKey).replace("[TIMEZONE]", URLEncoder.encode(timeZone));
+		
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		url = url.replace("[STARTTIME]", URLEncoder.encode(df.format(today.getTime())));
+		
+		
+
+		
+		try {
+			JSONObject json = new JSONObject(HttpTools.sendGet(url));
+			
+			result.put("Calendar", StringEscapeUtils.escapeHtml4(json.getString("summary")));
+
+		}catch(Exception e){
+			Logger.error("Can't expose settings for goolge calendar", e);
+		}
+		
+		return result;
 	}
 
 }

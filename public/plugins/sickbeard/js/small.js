@@ -3,18 +3,28 @@ function sickbeard(moduleId) {
 	this.shows = [];
 	this.animation = "slideInRight";
 	this.interval;
+	this.timeout;
 	this.documentReady = function() {
 
 		var parent = this;
 		$('#sb-' + this.moduleId + '-previous').click(function() {
 			parent.showPreviousShow();
 			clearInterval(parent.interval);
+			clearTimeout(parent.timeout);
+			parent.timeout = setTimeout(function(){parent.playSlideShow()}, 10000);
 		});
 		$('#sb-' + this.moduleId + '-next').click(function() {
 			parent.showNextShow();
 			clearInterval(parent.interval);
+			clearTimeout(parent.timeout);
+			parent.timeout = setTimeout(function(){parent.playSlideShow()}, 10000);
 		});
 		
+		this.playSlideShow();
+	}
+	
+	this.playSlideShow = function(){
+		var parent = this;
 		this.interval =  setInterval(function(){
 			parent.showNextShow();
 		}, 7568);

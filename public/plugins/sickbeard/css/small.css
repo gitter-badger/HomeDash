@@ -4,6 +4,7 @@
 	background-color: #444444;
 }
 
+
 @media ( max-width : 992px) {
 	.sickbeard {
 		height: 295px;
@@ -12,6 +13,7 @@
 
 .sickbeard .module-links-container {
 	z-index: 20;
+	color:white;
 }
 
 .sickbeard .module-links-container a {

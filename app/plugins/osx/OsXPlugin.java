@@ -17,10 +17,10 @@ import websocket.WebSocketMessage;
 public class OsXPlugin implements PlugIn {
 	private Map<String, OsXApp> apps;
 	private final String PNG_PATH = "cache/plugins/osx/images/";
-	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/"+PNG_PATH;
+	private final String FULL_PNG_PATH = Play.application().path().getPath() + "/" + PNG_PATH;
 
 	private final String START_APP = "startApp", ACTIVATE_APP = "activateApp", QUIT_APP = "quitApp";
-	
+
 	@Override
 	public String getId() {
 		// TODO Auto-generated method stub
@@ -38,7 +38,7 @@ public class OsXPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "OS X";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Start and Quit the applications that are on your MacOS dock.";
@@ -67,43 +67,43 @@ public class OsXPlugin implements PlugIn {
 		WebSocketMessage response = new WebSocketMessage();
 		if (method.equalsIgnoreCase(START_APP)) {
 			try {
-				if(apps.containsKey(command)){
+				if (apps.containsKey(command)) {
 					apps.get(command).setRunning(true);
 					OsXUtils.startApplication(command);
 					response.setMessage(apps);
 					response.setMethod(WebSocketMessage.METHOD_REFRESH);
 				}
 			} catch (Exception e) {
-				Logger.error("Error while Starting "+command, e);
+				Logger.error("Error while Starting " + command, e);
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
-				response.setMessage("Error while Starting "+command);
+				response.setMessage("Error while Starting " + command);
 			}
 		} else if (method.equalsIgnoreCase(ACTIVATE_APP)) {
 			try {
-				if(apps.containsKey(command)){
+				if (apps.containsKey(command)) {
 					OsXUtils.startApplication(command);
 					return null;
 				}
 			} catch (Exception e) {
-				Logger.error("Error while activating "+command, e);
+				Logger.error("Error while activating " + command, e);
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
-				response.setMessage("Error while activating "+command);
+				response.setMessage("Error while activating " + command);
 			}
-		}else if (method.equalsIgnoreCase(QUIT_APP)) {
+		} else if (method.equalsIgnoreCase(QUIT_APP)) {
 			try {
-				if(apps.containsKey(command)){
+				if (apps.containsKey(command)) {
 					OsXUtils.quitApplication(command);
 					apps = getDockAndRunningApplications();
 					response.setMessage(apps);
 					response.setMethod(WebSocketMessage.METHOD_REFRESH);
 				}
 			} catch (Exception e) {
-				Logger.error("Error while Quitting "+command, e);
+				Logger.error("Error while Quitting " + command, e);
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
-				response.setMessage("Error while Quitting "+command);
+				response.setMessage("Error while Quitting " + command);
 			}
 		}
-		
+
 		return response;
 	}
 
@@ -141,7 +141,7 @@ public class OsXPlugin implements PlugIn {
 	public void init(Map<String, String> settings, String data) {
 		// TODO Auto-generated method stub
 		File f = new File(FULL_PNG_PATH);
-		if(!f.exists()){
+		if (!f.exists()) {
 			f.mkdirs();
 		}
 	}
@@ -165,7 +165,7 @@ public class OsXPlugin implements PlugIn {
 
 	@Override
 	public int getRefreshRate() {
-		return ONE_SECOND  * 30;
+		return ONE_SECOND * 30;
 	}
 
 	private Map<String, OsXApp> getDockAndRunningApplications() throws Exception {
@@ -214,15 +214,13 @@ public class OsXPlugin implements PlugIn {
 		apps.remove("Finder");
 		return apps;
 	}
-	
-	private void setApp(OsXApp app) throws Exception{
+
+	private void setApp(OsXApp app) throws Exception {
 		String[] split;
 		Logger.info("Found Dock application at path {}", app.getPath());
 
 		split = app.getPath().split("/");
 		app.setName(split[split.length - 1].replace(".app", ""));
-
-		
 
 		app.setIcnsPath(OsXUtils.getIconPath(app.getPath() + "/Contents/info.plist"));
 
@@ -236,24 +234,29 @@ public class OsXPlugin implements PlugIn {
 			OsXUtils.convertIcnsToPng(app.getIcnsPath(), fullPngName);
 		}
 	}
-	
+
 	@Override
 	public int getBackgroundRefreshRate() {
 		return NO_REFRESH;
 	}
-	
+
 	@Override
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return 8;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return 1;
+	}
+
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		return null;
 	}
 }

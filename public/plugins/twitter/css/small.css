@@ -9,6 +9,10 @@
 	
 
 }
+
+.twitter .module-links-container, .twitter .module-links-container a{
+	color:#2aa9e0;
+}
 .twitter .wrapper{
 	height: 354px;
 	/*  flex */
@@ -91,6 +95,9 @@
 	width:100%;
 }
 
+.modal-body .tweet{
+	position:relative;
+}
 
 
 .twitter-button {

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -262,5 +263,12 @@ public class SickbeardPlugin implements PlugIn {
 	@Override
 	public int getHeight() {
 		return 3;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		result.put("Sickbeard URL", settings.get(URL));
+		return result;
 	}
 }

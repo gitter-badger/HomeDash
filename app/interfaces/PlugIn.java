@@ -138,4 +138,14 @@ public interface PlugIn {
 	 */
 	public int getWidth();
 	public int getHeight();
+	
+	
+	/**
+	 * List of settings that can be made public
+	 * for example when your want to add a remote plugin the exposed settings will appear in the module list
+	 * For example the transmission plugin will show the transmission URL
+	 * @param settings
+	 * @return
+	 */
+	public Map<String, String> exposeSettings(Map<String, String>  settings);
 }

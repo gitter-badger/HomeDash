@@ -188,6 +188,11 @@ public class SysteminfoPlugin implements PlugIn {
 		return 1;
 	}
 
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		return null;
+	}
 	// ////////////
 	// Class method
 	// //////////

@@ -52,7 +52,8 @@ public class API extends Controller {
 					PlugIn plugin = (PlugIn) ctor.newInstance();
 
 					toAdd.setModuleName(plugin.getName());
-
+					toAdd.setDescription(plugin.getDescription());
+					toAdd.setExposedSettings(plugin.exposeSettings(module.getSettingsMap()));
 					modules.add(toAdd);
 				} catch (Exception e) {
 
@@ -149,7 +150,8 @@ public class API extends Controller {
 	private static class ModuleExposed {
 		private int id;
 		private String pluginId;
-		private String moduleName;
+		private String moduleName, description;
+		private Map<String, String> exposedSettings;
 
 		public int getId() {
 			return id;
@@ -174,6 +176,24 @@ public class API extends Controller {
 		public void setModuleName(String moduleName) {
 			this.moduleName = moduleName;
 		}
+
+		public Map<String, String> getExposedSettings() {
+			return exposedSettings;
+		}
+
+		public void setExposedSettings(Map<String, String> exposedSettings) {
+			this.exposedSettings = exposedSettings;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+		
+		
 
 	}
 

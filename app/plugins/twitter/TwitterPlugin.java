@@ -4,6 +4,7 @@ import interfaces.PlugIn;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class TwitterPlugin implements PlugIn {
 	private List<Tweet> tweets = new ArrayList<Tweet>();
 
 	private final static String METHOD_SHOW_USER = "showUser", METHOD_SHOW_HASHTAG = "showHashtag", METHOD_NEW_TWEET = "newTweet";
-	
+
 	private Twitter twitter;
 	private boolean refreshingData = false;
 
@@ -51,7 +52,7 @@ public class TwitterPlugin implements PlugIn {
 		// TODO Auto-generated method stub
 		return "Twitter";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Browse your latest tweets.";
@@ -71,26 +72,25 @@ public class TwitterPlugin implements PlugIn {
 	public WebSocketMessage processCommand(String method, String command) {
 		WebSocketMessage wsMessage = new WebSocketMessage();
 		wsMessage.setMethod(method);
-		
-		if(method.equalsIgnoreCase(METHOD_SHOW_HASHTAG)){
+
+		if (method.equalsIgnoreCase(METHOD_SHOW_HASHTAG)) {
 			try {
 				wsMessage.setMessage(searchHashTag(command));
 			} catch (TwitterException e) {
 				wsMessage.setMethod(WebSocketMessage.METHOD_ERROR);
-				wsMessage.setMessage("Can't get #"+command+" tweets");
+				wsMessage.setMessage("Can't get #" + command + " tweets");
 			}
-		}else if(method.equalsIgnoreCase(METHOD_SHOW_USER)){
+		} else if (method.equalsIgnoreCase(METHOD_SHOW_USER)) {
 			try {
 				wsMessage.setMessage(searchUser(command));
 			} catch (TwitterException e) {
 				wsMessage.setMethod(WebSocketMessage.METHOD_ERROR);
-				wsMessage.setMessage("Can't get @"+command+" timeline");
+				wsMessage.setMessage("Can't get @" + command + " timeline");
 			}
-		}else if(method.equalsIgnoreCase(METHOD_NEW_TWEET)){
+		} else if (method.equalsIgnoreCase(METHOD_NEW_TWEET)) {
 			try {
 				newTweet(command);
-				
-				
+
 				wsMessage.setMessage("Tweet sent !");
 				wsMessage.setExtra(tweets);
 				wsMessage.setMethod(WebSocketMessage.METHOD_SUCCESS);
@@ -101,8 +101,6 @@ public class TwitterPlugin implements PlugIn {
 		}
 		return wsMessage;
 	}
-
-
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -175,16 +173,35 @@ public class TwitterPlugin implements PlugIn {
 		return NO_REFRESH;
 	}
 
-	
 	@Override
 	public int getWidth() {
 		return 3;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return 4;
 	}
+
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		this.twitterKeys = settings;
+
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true).setOAuthConsumerKey(settings.get(CONSUMER_KEY)).setOAuthConsumerSecret(settings.get(CONSUMER_SECRET)).setOAuthAccessToken(settings.get(ACCESS_TOKEN))
+				.setOAuthAccessTokenSecret(settings.get(ACCESS_TOKEN_SECRET));
+		TwitterFactory tf = new TwitterFactory(cb.build());
+		Twitter twitter = tf.getInstance();
+
+		Map<String, String> result = new Hashtable<>();
+		try {
+			result.put("Account", "@"+twitter.getScreenName());
+		} catch (Exception e) {
+			Logger.error("Can't expose settings for twitter module", e);
+		}
+		return result;
+	}
+
 	// //////
 	// / Twitter Methods
 	// //
@@ -206,9 +223,9 @@ public class TwitterPlugin implements PlugIn {
 
 	private List<Tweet> searchUser(String command) throws TwitterException {
 		Logger.info("Searching tweets for user @{}", command);
-		
+
 		List<Tweet> tweets = new ArrayList<>();
-		for(Status status: twitter.getUserTimeline(command)){
+		for (Status status : twitter.getUserTimeline(command)) {
 			tweets.add(fromStatusToTweet(status));
 		}
 		return tweets;
@@ -216,16 +233,16 @@ public class TwitterPlugin implements PlugIn {
 
 	private List<Tweet> searchHashTag(String command) throws TwitterException {
 		Query query = new Query(command);
-        QueryResult result = twitter.search(query);
-        query.count(100);
-        List<Tweet> tweets = new ArrayList<>();
-        for (Status status : result.getTweets()) {
+		QueryResult result = twitter.search(query);
+		query.count(100);
+		List<Tweet> tweets = new ArrayList<>();
+		for (Status status : result.getTweets()) {
 			tweets.add(fromStatusToTweet(status));
 		}
 		return tweets;
 	}
-	
-	private Tweet fromStatusToTweet(Status status){
+
+	private Tweet fromStatusToTweet(Status status) {
 		Tweet tweet = new Tweet();
 		tweet.username = status.getUser().getName();
 		tweet.content = status.getText();
@@ -236,12 +253,12 @@ public class TwitterPlugin implements PlugIn {
 		tweet.userId = status.getUser().getScreenName();
 		return tweet;
 	}
-	
+
 	private void newTweet(String command) throws TwitterException {
 		twitter.updateStatus(command);
 		refreshTimeline();
 	}
-	
+
 	// //INNER CLASSES
 	private class Tweet {
 		public String userId;

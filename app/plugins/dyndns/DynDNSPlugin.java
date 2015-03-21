@@ -248,6 +248,11 @@ public class DynDNSPlugin implements PlugIn {
 	public int getHeight() {
 		return 3;
 	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		return null;
+	}
 
 	// ////
 	// DynDNS Method

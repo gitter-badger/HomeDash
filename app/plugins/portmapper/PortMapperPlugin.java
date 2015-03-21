@@ -383,11 +383,16 @@ public class PortMapperPlugin implements PlugIn {
 	
 	@Override
 	public int getWidth() {
-		return 9;
+		return 8;
 	}
 	
 	@Override
 	public int getHeight() {
 		return 5;
+	}
+	
+	@Override
+	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		return null;
 	}
 }
