@@ -3,6 +3,7 @@ var ws;
 var CURRENT_PAGE = 1;
 var NOTIFICATION_SHOW_CLASS = "fadeInRight";
 var NOTIFICATION_HIDE_CLASS = "fadeOutRight";
+var CLIENT_ID;
 
 $(document).ready(function() {
 	if (typeof (Storage) !== "undefined") {
@@ -71,6 +72,9 @@ function onMessage(event) {
 	console.log(event.data);
 
 	switch (json.method) {
+	case 'clientId':
+		CLIENT_ID = json.message;
+		break;
 	case 'success':
 		showSuccessMessage(json.message);
 		break;
@@ -91,33 +95,39 @@ function onMessage(event) {
 	}
 
 	modules[json.id].onMessage(json.method, json.message, json.extra);
+
 }
 
 function showSuccessMessage(message) {
-	showNotification(message, 'success');
+	showNotification(message, 'success', true);
 }
 
 function showErrorMessage(message) {
-	showNotification(message, 'error');	
+	showNotification(message, 'error', true);
 }
 
-function showNotification(message, type){
-var box = $("#message-box");
-	
+function showNotification(message, type, autoremove) {
+	var box = $("#message-box");
+
 	var id = Date.now();
-	var html = '<div id="'+id+'" class="notification '+type+' animated '+NOTIFICATION_SHOW_CLASS+'">'+message+'</div>';
+	var html = '<div id="' + id + '" class="notification ' + type + ' animated ' + NOTIFICATION_SHOW_CLASS + '">' + message + '</div>';
 	box.append(html);
-	setInterval(function() {
-		
-		$('#'+id).removeClass(NOTIFICATION_SHOW_CLASS);
-		$('#'+id).addClass(NOTIFICATION_HIDE_CLASS);
+
+	if (autoremove) {
 		setInterval(function() {
-			$('#'+id).remove();
-		}, 1000);
-	}, 4000);
+
+			$('#' + id).removeClass(NOTIFICATION_SHOW_CLASS);
+			$('#' + id).addClass(NOTIFICATION_HIDE_CLASS);
+			setInterval(function() {
+				$('#' + id).remove();
+			}, 1000);
+		}, 4000);
+	}
+
+	return id;
 }
 
-function reloadOthers(){
+function reloadOthers() {
 	sendMessage(-1, "reloadOthers", "");
 }
 
@@ -130,6 +140,52 @@ function sendMessage(moduleId, method, message) {
 	ws.send(json);
 	console.log(json);
 }
+
+function sendFile(moduleId, method, message, files, progressHandler) {
+
+	var formData = new FormData();
+	$.each(files, function(key, value) {
+		formData.append(key, value);
+	});
+
+	console.log(formData);
+	$.ajax({
+		url : '/uploadFile/from/' + CLIENT_ID + '/to/' + moduleId + '/method/' + method + '/message/' + encodeURIComponent(message), // Server
+		// script
+		// to
+		// process
+		// data
+		type : 'POST',
+		xhr : function() { // Custom XMLHttpRequest
+			var myXhr = $.ajaxSettings.xhr();
+			if (myXhr.upload) { // Check if upload property exists
+				myXhr.upload.addEventListener('progress', progressHandler, false); // For
+				// handling
+				// the
+				// progress
+				// of
+				// the
+				// upload
+			}
+			return myXhr;
+		},
+		// Ajax events
+		// beforeSend : beforeSendHandler,
+		// success : function(){},
+		error : function(jqXHR, textStatus, errorThrown) {
+			showErrorMessage("Error while uploading files.<br />" + textStatus + ':' + errorThrown);
+		},
+		// Form data
+		data : formData,
+		// Options to tell jQuery not to process data or worry about
+		// content-type.
+		cache : false,
+		contentType : false,
+		processData : false
+	});
+}
+
+
 
 function WebsocketMessage() {
 	this.id = -1;

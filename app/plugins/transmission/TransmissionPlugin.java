@@ -109,7 +109,7 @@ public class TransmissionPlugin implements PlugIn {
 	}
 
 	@Override
-	public WebSocketMessage processCommand(String method, String command) {
+	public WebSocketMessage processCommand(String method, String command, Object extraPackage) {
 		Logger.info("[Transmission] Recieved method [{}], command [{}]",
 				method, command);
 

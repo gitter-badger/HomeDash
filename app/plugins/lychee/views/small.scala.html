@@ -1,0 +1,25 @@
+@(module: Module)
+<div class="actions">
+	<button id="lychee@module.id-upload" class="btn upload"><i class="fa fa-cloud-upload"></i> <span id="lychee@module.id-progress" class="progress">Upload</span> </button>
+	<button id="lychee@module.id-recent" class="btn recent"><i class="fa fa-picture-o"></i> Recent</button>
+</div>
+<div id="lychee@module.id-albums" class="lychee-albums"></div>
+<form id="lychee@module.id-form" enctype="multipart/form-data">
+ <input type="file" name="files" class="file-upload" id="lychee@module.id-file"  multiple/>
+</form>
+
+<div class="modal fade lychee-modal" id="lychee@module.id-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+     
+      <div class="modal-body">
+      	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      	<div class="content">
+        	<p><i class="fa fa-spinner fa-spin"></i></p>
+        </div>
+        <div class="picture-info-window" id="lychee@module.id-picture"></div>
+       
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

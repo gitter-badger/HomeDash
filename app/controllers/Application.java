@@ -2,13 +2,17 @@ package controllers;
 
 import interfaces.PlugIn;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+import com.google.common.io.Files;
 
 import misc.Constants;
 import misc.HttpTools;
@@ -16,17 +20,15 @@ import models.Module;
 import models.Page;
 import models.RemoteFavorite;
 import play.Logger;
+import play.Play;
 import play.mvc.Controller;
+import play.mvc.Http.MultipartFormData;
+import play.mvc.Http.MultipartFormData.FilePart;
 import play.mvc.Result;
 import play.mvc.WebSocket;
-import views.html.addModule;
-import views.html.addRemoteModule;
-import views.html.big;
-import views.html.edit;
-import views.html.index;
-import views.html.moduleSettings;
 import websocket.BigModuleWebSocket;
 import websocket.ModulesWebSocket;
+import views.html.*;
 
 public class Application extends Controller {
 
@@ -34,6 +36,9 @@ public class Application extends Controller {
 
 	public static List<Module> modules = Module.find.all();
 
+	private static final String FILE_CACHE = Play.application().path().getPath() + "/cache/files/";
+
+	
 	public static Result index() {
 		Logger.info("index()");
 		Collections.sort(modules);
@@ -109,22 +114,24 @@ public class Application extends Controller {
 		module.init();
 
 		modules = Module.find.all();
-		
+
 		offsetModulesRowBy(module.getPlugin().getHeight(), module.id);
 		ws.moduleListChanged();
 		return redirect("/");
 	}
-	
+
 	/**
-	 * Offset modules row by 'offset' rows except 'except' module id to avoid grid bugs
-	 * Used when adding a module, a remote modue, or moving a module to a new page
+	 * Offset modules row by 'offset' rows except 'except' module id to avoid
+	 * grid bugs Used when adding a module, a remote modue, or moving a module
+	 * to a new page
+	 * 
 	 * @param offset
 	 * @param except
 	 */
-	private static void offsetModulesRowBy(int offset, int except){
-		for(Module module:modules){
-			if(module.id != except){
-				module.setRow( module.row + offset);
+	private static void offsetModulesRowBy(int offset, int except) {
+		for (Module module : modules) {
+			if (module.id != except) {
+				module.setRow(module.row + offset);
 				module.save();
 			}
 		}
@@ -232,7 +239,7 @@ public class Application extends Controller {
 		modules = Module.find.all();
 		return ok();
 	}
-	
+
 	public synchronized static Result saveDesktopOrder() {
 		Logger.info("saveDesktopOrder()");
 		Map<String, String[]> values = request().body().asFormUrlEncoded();
@@ -315,4 +322,30 @@ public class Application extends Controller {
 		return ok();
 	}
 
+	public static Result uploadFile(long clientId, int moduleId, String method, String message) throws IOException {
+		
+		File cache = new File(FILE_CACHE);
+		if(!cache.exists()){
+			cache.mkdirs();
+		}
+		
+		Logger.info("uploadFile({},{},{},{})", clientId, moduleId, method, message);
+		MultipartFormData body = request().body().asMultipartFormData();
+				
+		List<FilePart> files = new ArrayList<>();
+		files.addAll(body.getFiles());
+		Logger.info("[{}] Files to send to module[{}]", files.size(), moduleId);
+		List<File> filesToSend = new ArrayList<File>();
+		for (FilePart file : files) {
+			File f = new File(FILE_CACHE+file.getFilename());
+			f.deleteOnExit();
+			Files.copy(file.getFile(), f);
+			
+			filesToSend.add(f);
+		}
+
+		ws.sendFileToModule(clientId, moduleId, method, message, filesToSend);
+
+		return ok();
+	}
 }

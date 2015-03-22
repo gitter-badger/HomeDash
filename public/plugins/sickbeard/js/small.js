@@ -4,6 +4,7 @@ function sickbeard(moduleId) {
 	this.animation = "slideInRight";
 	this.interval;
 	this.timeout;
+	this.currentIndex = 0;
 	this.documentReady = function() {
 
 		var parent = this;
@@ -27,7 +28,7 @@ function sickbeard(moduleId) {
 		var parent = this;
 		this.interval =  setInterval(function(){
 			parent.showNextShow();
-		}, 7568);
+		}, 7000);
 	}
 
 	this.onPageChange = function(page) {

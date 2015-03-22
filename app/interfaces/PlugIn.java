@@ -55,7 +55,7 @@ public interface PlugIn {
 	 * @param command
 	 * @return
 	 */
-	public WebSocketMessage processCommand(String method, String command);
+	public WebSocketMessage processCommand(String method, String command, Object extraPackage);
 	
 	/**
 	 * Get small view

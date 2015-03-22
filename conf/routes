@@ -19,6 +19,8 @@ POST	/updateModule/:id			controllers.Application.saveEdittedModule(id :Integer)
 GET	/deleteModule/:id			controllers.Application.deleteModule(id: Integer)
 POST 	/exploreRemoteHost			controllers.Application.exploreRemoteHost()
 GET	/module/:id/move/:to			controllers.Application.moveModule(id: Integer, to: Integer)
+POST /uploadFile/from/:clientId/to/:moduleId/method/:method/message/:message				controllers.Application.uploadFile(clientId: Long, moduleId: Integer, method: String, message: String)
+
 
 #Settings
 GET	/globalSettings				controllers.GlobalSettings.index()

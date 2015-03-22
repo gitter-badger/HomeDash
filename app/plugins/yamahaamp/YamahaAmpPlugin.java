@@ -96,7 +96,7 @@ public class YamahaAmpPlugin implements PlugIn {
 	}
 
 	@Override
-	public WebSocketMessage processCommand(String method, String command) {
+	public WebSocketMessage processCommand(String method, String command, Object extraPackage) {
 		WebSocketMessage response = new WebSocketMessage();
 
 		if (method.equalsIgnoreCase(METHOD_AMP_COMMAND)) {

@@ -148,7 +148,7 @@ public class SickbeardPlugin implements PlugIn {
 	}
 
 	@Override
-	public WebSocketMessage processCommand(String method, String command) {
+	public WebSocketMessage processCommand(String method, String command, Object extraPackage) {
 
 		return null;
 	}

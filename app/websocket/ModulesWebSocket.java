@@ -2,6 +2,7 @@ package websocket;
 
 import interfaces.PlugIn;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -42,8 +43,11 @@ public class ModulesWebSocket extends WebSocket<String> {
 		WebSocketClient client = new WebSocketClient(in, out, System.currentTimeMillis());
 
 		clients.put(client.id, client);
-		
 
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMessage(client.id);
+		message.setMethod("clientId");
+		client.out.write(message.toJSon());
 		Logger.info("WebSocket clients {}", clients.size());
 	}
 
@@ -218,6 +222,40 @@ public class ModulesWebSocket extends WebSocket<String> {
 			stopRefresh();
 		}
 	}
+	
+	public void reloadAllExcept(long clientId){
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMethod("reload");
+		
+		for (long id : clients.keySet()) {
+			if(id != clientId){
+				clients.get(id).out.write(message.toJSon());
+			}
+		}
+	}
+
+	public void moduleListChanged() {
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMethod("reload");
+		sendToClients(message.toJSon());
+	}
+	
+	
+	private String changeRemoteCacheUrls(Module module, String message){
+		return message.replaceAll("cache/plugins/"+module.getPlugin().getId(), module.getSettingsMap().get(Module.REMOTE_URL)+"cache/plugins/"+module.getPlugin().getId());
+	}
+	
+	public void sendFileToModule(long client, int moduleId, String method, String message, List<File> files){
+		for (Module module : Application.modules) {
+			if (module.id == moduleId) {
+				WebSocketMessage response = module.getPlugin().processCommand(method, message, files);
+				response.setId(moduleId);
+				clients.get(client).out.write(response.toJSon());
+			}
+		}
+	}
+	
+	////// classes
 
 	private class WebSocketClient implements F.Callback<String>, Callback0 {
 
@@ -251,26 +289,6 @@ public class ModulesWebSocket extends WebSocket<String> {
 		}
 	}
 	
-	public void reloadAllExcept(long clientId){
-		WebSocketMessage message = new WebSocketMessage();
-		message.setMethod("reload");
-		
-		for (long id : clients.keySet()) {
-			if(id != clientId){
-				clients.get(id).out.write(message.toJSon());
-			}
-		}
-	}
-
-	public void moduleListChanged() {
-		WebSocketMessage message = new WebSocketMessage();
-		message.setMethod("reload");
-		sendToClients(message.toJSon());
-	}
 	
-	
-	private String changeRemoteCacheUrls(Module module, String message){
-		return message.replaceAll("cache/plugins/"+module.getPlugin().getId(), module.getSettingsMap().get(Module.REMOTE_URL)+"cache/plugins/"+module.getPlugin().getId());
-	}
 
 }

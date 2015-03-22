@@ -100,7 +100,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	}
 
 	@Override
-	public WebSocketMessage processCommand(String method, String command) {
+	public WebSocketMessage processCommand(String method, String command, Object extraPackage) {
 		WebSocketMessage response = new WebSocketMessage();
 		if (method.equalsIgnoreCase(METHOD_SEARCH_MOVIE)) {
 			try {

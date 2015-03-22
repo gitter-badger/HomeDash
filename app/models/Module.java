@@ -277,7 +277,7 @@ public class Module extends Model implements Comparable<Module> {
 	public WebSocketMessage processCommand(String method, String command) {
 		WebSocketMessage response = null;
 		if (remote == LOCAL) {
-			response = plugin.processCommand(method, command);
+			response = plugin.processCommand(method, command, null);
 			response.setId(id);
 		} else {
 			String url = settingsMap.get(REMOTE_URL) + "api/sendMessage/" + settingsMap.get(REMOTE_ID);

@@ -50,7 +50,7 @@ function twitter(moduleId) {
 		var parent = this;
 		this.interval = setInterval(function() {
 			parent.showNextTweet();
-		}, 9164);
+		}, 9000);
 	}
 
 	this.onMessage = function(method, message, extra) {
