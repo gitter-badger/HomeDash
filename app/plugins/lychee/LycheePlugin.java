@@ -65,7 +65,7 @@ public class LycheePlugin implements PlugIn {
 			List<String> thumbs = new ArrayList<>();
 			for (LycheeAlbum album : albums) {
 				if (album.getThumb0() != null && !album.getThumb0().trim().equalsIgnoreCase("")) {
-					File f = new File(PNG_PATH + album.getId() + "-0.jpg");
+					File f = new File(FULL_PNG_PATH + album.getId() + "-0.jpg");
 					if (!f.exists()) {
 						FileUtils.copyURLToFile(new java.net.URL(album.getThumb0()), f);
 					}
@@ -74,18 +74,18 @@ public class LycheePlugin implements PlugIn {
 				}
 
 				if (album.getThumb1() != null && !album.getThumb1().trim().equalsIgnoreCase("")) {
-					File f = new File(PNG_PATH + album.getId() + "-1.jpg");
+					File f = new File(FULL_PNG_PATH + album.getId() + "-1.jpg");
 					if (!f.exists()) {
-						FileUtils.copyURLToFile(new java.net.URL(album.getThumb0()), f);
+						FileUtils.copyURLToFile(new java.net.URL(album.getThumb1()), f);
 					}
 
 					thumbs.add(PNG_PATH + album.getId() + "-1.jpg");
 				}
 
 				if (album.getThumb2() != null && !album.getThumb2().trim().equalsIgnoreCase("")) {
-					File f = new File(PNG_PATH + album.getId() + "-2.jpg");
+					File f = new File(FULL_PNG_PATH + album.getId() + "-2.jpg");
 					if (!f.exists()) {
-						FileUtils.copyURLToFile(new java.net.URL(album.getThumb0()), f);
+						FileUtils.copyURLToFile(new java.net.URL(album.getThumb2()), f);
 					}
 
 					thumbs.add(PNG_PATH + album.getId() + "-2.jpg");

@@ -271,8 +271,8 @@ public class LycheeAPI {
 			}
 
 			Logger.info("[LYCHEE] Found [{}] pictures for album", album.getPictures().size());
-		} catch (NullPointerException e) {
-			Logger.error("[LYCHEE] No pictures for album");
+		} catch (Exception e) {
+			Logger.info("[LYCHEE] No pictures for album");
 		}
 
 		return album;
