@@ -1,7 +1,6 @@
 @import "theme.less";
 @import "pages.less";
 @import "grid.less";
-@import "loadingAnimation.less";
 @import "animationDelay.less";
 @import "bootstrap/bootstrap.less";
 
@@ -142,6 +141,11 @@ input.form-control,input.form-control:focus {
 	.container{
 		padding:15px;
 	}
+	
+	.module-links-container, .module-links-container a {
+		font-size: 20px;
+	}
+
 
 }
 
@@ -364,93 +368,30 @@ footer{
 /*
 * Spinner loading
 */
-.spinner {
-	margin: 0px auto;
-	width: 50px;
-	height: 30px;
-	text-align: center;
-	font-size: 10px;
-}
-
-.spinner>div {
-	background-color: #fff;
-	height: 100%;
-	width: 6px;
-	display: inline-block;
-	-webkit-animation: stretchdelay 1.2s infinite ease-in-out;
-	animation: stretchdelay 1.2s infinite ease-in-out;
-}
-
-.spinner-black {
-	z-index: 10;
-	text-align: center;
+.main-loading {
+	position:absolute;
+	margin: 0;
+	left:0;
+	top:90px;
+	right:0;
 	width: 100%;
-	height: 100%;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	text-align: center;
+	font-size: 30px;
+}
+
+
+.settings-loading {
+	color:white;
+	background-color: rgba(0,0,0,0.7);
+	font-size: 20px;
+	display:none;
+	padding:5px;
+	width: 100%;
+	text-align: right;
 	position: fixed;
-	padding-top: 20%;
-	background-color:@background-color;
-}
-
-.spinner-black>.spinner>div {
-	background-color: @text-color;
-}
-
-.spinner .rect2 {
-	-webkit-animation-delay: -1.1s;
-	animation-delay: -1.1s;
-}
-
-.spinner .rect3 {
-	-webkit-animation-delay: -1.0s;
-	animation-delay: -1.0s;
-}
-
-.spinner .rect4 {
-	-webkit-animation-delay: -0.9s;
-	animation-delay: -0.9s;
-}
-
-.spinner .rect5 {
-	-webkit-animation-delay: -0.8s;
-	animation-delay: -0.8s;
-}
-
-.bouncer {
-  display:none;
-  margin: 100px auto 0;
-  width: 70px;
-  text-align: center;
-  position: fixed;
-  bottom:10px;
-  right:10px;
-  z-index: 1000;
+	bottom:0px;
+	right:0px;
+	left:0px;
+	z-index: 1000;
   
-}
-
-.bouncer > div {
-  width: 18px;
-  height: 18px;
-  background-color: @primary-color;
-
-  border-radius: 100%;
-  display: inline-block;
-  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
-  animation: bouncedelay 1.4s infinite ease-in-out;
-  /* Prevent first frame from flickering when animation starts */
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.bouncer .bounce1 {
-  -webkit-animation-delay: -0.32s;
-  animation-delay: -0.32s;
-}
-
-.bouncer .bounce2 {
-  -webkit-animation-delay: -0.16s;
-  animation-delay: -0.16s;
 }

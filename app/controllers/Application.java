@@ -37,8 +37,8 @@ public class Application extends Controller {
 	public static List<Module> modules = Module.find.all();
 
 	private static final String FILE_CACHE = Play.application().path().getPath() + "/cache/files/";
+	public static final Map<Long, BigModuleWebSocket> bigWs = new Hashtable<>();
 
-	
 	public static Result index() {
 		Logger.info("index()");
 		Collections.sort(modules);
@@ -215,7 +215,9 @@ public class Application extends Controller {
 	}
 
 	public static WebSocket<String> bigSocket(int moduleId) {
-		return new BigModuleWebSocket(moduleId);
+		long id = System.currentTimeMillis();
+		bigWs.put(id, new BigModuleWebSocket(moduleId, id));
+		return bigWs.get(id);
 	}
 
 	public synchronized static Result saveMobileOrder() {
@@ -323,28 +325,55 @@ public class Application extends Controller {
 	}
 
 	public static Result uploadFile(long clientId, int moduleId, String method, String message) throws IOException {
-		
+
 		File cache = new File(FILE_CACHE);
-		if(!cache.exists()){
+		if (!cache.exists()) {
 			cache.mkdirs();
 		}
-		
+
 		Logger.info("uploadFile({},{},{},{})", clientId, moduleId, method, message);
 		MultipartFormData body = request().body().asMultipartFormData();
-				
+
 		List<FilePart> files = new ArrayList<>();
 		files.addAll(body.getFiles());
 		Logger.info("[{}] Files to send to module[{}]", files.size(), moduleId);
 		List<File> filesToSend = new ArrayList<File>();
 		for (FilePart file : files) {
-			File f = new File(FILE_CACHE+file.getFilename());
+			File f = new File(FILE_CACHE + file.getFilename());
 			f.deleteOnExit();
 			Files.copy(file.getFile(), f);
-			
+
 			filesToSend.add(f);
 		}
 
 		ws.sendFileToModule(clientId, moduleId, method, message, filesToSend);
+
+		return ok();
+	}
+
+	public static Result uploadFileBig(long clientId, int moduleId, String method, String message) throws IOException {
+
+		File cache = new File(FILE_CACHE);
+		if (!cache.exists()) {
+			cache.mkdirs();
+		}
+
+		Logger.info("uploadFileBig({},{},{},{})", clientId, moduleId, method, message);
+		MultipartFormData body = request().body().asMultipartFormData();
+
+		List<FilePart> files = new ArrayList<>();
+		files.addAll(body.getFiles());
+		Logger.info("[{}] Files to send to module[{}]", files.size(), moduleId);
+		List<File> filesToSend = new ArrayList<File>();
+		for (FilePart file : files) {
+			File f = new File(FILE_CACHE + file.getFilename());
+			f.deleteOnExit();
+			Files.copy(file.getFile(), f);
+
+			filesToSend.add(f);
+		}
+
+		bigWs.get(clientId).sendFileToModule(clientId, moduleId, method, message, filesToSend);
 
 		return ok();
 	}

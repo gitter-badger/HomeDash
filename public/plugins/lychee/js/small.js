@@ -1,6 +1,5 @@
 function lychee(moduleId) {
-	
-	
+
 	this.moduleId = moduleId;
 	this.inAnimations = [ 'slideInLeft', 'slideInUp', 'slideInRight', 'slideInDown', 'flipInX', 'flipInY', 'zoomIn' ];
 	this.outAnimations = [ 'slideOutRight', 'slideOutUp', 'slideOutLeft', 'slideOutDown', 'flipOutX', 'flipOutY', 'zoomOut' ];
@@ -55,26 +54,28 @@ function lychee(moduleId) {
 	}
 
 	this.uploadfiles = function(files) {
-		
-		for (i = 0; i < files.length; i++) {
-			var file = files[i];
-			console.log(file);
-			if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
-				showErrorMessage("You can only upload images.");
-				break;
+
+		if (files.length > 0) {
+			for (i = 0; i < files.length; i++) {
+				var file = files[i];
+				console.log(file);
+				if (!file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+					showErrorMessage("You can only upload images.");
+					break;
+				}
 			}
+			$('#lychee' + this.moduleId + '-upload').attr('disabled', true);
+			$('#lychee' + this.moduleId + '-upload .progress').html('0%');
+			sendFile(this.moduleId, 'uploadPicture', 'r', files, this.progressHandlingFunction);
 		}
-		$('#lychee' + this.moduleId + '-upload').attr('disabled', true);
-		$('#lychee' + this.moduleId + '-upload .progress').html('0%');
-		sendFile(this.moduleId, 'uploadPicture', 'yo', files, this.progressHandlingFunction);
 	}
 
 	this.progressHandlingFunction = function(e) {
 		if (e.lengthComputable) {
 			var percent = Math.ceil((e.loaded / e.total) * 100);
-			//console.log(percent)
+			// console.log(percent)
 			$('.lychee .progress').html(percent + '%');
-			if(percent == 100){
+			if (percent == 100) {
 				$('.lychee .progress').html('Processing...');
 			}
 		}
@@ -195,6 +196,7 @@ function lychee(moduleId) {
 	this.processRecent = function(album) {
 		var content = $('#lychee' + this.moduleId + '-modal .content');
 		var html = [];
+		html.push('<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>');
 		html.push('<h3>Recent pictures</h3>');
 		html.push('<div class="picture-list">');
 		this.recentPicture = album.pictures;

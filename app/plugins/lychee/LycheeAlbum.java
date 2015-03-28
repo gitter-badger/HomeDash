@@ -3,7 +3,7 @@ package plugins.lychee;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LycheeAlbum {
+public class LycheeAlbum implements Comparable<LycheeAlbum>{
 	private String id = "";
 	private String title = "";
 	private long sysstamp = 0;
@@ -16,6 +16,7 @@ public class LycheeAlbum {
 	private String sysDate = "";
 	private boolean visible = true;
 	private boolean downloadable = false;
+	private int num = 0;
 	private List<LycheePicture> pictures = new ArrayList<>();
 
 	public String getId() {
@@ -120,6 +121,20 @@ public class LycheeAlbum {
 
 	public void setSysDate(String sysDate) {
 		this.sysDate = sysDate;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
+
+	@Override
+	public int compareTo(LycheeAlbum o) {
+		
+		return id.compareTo(o.id);
 	}
 	
 	

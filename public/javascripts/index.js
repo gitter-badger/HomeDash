@@ -28,13 +28,13 @@ $(document).ready(function() {
 
 			ws.send(JSON.stringify(wsMsg));
 
-			$(".spinner-black").addClass('animated fadeOut');
+			$(".main-loading").addClass('animated fadeOut');
 			if (BIG_SCREEN == 1) {
 				$('.module').addClass('animated fadeIn');
 			}
 			//			
 			setTimeout(function() {
-				$(".spinner-black").remove();
+				$(".main-loading").remove();
 			}, 1500);
 
 			for (i = 0; i < modules.length; i++) {
@@ -141,16 +141,29 @@ function sendMessage(moduleId, method, message) {
 	console.log(json);
 }
 
-function sendFile(moduleId, method, message, files, progressHandler) {
-
+function sendFile(moduleId, method, message, files, progressHandler, bigScreen) {
+	
+	if(bigScreen == undefined){
+		bigScreen = false;
+	}
+	
+	
+	
 	var formData = new FormData();
 	$.each(files, function(key, value) {
 		formData.append(key, value);
 	});
 
+	var url;
+	if(bigScreen){
+		url = '/uploadFileBig/from/' + CLIENT_ID + '/to/' + moduleId + '/method/' + method + '/message/' + encodeURIComponent(message);
+	}else{
+		url = '/uploadFile/from/' + CLIENT_ID + '/to/' + moduleId + '/method/' + method + '/message/' + encodeURIComponent(message);
+	}
+	
 	console.log(formData);
 	$.ajax({
-		url : '/uploadFile/from/' + CLIENT_ID + '/to/' + moduleId + '/method/' + method + '/message/' + encodeURIComponent(message), // Server
+		url : url,
 		// script
 		// to
 		// process

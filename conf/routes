@@ -20,6 +20,7 @@ GET	/deleteModule/:id			controllers.Application.deleteModule(id: Integer)
 POST 	/exploreRemoteHost			controllers.Application.exploreRemoteHost()
 GET	/module/:id/move/:to			controllers.Application.moveModule(id: Integer, to: Integer)
 POST /uploadFile/from/:clientId/to/:moduleId/method/:method/message/:message				controllers.Application.uploadFile(clientId: Long, moduleId: Integer, method: String, message: String)
+POST /uploadFileBig/from/:clientId/to/:moduleId/method/:method/message/:message				controllers.Application.uploadFileBig(clientId: Long, moduleId: Integer, method: String, message: String)
 
 
 #Settings

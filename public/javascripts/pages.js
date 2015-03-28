@@ -81,8 +81,8 @@ function PageChangeCallback() {
 function showPages() {
 
 	var pages = $('#pages');
-	var showAnimation = 'bounceInDown';
-	var hideAnimation = 'bounceOutUp';
+	var showAnimation = 'slideInDown';
+	var hideAnimation = 'slideOutUp';
 	if (!pages.hasClass(showAnimation)) {
 		scrolltoTop();
 		pages.show();

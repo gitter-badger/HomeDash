@@ -178,7 +178,7 @@ public class LycheeAPI {
 		// Recent ALBUM
 		LycheeAlbum recent = new LycheeAlbum();
 		recent.setTitle("Recent");
-		recent.setId("s");
+		recent.setId("r");
 		element = json.get("recentThumb0");
 		if (element != null) {
 			recent.setThumb0(baseUrl + element.getAsString());

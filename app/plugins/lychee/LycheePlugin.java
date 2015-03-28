@@ -17,17 +17,21 @@ import models.Setting;
 
 import org.apache.commons.io.FileUtils;
 
+import com.google.common.base.Strings;
+import com.google.common.io.Files;
+
 import play.Logger;
 import play.Play;
 import play.twirl.api.Html;
 import plugins.lychee.LycheeAPI.LoginFailedException;
+import plugins.lychee.views.html.big;
 import plugins.lychee.views.html.settings;
 import plugins.lychee.views.html.small;
 import websocket.WebSocketMessage;
 
 public class LycheePlugin implements PlugIn {
 
-	private final String GET_RECENT = "getRecent", TOGGLE_STAR = "toggleStar", TOGGLE_PUBLIC = "togglePublic", UPLOAD_PICTURE = "uploadPicture";
+	private final String GET_RECENT = "getRecent", TOGGLE_STAR = "toggleStar", TOGGLE_PUBLIC = "togglePublic", UPLOAD_PICTURE = "uploadPicture", GET_ALBUM = "getAlbum";
 	private final String URL = "url", USERNAME = "username", PASSWORD = "password";
 
 	private final String PNG_PATH = "cache/plugins/" + getId() + "/images/";
@@ -43,7 +47,7 @@ public class LycheePlugin implements PlugIn {
 
 	@Override
 	public boolean hasBigScreen() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -65,30 +69,34 @@ public class LycheePlugin implements PlugIn {
 			List<String> thumbs = new ArrayList<>();
 			for (LycheeAlbum album : albums) {
 				if (album.getThumb0() != null && !album.getThumb0().trim().equalsIgnoreCase("")) {
-					File f = new File(FULL_PNG_PATH + album.getId() + "-0.jpg");
+					String fileName = (new File(album.getThumb0())).getName();
+					File f = new File(FULL_PNG_PATH + fileName);
+
 					if (!f.exists()) {
 						FileUtils.copyURLToFile(new java.net.URL(album.getThumb0()), f);
 					}
 
-					thumbs.add(PNG_PATH + album.getId() + "-0.jpg");
+					thumbs.add(PNG_PATH + fileName);
 				}
 
 				if (album.getThumb1() != null && !album.getThumb1().trim().equalsIgnoreCase("")) {
-					File f = new File(FULL_PNG_PATH + album.getId() + "-1.jpg");
+					String fileName = (new File(album.getThumb1())).getName();
+					File f = new File(FULL_PNG_PATH + fileName);
 					if (!f.exists()) {
 						FileUtils.copyURLToFile(new java.net.URL(album.getThumb1()), f);
 					}
 
-					thumbs.add(PNG_PATH + album.getId() + "-1.jpg");
+					thumbs.add(PNG_PATH + fileName);
 				}
 
 				if (album.getThumb2() != null && !album.getThumb2().trim().equalsIgnoreCase("")) {
-					File f = new File(FULL_PNG_PATH + album.getId() + "-2.jpg");
+					String fileName = (new File(album.getThumb2())).getName();
+					File f = new File(FULL_PNG_PATH + fileName);
 					if (!f.exists()) {
 						FileUtils.copyURLToFile(new java.net.URL(album.getThumb2()), f);
 					}
 
-					thumbs.add(PNG_PATH + album.getId() + "-2.jpg");
+					thumbs.add(PNG_PATH + fileName);
 				}
 			}
 
@@ -104,7 +112,12 @@ public class LycheePlugin implements PlugIn {
 
 	@Override
 	public Object bigScreenRefresh(Map<String, String> settings, long count) {
-		return null;
+		try {
+			return api.getAlbums();
+		} catch (Exception e) {
+			Logger.error("Coudldn't get lychee albums");
+			return null;
+		}
 	}
 
 	@Override
@@ -150,10 +163,23 @@ public class LycheePlugin implements PlugIn {
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
 				response.setMessage("Error while setting picture Star.");
 			}
-		}else if(method.equalsIgnoreCase(UPLOAD_PICTURE)){
+		} else if (method.equalsIgnoreCase(UPLOAD_PICTURE)) {
 			try {
-				response.setMessage(uploadPictures((List<File>) extraPackage));
+				response.setMessage(uploadPictures((List<File>) extraPackage, command));
 				response.setMethod(UPLOAD_PICTURE);
+			} catch (LoginFailedException e) {
+				Logger.error("Login failed", e);
+				response.setMethod(WebSocketMessage.METHOD_ERROR);
+				response.setMessage("Logging in to Lychee failed.");
+			} catch (Exception e) {
+				Logger.error("Error while gettign uploading pictures", e);
+				response.setMethod(WebSocketMessage.METHOD_ERROR);
+				response.setMessage("Error while uploading pitctures to lychee.");
+			}
+		} else if (method.equalsIgnoreCase(GET_ALBUM)) {
+			try {
+				response.setMessage(api.getAlbum(command));
+				response.setMethod(GET_ALBUM);
 			} catch (LoginFailedException e) {
 				Logger.error("Login failed", e);
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
@@ -179,7 +205,7 @@ public class LycheePlugin implements PlugIn {
 
 	@Override
 	public Html getBigView(Module module) {
-		return null;
+		return big.render(module);
 	}
 
 	@Override
@@ -248,7 +274,7 @@ public class LycheePlugin implements PlugIn {
 
 	@Override
 	public int getBigScreenRefreshRate() {
-		return NO_REFRESH;
+		return ONE_HOUR;
 	}
 
 	@Override
@@ -272,6 +298,7 @@ public class LycheePlugin implements PlugIn {
 	// // Lychee methods
 	private List<LycheeAlbum> getAlbums() throws IOException, LoginFailedException {
 		List<LycheeAlbum> albums = api.getAlbums();
+		Collections.sort(albums);
 		return albums;
 	}
 
@@ -291,15 +318,13 @@ public class LycheePlugin implements PlugIn {
 		api.togglePhotoPublic(command);
 		return true;
 	}
-	
 
-	private boolean uploadPictures(List<File> files)  throws IOException, LoginFailedException{
+	private boolean uploadPictures(List<File> files, String albumId) throws IOException, LoginFailedException {
 		Logger.info("Files to upload:{}", files.size());
-		for(File f: files){
-			api.uploadPicture(f, "r", "");
+		for (File f : files) {
+			api.uploadPicture(f, albumId, "");
 		}
 		return true;
 	}
-
 
 }

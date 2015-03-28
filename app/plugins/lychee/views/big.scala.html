@@ -1,0 +1,26 @@
+@* big Template File *@
+@(module: Module)
+
+
+<div id="albums">
+	<h1><i class="fa fa-spinner fa-spin"></i></h1>
+</div>
+<form id="lychee-form" enctype="multipart/form-data">
+ <input type="file" name="files" class="file-upload" id="lychee-file"  multiple/>
+</form>
+
+<div class="modal fade lychee-modal" id="lychee-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+     
+      <div class="modal-body">
+      	<div class="content">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        	<p><i class="fa fa-spinner fa-spin"></i></p>
+        </div>
+        <div class="picture-info-window" id="lychee-picture"></div>
+       
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -94,8 +94,11 @@ public class LycheePicture implements Comparable<LycheePicture>{
 	}
 	@Override
 	public int compareTo(LycheePicture o) {
-		// TODO Auto-generated method stub
-		return id.compareTo(o.id);
+		try{
+			return Long.compare(Long.parseLong(id), Long.parseLong(o.id));
+		}catch(Exception e){
+			return id.compareTo(o.id);
+		}
 	}
 	
 	

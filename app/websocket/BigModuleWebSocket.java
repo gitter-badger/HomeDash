@@ -1,5 +1,7 @@
 package websocket;
 
+import java.io.File;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -13,8 +15,7 @@ import com.google.gson.Gson;
 
 import controllers.Application;
 
-public class BigModuleWebSocket extends WebSocket<String> implements
-		F.Callback<String>, Callback0 {
+public class BigModuleWebSocket extends WebSocket<String> implements F.Callback<String>, Callback0 {
 
 	private Module module;
 
@@ -25,15 +26,17 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 	private int time = 0;
 	private Gson gson = new Gson();
 	private long count = 0;
-	
-	
-	public BigModuleWebSocket(int moduleId) {
-		for(Module module: Application.modules){
-			if(module.id == moduleId){
+	private long clientId;
+
+	public BigModuleWebSocket(int moduleId, long clientId) {
+		for (Module module : Application.modules) {
+			if (module.id == moduleId) {
 				this.module = module;
 				break;
 			}
 		}
+
+		this.clientId = clientId;
 	}
 
 	/**
@@ -45,6 +48,13 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 		exec.shutdownNow();
 		exec = null;
 		out.close();
+		Application.bigWs.remove(clientId);
+	}
+
+	public void sendFileToModule(long client, int moduleId, String method, String message, List<File> files) {
+		WebSocketMessage response = module.getPlugin().processCommand(method, message, files);
+		response.setId(moduleId);
+		out.write(response.toJSon());
 	}
 
 	/**
@@ -54,18 +64,15 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 	public void invoke(String message) throws Throwable {
 		Logger.info("Message recieved:" + message);
 
-		WebSocketMessage socketMessage = gson.fromJson(message,
-				WebSocketMessage.class);
+		WebSocketMessage socketMessage = gson.fromJson(message, WebSocketMessage.class);
 
 		WebSocketMessage response = new WebSocketMessage();
 
-		if (socketMessage.getMethod().toString()
-				.equalsIgnoreCase(WebSocketMessage.METHOD_START)) {
+		if (socketMessage.getMethod().toString().equalsIgnoreCase(WebSocketMessage.METHOD_START)) {
 			startRefresh();
 		} else {
 
-			response = module.processCommand(socketMessage.getMethod(),
-					socketMessage.getMessage().toString());
+			response = module.processCommand(socketMessage.getMethod(), socketMessage.getMessage().toString());
 			out.write(response.toJSon());
 			return;
 		}
@@ -76,7 +83,7 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 		exec = Executors.newFixedThreadPool(1);
 
 		refresh = true;
-		//module.init();
+		// module.init();
 
 		exec.execute(new Runnable() {
 
@@ -100,8 +107,8 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 				}
 				Thread.sleep(1000);
 				time += 1000;
-				
-				if(time > Integer.MAX_VALUE){
+
+				if (time > Integer.MAX_VALUE) {
 					time = 0;
 				}
 			}
@@ -125,6 +132,11 @@ public class BigModuleWebSocket extends WebSocket<String> implements
 
 		// When the socket is closed.
 		this.in.onClose(this);
+		
+		WebSocketMessage message = new WebSocketMessage();
+		message.setMessage(clientId);
+		message.setMethod("clientId");
+		this.out.write(message.toJSon());
 
 	}
 
