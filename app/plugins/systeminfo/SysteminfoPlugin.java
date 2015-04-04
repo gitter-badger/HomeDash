@@ -22,11 +22,9 @@ import websocket.WebSocketMessage;
 import com.sun.management.OperatingSystemMXBean;
 
 public class SysteminfoPlugin implements PlugIn {
-	private List<String> roots = new ArrayList<String>();
 	private List<CpuInfo> cpuInfo = new ArrayList<CpuInfo>();
 	private List<RamInfo> ramInfo = new ArrayList<RamInfo>();
 	private final int MAX_INFO_SIZE = 100, WARNING_THRESHOLD = 90;
-	private final SimpleDateFormat df = new SimpleDateFormat("HH:mm:ss");
 	private final String SETTING_NOTIFICATIONS = "notifications";
 	private final DecimalFormat nf = new DecimalFormat("#,###,###,##0.00");
 
@@ -42,13 +40,12 @@ public class SysteminfoPlugin implements PlugIn {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "SystemInfo";
 	}
 	
 	@Override
 	public String getDescription() {
-		return "Monitor your server CPU, RAM and HDD.";
+		return "Monitor your server CPU and RAM.";
 	}
 
 	@Override
