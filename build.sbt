@@ -1,6 +1,6 @@
 name := """HomeDash"""
 
-version := "0.9.18"
+version := "1.0.0"
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
