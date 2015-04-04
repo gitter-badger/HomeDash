@@ -5,7 +5,7 @@ HomeDash
 
 
 ## Requirements
-To install and run **HomeDash** all you need is *GIT*, *Java 7 SDK* and a *MYSQL* server.
+To install and run **HomeDash** all you need is *GIT*, *Java 7 SDK* and a *MYSQL* database server.
 
 ## Installation
 ### First time
@@ -15,27 +15,18 @@ git clone https://github.com/lamarios/HomeDash
 ```
 cd HomeDash
 ```
-Edit the file *conf/user.conf* to set up your mysql server information and change the secret key:
 
-```
-application.secret="your own secret key"
-```
 
-```
-db.default.driver=com.mysql.jdbc.Driver
-db.default.url="jdbc:mysql://ip:port/database"
-db.default.user=username
-db.default.password="password"
-```
-
-Then start **HomeDash**:
+Start **HomeDash**:
 
 ```
 ./homedash.sh start
 ```
+Some information will be asked like your database details, the port you want HomeDash to run and the VM settings.
+
 The first time **HomeDash** is ran it may take quite some time as the [PlayFramework](http://www.playframework.com) and the required dependencies will be downloaded.
 
-To access **HomeDash** browse to http://localhost:9000 
+To access **HomeDash** browse to http://localhost:9000 (default port).
 
 ### Update
 To update HomeDash to the last available version from GitHub:
@@ -63,16 +54,18 @@ To update HomeDash to the last available version from GitHub:
 
 |Module        | Description  |
 |------------- | -------------|
-|System Info   | CPU & Ram Usage and hard disk capacities of selected mount points. |
+|System Info   | CPU & Ram Usage. |
+|Hard Disk   | Display current usage of a mount point or a specific folder. |
 |Transmission  | List of torrents, upload & download speed, add/pause/remove torrents and switch alternate speed. |
 |UPnP port mapping  | Shows all the ports currently opened through UPnP. Add/Save ports to make it persistent. |
 |Dynamic DNS  | Check and update your public IP address to selected providers (no-ip, dyndns & ovh currently supported). |
 |Twitter  | Browse your own timeline. |
 | Couchpotato  | Add movies to a CouchPotato instance. |
 |Sickbeard  | Displays the incoming episodes of the TV SHows you're following. |
-| Public Google Calendar  | Show upcoming events of a public calendar |
+| Public Google Calendar  | Show upcoming events of a Google public calendar |
 | OS X  | Display the dock of your OS X, start and quit applications. *(HomeDash must be running on a Mac)* |
 | Yamaha Amplifier  | Control a Yamaha amplifier. Tested on a Yamaha RX-V573. |
+|Lychee   | Upload, browse and share easily pictures from [Lychee](http://lychee.electerious.com/). |
 
 
 
