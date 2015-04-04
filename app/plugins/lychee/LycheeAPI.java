@@ -36,7 +36,7 @@ public class LycheeAPI {
 		this.url += "php/api.php";
 	}
 
-	private boolean login() throws IOException, LoginFailedException {
+	public boolean login() throws IOException, LoginFailedException {
 		Logger.info("[LYCHEE] Logging in to [{}] with user[{}] password[{}]", url, username, password);
 		Map<String, String> params = new Hashtable<>();
 		params.put(FUNCTION, "login");

@@ -239,5 +239,30 @@ public class GooglePublicCalendarPlugin implements PlugIn{
 		
 		return result;
 	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		String apiKey = settings.get(API_KEY);
+		String calendarId = settings.get(CALENDAR_ID);
+		String url = URL.replace("[ID]", URLEncoder.encode(calendarId)).replace("[APIKEY]", apiKey).replace("[TIMEZONE]", URLEncoder.encode(timeZone));
+		
+		Calendar today = Calendar.getInstance();
+		today.set(Calendar.HOUR, 0);
+		today.set(Calendar.MINUTE, 0);
+		today.set(Calendar.SECOND, 0);
+		url = url.replace("[STARTTIME]", URLEncoder.encode(df.format(today.getTime())));
+		
+		
+
+		
+		try {
+			HttpTools.sendGet(url);
+		}catch(Exception e){
+			Map<String, String> result = new Hashtable<>();
+			result.put("Calendar not available", "The calandar you set is not reachable for the following reason '"+e.getMessage()+"'");
+			return result;
+		}
+		return null;
+	}
 
 }

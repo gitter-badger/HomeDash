@@ -144,6 +144,17 @@ public class HardDiskPlugin implements PlugIn{
 		return result;
 	}
 	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		Map<String, String> errors = new Hashtable<>();
+
+		if(!new File(settings.get(SETTING_PATH)).exists()){
+			errors.put("Path", "This mount point doesn't exist.");
+		}
+		
+		return errors;
+	}
+	
 	////// CLASS methods
 	
 	private String humanReadableByteCount(long usedBytes, long maxBytes, boolean si) {

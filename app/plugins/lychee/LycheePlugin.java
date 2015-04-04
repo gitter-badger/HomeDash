@@ -293,6 +293,43 @@ public class LycheePlugin implements PlugIn {
 		result.put("Url", url);
 		return result;
 	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		Map<String, String> errors = new Hashtable<>();
+		
+		MessageDigest md5;
+		try {
+
+			md5 = MessageDigest.getInstance("MD5");
+			md5.update(settings.get(PASSWORD).getBytes());
+
+			byte[] byteData = md5.digest();
+			StringBuffer sb = new StringBuffer();
+			for (int i = 0; i < byteData.length; i++) {
+				sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+			}
+
+			String url = settings.get(URL);
+			String username = Setting.get(USERNAME);
+
+			LycheeAPI api = new LycheeAPI(url, username, sb.toString());
+			
+			try {
+				api.login();
+				
+			} catch (IOException e) {
+				errors.put("Not available", "Lychee is not reachable, make sure the url is correct.");
+			}catch (LoginFailedException e) {
+				errors.put("Login failed", "Username or password is incorrect.");
+			}
+			
+		} catch (NoSuchAlgorithmException e) {
+			Logger.error("Can't generate md5 password", e);
+		}
+		
+		return errors;
+	}
 
 	// ////////////
 	// // Lychee methods

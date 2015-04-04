@@ -254,6 +254,11 @@ public class DynDNSPlugin implements PlugIn {
 		return null;
 	}
 
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		return null;
+	}
 	// ////
 	// DynDNS Method
 

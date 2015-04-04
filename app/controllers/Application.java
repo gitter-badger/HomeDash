@@ -159,7 +159,7 @@ public class Application extends Controller {
 				return redirect("/");
 
 			} else {
-				return ok(moduleSettings.render(plugin, page));
+				return ok(moduleSettings.render(plugin, page, null));
 			}
 
 		} catch (Exception e) {
@@ -182,6 +182,8 @@ public class Application extends Controller {
 				settings.put(key, values.get(key)[0]);
 			}
 		}
+		
+		
 
 		Class<?> clazz;
 		try {
@@ -190,6 +192,11 @@ public class Application extends Controller {
 			Constructor<?> ctor = clazz.getConstructor();
 			PlugIn plugin = (PlugIn) ctor.newInstance();
 
+			Map<String, String> errors = plugin.validateSettings(settings);
+			if(errors != null && !errors.isEmpty()){
+				return ok(moduleSettings.render(plugin, page, errors));
+			}
+			
 			Module module = new Module();
 			module.setPluginId(plugin.getClass().getName());
 			module.setSettingsMap(settings);
@@ -268,7 +275,7 @@ public class Application extends Controller {
 
 	public static Result editModule(int moduleId) {
 		Logger.info("editModule({})", moduleId);
-		return ok(edit.render(Module.find.byId(moduleId)));
+		return ok(edit.render(Module.find.byId(moduleId), null));
 	}
 
 	public static Result saveEdittedModule(int moduleId) {
@@ -284,6 +291,12 @@ public class Application extends Controller {
 			}
 		}
 
+		Map<String,String> errors = module.getPlugin().validateSettings(settings);
+		if(errors != null && !errors.isEmpty()){
+			return ok(edit.render(module, errors));
+		}
+		
+		
 		module.setSettingsMap(settings);
 
 		module.update();

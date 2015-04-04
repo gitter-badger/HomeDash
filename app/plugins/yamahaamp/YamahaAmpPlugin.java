@@ -2,6 +2,7 @@ package plugins.yamahaamp;
 
 import interfaces.PlugIn;
 
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -34,17 +35,17 @@ public class YamahaAmpPlugin implements PlugIn {
 	public String getDescription() {
 		return "Interact with your Yamaha amplifier, turn it on/off, ajust volume and select your input source.";
 	}
-	
+
 	@Override
 	public String getId() {
 		return "yamahaamp";
 	}
-	
+
 	@Override
 	public boolean hasCss() {
 		return true;
 	}
-	
+
 	@Override
 	public Object smallScreenRefresh(Map<String, String> settings) {
 
@@ -66,23 +67,17 @@ public class YamahaAmpPlugin implements PlugIn {
 		YamahaAmpStatus status = new YamahaAmpStatus();
 		status.name = host;
 		YNCRequest request = YNC.COMMANDS.get(YNC.GET_POWER_STATUS);
-		String on = request.getResponseValue(
-				HttpTools.rawPost(url, request.getRequest())).replaceAll(
-				"[\n\r]", "");
+		String on = request.getResponseValue(HttpTools.rawPost(url, request.getRequest())).replaceAll("[\n\r]", "");
 		status.on = on.trim().equalsIgnoreCase("On");
 
 		if (status.on) {
 
 			request = YNC.COMMANDS.get(YNC.GET_VOLUME);
-			String volume = request.getResponseValue(HttpTools.rawPost(url,
-					request.getRequest()));
-			volume = volume.replace("</Val><Exp>1</Exp><Unit>dB</Unit>", "")
-					.replace("<Val>", "");
+			String volume = request.getResponseValue(HttpTools.rawPost(url, request.getRequest()));
+			volume = volume.replace("</Val><Exp>1</Exp><Unit>dB</Unit>", "").replace("<Val>", "");
 
 			request = YNC.COMMANDS.get(YNC.GET_INPUT);
-			status.input = request.getResponseValue(
-					HttpTools.rawPost(url, request.getRequest())).replaceAll(
-					"[\n\r]", "");
+			status.input = request.getResponseValue(HttpTools.rawPost(url, request.getRequest())).replaceAll("[\n\r]", "");
 
 			status.volume = Double.parseDouble(volume) / 10;
 		}
@@ -104,8 +99,7 @@ public class YamahaAmpPlugin implements PlugIn {
 
 				sendCommand(command);
 			} catch (Exception e) {
-				response.setMessage("Error while sending '" + command
-						+ "' to the amplifier.");
+				response.setMessage("Error while sending '" + command + "' to the amplifier.");
 				response.setMethod(WebSocketMessage.METHOD_ERROR);
 			}
 		}
@@ -159,7 +153,7 @@ public class YamahaAmpPlugin implements PlugIn {
 
 	@Override
 	public String getExternalLink() {
-		return "http://"+host;
+		return "http://" + host;
 	}
 
 	@Override
@@ -168,7 +162,7 @@ public class YamahaAmpPlugin implements PlugIn {
 	}
 
 	@Override
-	public void doInBackground(Map<String, String>  settings) {
+	public void doInBackground(Map<String, String> settings) {
 	}
 
 	@Override
@@ -180,23 +174,34 @@ public class YamahaAmpPlugin implements PlugIn {
 	public int getBigScreenRefreshRate() {
 		return NO_REFRESH;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return 4;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return 2;
 	}
-	
+
 	@Override
 	public Map<String, String> exposeSettings(Map<String, String> settings) {
 		Map<String, String> result = new Hashtable<>();
 		result.put("Amplifier URL", settings.get(AMP_HOST));
 		return result;
 	}
-	
-	
+
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		Map<String, String> result = new Hashtable<>();
+		YNCRequest request = YNC.COMMANDS.get(YNC.GET_POWER_STATUS);
+		try {
+			String on = request.getResponseValue(HttpTools.rawPost(settings.get(AMP_HOST), request.getRequest())).replaceAll("[\n\r]", "");
+		} catch (IOException e) {
+			result.put("Unavailable", "The amplifier can't be reached");
+		}
+		return result;
+	}
+
 }

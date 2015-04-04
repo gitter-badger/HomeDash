@@ -148,4 +148,12 @@ public interface PlugIn {
 	 * @return
 	 */
 	public Map<String, String> exposeSettings(Map<String, String>  settings);
+	
+	
+	/**
+	 * Checks the settings before adding a new module
+	 * @param settings
+	 * @return null or an empty map if no error
+	 */
+	public Map<String, String> validateSettings(Map<String, String>  settings);
 }

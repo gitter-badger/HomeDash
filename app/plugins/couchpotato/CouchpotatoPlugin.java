@@ -62,7 +62,7 @@ public class CouchpotatoPlugin implements PlugIn {
 	public Object smallScreenRefresh(Map<String, String> settings) {
 
 		try {
-			JSONObject json = new JSONObject(HttpTools.sendGet(url + API_AVAILABLE));
+			HttpTools.sendGet(url + API_AVAILABLE);
 
 			JSONObject movieList = new JSONObject(HttpTools.sendGet(url + API_MOVIE_LIST));
 			String poster = null;
@@ -295,6 +295,23 @@ public class CouchpotatoPlugin implements PlugIn {
 		Map<String, String> result = new Hashtable<>();
 		result.put("Couchpotato URL", settings.get(URL));
 		return result;
+	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+
+		Map<String, String> errors = new Hashtable<String, String>();
+		String url = settings.get(URL) + API_AVAILABLE;
+		try {
+			HttpTools.sendGet(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Logger.info("Can't access Couchpotato at URL [{}]", url);
+			errors.put("Unavailable", "Couch potato is not available at this URL: "+url);
+		}
+		
+		return errors;
 	}
 
 }

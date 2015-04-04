@@ -3,6 +3,7 @@ package plugins.sickbeard;
 import interfaces.PlugIn;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class SickbeardPlugin implements PlugIn {
 		for (int i = 0; i < array.length(); i++) {
 			try {
 				TvShowObject show = json2TvShow(array.getJSONObject(i));
-				if(!comingShows.contains(show)){
+				if (!comingShows.contains(show)) {
 					comingShows.add(show);
 				}
 			} catch (Exception e) {
@@ -264,11 +265,24 @@ public class SickbeardPlugin implements PlugIn {
 	public int getHeight() {
 		return 3;
 	}
-	
+
 	@Override
 	public Map<String, String> exposeSettings(Map<String, String> settings) {
 		Map<String, String> result = new Hashtable<>();
 		result.put("Sickbeard URL", settings.get(URL));
 		return result;
+	}
+
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		Map<String, String> errors = new Hashtable<>();
+		String getUrl = settings.get(URL) + "/" + settings.get(API_KEY) + SHOWS;
+		String result;
+		try {
+			result = HttpTools.sendGet(getUrl);
+		} catch (IOException e) {
+			errors.put("Unavailable", "Sickbeard is not reachable with the current settings.");
+		}
+		return errors;
 	}
 }

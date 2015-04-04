@@ -32,10 +32,8 @@ public class TransmissionPlugin implements PlugIn {
 	private String url;
 	private int port;
 
-	public static final String URL = "url", PORT = "port",
-			USERNAME = "username", PASSWORD = "password";
-	public static final String METHOD_ADDTORRENT = "addTorrent",
-			METHOD_ALTSPEED = "altSpeed", METHOD_REMOVETORRENT = "removeTorrent", METHOD_PAUSETORRENT = "pauseTorrent";
+	public static final String URL = "url", PORT = "port", USERNAME = "username", PASSWORD = "password";
+	public static final String METHOD_ADDTORRENT = "addTorrent", METHOD_ALTSPEED = "altSpeed", METHOD_REMOVETORRENT = "removeTorrent", METHOD_PAUSETORRENT = "pauseTorrent";
 
 	@Override
 	public boolean hasBigScreen() {
@@ -46,17 +44,17 @@ public class TransmissionPlugin implements PlugIn {
 	public boolean hasCss() {
 		return true;
 	}
-	
+
 	@Override
 	public String getId() {
 		return "transmission";
 	}
-	
+
 	@Override
 	public String getName() {
 		return "Transmission";
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return "Monitor your downloads on Transmission torrent client.";
@@ -85,18 +83,15 @@ public class TransmissionPlugin implements PlugIn {
 		try {
 			obj = getSessionStats();
 
-			TorrentField[] fields = new TorrentField[] { TorrentField.name,
-					TorrentField.rateDownload, TorrentField.rateUpload,
-					TorrentField.percentDone, TorrentField.id,
-					TorrentField.status, TorrentField.downloadedEver,
-					TorrentField.uploadedEver, TorrentField.totalSize };
+			TorrentField[] fields = new TorrentField[] { TorrentField.name, TorrentField.rateDownload, TorrentField.rateUpload, TorrentField.percentDone, TorrentField.id, TorrentField.status,
+					TorrentField.downloadedEver, TorrentField.uploadedEver, TorrentField.totalSize };
 
-			Logger.info(""+obj.rpcVersion);
+			Logger.info("" + obj.rpcVersion);
 			obj.torrents = new ArrayList<TransmissionPlugin.TorrentObject>();
 			for (TorrentStatus torrent : client.getAllTorrents(fields)) {
 				TorrentObject t = new TorrentObject();
 				t.mapTorrent(torrent, obj.rpcVersion);
-				
+
 				obj.torrents.add(t);
 			}
 		} catch (Exception e) {
@@ -110,8 +105,7 @@ public class TransmissionPlugin implements PlugIn {
 
 	@Override
 	public WebSocketMessage processCommand(String method, String command, Object extraPackage) {
-		Logger.info("[Transmission] Recieved method [{}], command [{}]",
-				method, command);
+		Logger.info("[Transmission] Recieved method [{}], command [{}]", method, command);
 
 		WebSocketMessage response = new WebSocketMessage();
 
@@ -119,9 +113,9 @@ public class TransmissionPlugin implements PlugIn {
 			response = addTorrent(command);
 		} else if (method.equalsIgnoreCase(METHOD_ALTSPEED)) {
 			response = altSpeed(command.equalsIgnoreCase("true"));
-		}else if (method.equalsIgnoreCase(METHOD_PAUSETORRENT)) {
+		} else if (method.equalsIgnoreCase(METHOD_PAUSETORRENT)) {
 			response = pauseTorrent(Integer.parseInt(command));
-		}else if (method.equalsIgnoreCase(METHOD_REMOVETORRENT)) {
+		} else if (method.equalsIgnoreCase(METHOD_REMOVETORRENT)) {
 			response = removeTorrent(Integer.parseInt(command));
 		} else {
 			response.setMethod(WebSocketMessage.METHOD_ERROR);
@@ -129,8 +123,6 @@ public class TransmissionPlugin implements PlugIn {
 		}
 		return response;
 	}
-
-	
 
 	@Override
 	public Html getSmallView(Module module) {
@@ -166,22 +158,17 @@ public class TransmissionPlugin implements PlugIn {
 		url = settings.get(URL);
 		port = Integer.parseInt(settings.get(PORT));
 
-		if (settings.get(USERNAME).equalsIgnoreCase("")
-				|| settings.get(PASSWORD).equalsIgnoreCase("")) {
-			Logger.info("Connecting to [{}] No username and password.", url
-					+ ":" + port);
-			client = new TransmissionClient(settings.get(URL),
-					Integer.parseInt(settings.get(PORT)));
+		if (settings.get(USERNAME).equalsIgnoreCase("") || settings.get(PASSWORD).equalsIgnoreCase("")) {
+			Logger.info("Connecting to [{}] No username and password.", url + ":" + port);
+			client = new TransmissionClient(settings.get(URL), Integer.parseInt(settings.get(PORT)));
 		} else {
-			Logger.info("Connecting to [{}] Using username [{}] and password.",
-					url + ":" + port, settings.get(USERNAME));
-			client = new TransmissionClient(url, port, settings.get(USERNAME),
-					settings.get(PASSWORD));
+			Logger.info("Connecting to [{}] Using username [{}] and password.", url + ":" + port, settings.get(USERNAME));
+			client = new TransmissionClient(url, port, settings.get(USERNAME), settings.get(PASSWORD));
 		}
 
 		Logger.info("Transmission client ready !");
 	}
-	
+
 	@Override
 	public String getExternalLink() {
 		return "http://" + url + ":" + port;
@@ -194,14 +181,14 @@ public class TransmissionPlugin implements PlugIn {
 	}
 
 	@Override
-	public void doInBackground(Map<String, String>  settings) {		
+	public void doInBackground(Map<String, String> settings) {
 	}
-	
+
 	@Override
 	public int getBackgroundRefreshRate() {
 		return NO_REFRESH;
 	}
-	
+
 	@Override
 	public int getBigScreenRefreshRate() {
 		return ONE_SECOND * 10;
@@ -211,27 +198,51 @@ public class TransmissionPlugin implements PlugIn {
 	public int getWidth() {
 		return 3;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return 2;
 	}
-	
+
 	@Override
 	public Map<String, String> exposeSettings(Map<String, String> settings) {
 		Map<String, String> result = new Hashtable<>();
 		result.put("Transmission URL", settings.get(URL));
 		return result;
 	}
-	///////////////
-	/// PLUG IN METHODS
-	
+
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		Map<String, String> errors = new Hashtable<>();
+
+		String url = settings.get(URL);
+		int port = Integer.parseInt(settings.get(PORT));
+		TransmissionClient client;
+		if (settings.get(USERNAME).equalsIgnoreCase("") || settings.get(PASSWORD).equalsIgnoreCase("")) {
+			Logger.info("Connecting to [{}] No username and password.", url + ":" + port);
+			client = new TransmissionClient(settings.get(URL), Integer.parseInt(settings.get(PORT)));
+		} else {
+			Logger.info("Connecting to [{}] Using username [{}] and password.", url + ":" + port, settings.get(USERNAME));
+			client = new TransmissionClient(url, port, settings.get(USERNAME), settings.get(PASSWORD));
+		}
+		
+		try {
+			client.getSession();
+		} catch (JSONException | IOException e) {
+			errors.put("Unreachable", "One of your settings is incorrect (url, port, username and/or pasword)");
+		}
+
+		return errors;
+	}
+
+	// /////////////
+	// / PLUG IN METHODS
+
 	private WebSocketMessage altSpeed(boolean altSpeed) {
 		WebSocketMessage response = new WebSocketMessage();
 		try {
 
-			SessionPair pair = new SessionPair(SessionField.altSpeedEnabled,
-					altSpeed);
+			SessionPair pair = new SessionPair(SessionField.altSpeedEnabled, altSpeed);
 			client.setSession(pair);
 
 			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
@@ -260,21 +271,21 @@ public class TransmissionPlugin implements PlugIn {
 		return response;
 
 	}
-	
-	private WebSocketMessage pauseTorrent(int id){
+
+	private WebSocketMessage pauseTorrent(int id) {
 		WebSocketMessage response = new WebSocketMessage();
 		try {
-			int[] ids = {id};
+			int[] ids = { id };
 			TorrentStatus torrent = client.getTorrents(ids, TorrentField.status).get(0);
-			
-			if(torrent.getStatus() == StatusField.stopped){
+
+			if (torrent.getStatus() == StatusField.stopped) {
 				client.startTorrents(id);
 				response.setMessage("Torrent resumed successfully !");
-			}else{
+			} else {
 				client.stopTorrents(id);
 				response.setMessage("Torrent paused successfully !");
 			}
-			
+
 			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
 
 		} catch (Exception e) {
@@ -283,14 +294,13 @@ public class TransmissionPlugin implements PlugIn {
 		}
 		return response;
 	}
-	
-	private WebSocketMessage removeTorrent(int id){
-		
-		
+
+	private WebSocketMessage removeTorrent(int id) {
+
 		WebSocketMessage response = new WebSocketMessage();
 		try {
 
-			Object[] ids = {id};
+			Object[] ids = { id };
 			client.removeTorrents(ids, false);
 			response.setMethod(WebSocketMessage.METHOD_SUCCESS);
 			response.setMessage("Torrent removed successfully !");
@@ -301,22 +311,20 @@ public class TransmissionPlugin implements PlugIn {
 		}
 		return response;
 	}
-	
+
 	private TorrentSession getSessionStats() throws JSONException, IOException {
 		TorrentSession obj = new TorrentSession();
 
 		Map<SessionField, Object> session = client.getSession();
 		obj.status = client.getSessionStats();
-		obj.rpcVersion = Integer.parseInt(session.get(SessionField.rpcVersion)
-				.toString());
-		obj.alternateSpeeds = (Boolean) session
-				.get(SessionField.altSpeedEnabled);
+		obj.rpcVersion = Integer.parseInt(session.get(SessionField.rpcVersion).toString());
+		obj.alternateSpeeds = (Boolean) session.get(SessionField.altSpeedEnabled);
 
 		return obj;
 	}
-	
-	////////////////
-	///// INNER CLASSES
+
+	// //////////////
+	// /// INNER CLASSES
 	private class TorrentSession {
 		public SessionStatus status;
 		public boolean alternateSpeeds;
@@ -334,30 +342,19 @@ public class TransmissionPlugin implements PlugIn {
 		public void mapTorrent(TorrentStatus torrent, int rpcVersion) {
 
 			name = torrent.getName();
-			downloadSpeed = Integer.parseInt(torrent.getField(
-					TorrentField.rateDownload).toString());
-			uploadSpeed = Integer.parseInt(torrent.getField(
-					TorrentField.rateUpload).toString());
-			status = Integer.parseInt(torrent.getField(TorrentField.status)
-					.toString());
-			
+			downloadSpeed = Integer.parseInt(torrent.getField(TorrentField.rateDownload).toString());
+			uploadSpeed = Integer.parseInt(torrent.getField(TorrentField.rateUpload).toString());
+			status = Integer.parseInt(torrent.getField(TorrentField.status).toString());
+
 			statusStr = TorrentStatus.getStatusString(status, rpcVersion);
-			
-			percentDone = Double.parseDouble(torrent.getField(
-					TorrentField.percentDone).toString());
+
+			percentDone = Double.parseDouble(torrent.getField(TorrentField.percentDone).toString());
 			id = torrent.getId();
-			downloaded = Long.parseLong(torrent.getField(
-					TorrentField.downloadedEver).toString());
-			uploaded = Long.parseLong(torrent.getField(
-					TorrentField.uploadedEver).toString());
-			totalSize = Long.parseLong(torrent.getField(TorrentField.totalSize)
-					.toString());
-			Logger.debug(
-					"Torrent #{}, Name: {}, UploadSpeed:{}, DownloadSpeed: {}, PercentDone: {}%, Status:{}",
-					id, name, uploadSpeed, downloadSpeed, percentDone, statusStr);
+			downloaded = Long.parseLong(torrent.getField(TorrentField.downloadedEver).toString());
+			uploaded = Long.parseLong(torrent.getField(TorrentField.uploadedEver).toString());
+			totalSize = Long.parseLong(torrent.getField(TorrentField.totalSize).toString());
+			Logger.debug("Torrent #{}, Name: {}, UploadSpeed:{}, DownloadSpeed: {}, PercentDone: {}%, Status:{}", id, name, uploadSpeed, downloadSpeed, percentDone, statusStr);
 		}
 	}
-
-	
 
 }

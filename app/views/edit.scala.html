@@ -1,5 +1,5 @@
 @* edit Template File *@
-@(module: Module)
+@(module: Module, errors:Map[String, String])
 
 @main("Home Dash"){
 	
@@ -7,6 +7,15 @@
 	<div class="row">
 		<h1>Settings for @module.getPlugin().getName()</h1>
 		<div class="col-md-12 card">
+			@if(errors != null && !errors.isEmpty()){
+				<div class="settings-errors">
+					<ul>
+					@for(error <- errors.keySet()){
+						<li><strong>@error:</strong> @errors.get(error)</li>	
+					}
+					</ul>
+				</div>
+			}
 			<form role="form" method="post" action="@controllers.routes.Application.saveEdittedModule(module.id)">
 				<input type="hidden" name="class" value="@module.getPlugin().getClass().getName()" />
 				@module.getPlugin().getSettingsView(module)

@@ -50,7 +50,9 @@ public class HttpTools {
 			response.append(inputLine);
 		}
 		in.close();
-
+		
+		Logger.info(""
+				+ "response code: [{}] Response: {}",responseCode, response.toString());
 		// print result
 		return response.toString();
 

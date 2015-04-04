@@ -167,25 +167,21 @@ public class PortMapperPlugin implements PlugIn {
 
 	@Override
 	public Html getSettingsView(Module module) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Html getBigView(Module module) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean hasSettings() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public String getExternalLink() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -393,6 +389,11 @@ public class PortMapperPlugin implements PlugIn {
 	
 	@Override
 	public Map<String, String> exposeSettings(Map<String, String> settings) {
+		return null;
+	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
 		return null;
 	}
 }

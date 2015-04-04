@@ -193,6 +193,11 @@ public class SysteminfoPlugin implements PlugIn {
 	public Map<String, String> exposeSettings(Map<String, String> settings) {
 		return null;
 	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		return null;
+	}
 	// ////////////
 	// Class method
 	// //////////

@@ -201,6 +201,27 @@ public class TwitterPlugin implements PlugIn {
 		}
 		return result;
 	}
+	
+	@Override
+	public Map<String, String> validateSettings(Map<String, String> settings) {
+		this.twitterKeys = settings;
+
+		ConfigurationBuilder cb = new ConfigurationBuilder();
+		cb.setDebugEnabled(true).setOAuthConsumerKey(settings.get(CONSUMER_KEY)).setOAuthConsumerSecret(settings.get(CONSUMER_SECRET)).setOAuthAccessToken(settings.get(ACCESS_TOKEN))
+				.setOAuthAccessTokenSecret(settings.get(ACCESS_TOKEN_SECRET));
+		TwitterFactory tf = new TwitterFactory(cb.build());
+		Twitter twitter = tf.getInstance();
+
+		Map<String, String> errors = new Hashtable<>();
+		try {
+			twitter.getScreenName();
+		} catch (TwitterException e) {
+			errors.put("Twitter error", "Unable to reach Twitter: '"+e.getMessage()+"'");
+		} catch(IllegalStateException e){
+			errors.put("Error", "Unable to reach twitter: '"+e.getMessage()+"'");
+		}
+		return errors;
+	}
 
 	// //////
 	// / Twitter Methods
